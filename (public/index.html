@@ -1,315 +1,408 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-  <style>
-    body { background: #2c3e50; font-family: sans-serif; color: #fff; margin: 0; padding: 0; }
-    .header-container { width: 100%; height: 300px; overflow: hidden; position: relative; background: #000; margin-bottom: 20px; }
-    .slideshow { width: 100%; height: 100%; display: flex; animation: slideAnimation 12s infinite; }
-    .slideshow img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; }
-    @keyframes slideAnimation { 0%, 25% { transform: translateX(0); } 33%, 58% { transform: translateX(-100%); } 66%, 92% { transform: translateX(-200%); } 100% { transform: translateX(0); } }
-    .header-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-shadow: 2px 2px 4px #000; text-align: center; }
-    .shop-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; }
-    .product-item { background: #fff; color: #333; border-radius: 0px; padding: 0px; text-align: center; }
-    .add-to-cart-btn { background: #2c3e50; color: white; border: none; padding: 10px; border-radius: 20px; margin-top: 5px; margin-bottom: 5px; cursor: pointer; width: 70%; }
-    .checkout-btn { width: 80%; padding: 12px; background: green; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-    .fixed-contact { position: fixed; bottom: 20px; left: 20px; z-index: 9997; display: flex; flex-direction: column; gap: 10px; }
-    .contact-item { background: #2c3e50; color: #fff; padding: 10px 15px; border-radius: 50px; text-decoration: none; font-size: 14px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-    #cart-section { display: none; position: fixed; bottom: 20px; right: 10px; width: 230px; background: #fff; color: #333; padding: 15px; border-radius: 12px; z-index: 9998; }
-    .tab-btn { padding: 8px 16px; border: none; border-radius: 20px; background: #34495e; color: white; cursor: pointer; }
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-    .form-box { background: black; padding: 30px; width: 90%; max-width: 350px; text-align: center; border-radius: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-    .input-field { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #f0f0f0; border-radius: 12px; box-sizing: border-box; font-size: 16px; }
-    .product-slider { position: relative !important; width: 100% !important; height: 400px !important; overflow: hidden !important; background: #f0f0f0; border-radius: 5px; }
-    .product-slider img { position: absolute !important; top: 0; left: 0; width: 100% !important; height: auto !important; object-fit: contain; transition: opacity 1s ease-in-out !important; }
-    .qty-btn { background-color: #2c3e50; color: white; border: none; padding: 6px 14px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .modal-fullscreen-content { position: relative; width: 100%; height: 100%; background-color: #121212; display: flex; flex-direction: column; overflow-y: auto; box-sizing: border-box; color: #fff; }
-    .modal-back-btn { position: absolute; top: 20px; left: 20px; background: rgba(0, 0, 0, 0.6); border: none; color: #fff; font-size: 24px; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10000; display: flex; align-items: center; justify-content: center; }
-    .tiktok-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; width: 100%; height: 55vh; background: #000; scrollbar-width: none; }
-    .tiktok-slider::-webkit-scrollbar { display: none; }
-    .tiktok-slider img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; scroll-snap-align: center; background-color: #000; }
-    .slider-dots { display: flex; justify-content: center; gap: 6px; margin: 10px 0; }
-    .dot { width: 6px; height: 6px; background: rgba(255, 255, 255, 0.4); border-radius: 50%; transition: 0.3s; }
-    .dot.active { background: #fff; width: 16px; border-radius: 3px; }
-    .tk-comment-overlay { display: none; position: absolute; bottom: 0; left: 0; width: 100%; height: 70%; background: #1e1e1e; border-radius: 20px 20px 0 0; box-sizing: border-box; flex-direction: column; animation: slideUp 0.3s ease-out; z-index: 10005; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .tk-comment-header { padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
-    .tk-comment-close { font-size: 24px; cursor: pointer; }
-    .tk-comment-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
-    .tk-comment-item { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px; font-size: 13px; }
-    .tk-comment-input-box { display: flex; padding: 10px 15px; background: #121212; border-top: 1px solid #333; }
-    .tk-comment-input-box input { flex: 1; padding: 10px; background: #2a2a2a; border: none; color: white; border-radius: 4px; outline: none; }
-    .tk-comment-input-box button { margin-left: 10px; padding: 0 15px; background: #fe2c55; color: white; border: none; border-radius: 4px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden & Home Creative Space</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            background-color: #f0f2f5; 
+            color: #1c1e21; 
+            line-height: 1.5; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.menu-open {
+            transform: translateX(280px);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .page-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 998;
+        }
+        body.menu-open .page-overlay {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        nav { background: linear-gradient(135deg, #2e7d32, #1b5e20); color: white; padding: 12px 25px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
+        nav h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; }
+        .nav-links { display: flex; align-items: center; gap: 15px; }
+        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
+        .cart-badge { background-color: #fe2c55; padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+        
+        .drawer-menu {
+            height: 100%;
+            width: 280px;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: -280px;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-top: 60px;
+            box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
+        }
+        body.menu-open .drawer-menu {
+            left: 0;
+        }
+
+        .drawer-menu .menu-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffc107;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-title { font-weight: bold; font-size: 16px; color: #000; }
+        .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #000; }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            width: 100%;
+            background: #fff8e1;
+            padding: 8px 0;
+            border-bottom: 1px solid #ffe082;
+            margin-top: 10px;
+        }
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 13px;
+            font-weight: bold;
+            color: #e65100;
+        }
+        @keyframes marquee {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
+
+        .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
+        .drawer-menu ul li a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 15px;
+            color: #333;
+            display: block;
+            border-bottom: 1px solid #f1f1f1;
+            transition: 0.2s;
+        }
+        .drawer-menu ul li a:hover { background-color: #f8f9fa; color: #ffc107; }
+
+        .screen { display: none; flex: 1; }
+        .screen.active { display: block; }
+        .main-container { max-width: 1100px; margin: 24px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 0 16px; }
+        
+        @media (max-width: 768px) { 
+            .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
+        }
+        
+        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 14px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); border: 1px solid #e4e6eb; }
+        .info-box { display: none; }
+        .login-prompt-box { text-align: center; padding: 24px; }
+        
+        .google-btn { background-color: #1877f2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(24,119,242,0.2); }
+        .google-btn:hover { background-color: #166fe5; }
+        
+        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+        .site-footer {
+            background-color: #0b0b0b;
+            color: #ffffff;
+            padding: 40px 20px 20px 20px;
+            font-size: 14px;
+            margin-top: auto;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+        .footer-col h3 {
+            font-size: 16px;
+            color: #ffc107;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ffc107;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-col p, .footer-col ul {
+            margin-bottom: 10px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li a { color: #ccc; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffc107; }
+        .footer-bottom { text-align: center; border-top: 1px solid #222; padding-top: 15px; margin-top: 20px; color: #777; font-size: 13px; }
+    </style>
 </head>
 <body>
 
-<div class="header-container">
-  <div class="slideshow">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwtLTex8o7dMNgETcRfckq1z0gMJpCnFSHwcCRDdQJt-NTheeODfexCRWcvP8TSKV6wYDVB6zWG7tJECNCylLQJ0ucY_V-NGTD__fql3MuJ8lIfg1MOYkKu39Nn6t0yTf7uA6OXoTfc_cMUzJCQzVJvdqJisb9_cTb7iFk8yW1yvSx5sDYNcyoE5hp-a9b/s506/FB_IMG_1784374716545.jpg">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiguQus_gtsch3vY-8bR_jOmEV6NO4vN0JlXa-pYeLs8LS5Z0u-tWTxCOjT5jtelasPFNb92qCYDrYiviCP09gEHH8p_CczPUB4nib8ukdxOElQy3kKtmEiZjz8bFm8UisxPjPsaz4UJamaJslA0mM7_5zSKX4UMjy3GykX8jwAmbgSkRLQKH6tQGLuSoAD/s506/FB_IMG_1784374718947.jpg">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjegsZ-vSBDbWbxGc-rK7BWx-3ZQTG8gaqRBE810oyHLk-LAMwFQ8cN2PAsoeYzWbAsbcXB8aJ6a9ai32-O7a_tTWed-j0uG8evdSE1524o0DXao0CEkabwyNASOIn0pOQ-EjCi97IbG-UcvA8nekmM8xQp0vV9h6A-vI72Z6QkQ3QYKas6m81H66JRSPi3/s506/FB_IMG_1784374711538.jpg">
-  </div>
-  <div class="header-text"><h1>Coffee Store</h1></div>
-</div>
+    <div class="page-overlay" onclick="closeMenu()"></div>
 
-<div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
-  <button class="tab-btn" onclick="filterProducts('all')">ទាំងអស់</button>
-  <button class="tab-btn" onclick="filterProducts('drink')">ប្រភេទឆុង</button>
-  <button class="tab-btn" onclick="filterProducts('tool')">ប្រភេទឧបករណ៍</button>
-</div>
-
-<div id="auth-section" style="text-align:center; margin: 10px;"></div>
-<div class="shop-container" id="productGrid"></div>
-
-<div class="fixed-contact">
-  <a href="tel:086993475" class="contact-item">📞 086 993475</a>
-  <a href="https://t.me/pachkrouc" class="contact-item">✈️ Telegram</a>
-  <button id="fixed-history-btn" onclick="openOrderHistory()" class="contact-item" style="display: none; border: none; cursor: pointer; text-align: left; background: #e67e22;">📦 ប្រវត្តិទិញ</button>
-</div>
-
-<div id="cart-section">
-  <h6>🛒 កន្ត្រក</h6>
-  <ul id="cart-list" style="list-style: none; padding: 0; font-size: 13px;"></ul>
-  <p>សរុប: <b id="total-price">$0.00</b></p>
-  <button onclick="checkAndOrder()" class="checkout-btn">ទូទាត់ប្រាក់</button>
-</div>
-
-<!-- Modal ផ្សេងៗ និង JavaScript Scripting logic (ដូចកូដเดิมទាំងស្រុង តែប្តូរមកទាក់ទង Backend) -->
-<div id="order-overlay" class="modal-overlay">
-  <div class="form-box">
-    <div id="order-form-step">
-      <h3>ព័ត៌មានដឹកជញ្ជូន</h3>
-      <p>តម្លៃសរុប: <b id="final-total">$0.00</b></p>
-      <input type="text" id="cust-name" placeholder="ឈ្មោះអ្នកទទួល" class="input-field">
-      <input type="text" id="cust-phone" placeholder="លេខទូរសព្ទ" class="input-field">
-      <input type="text" id="cust-address" placeholder="អាសយដ្ឋានដឹកជញ្ជូន" class="input-field">
-      <button onclick="showQRCode()" class="checkout-btn">បន្តទៅទូទាត់ប្រាក់ (QR)</button>
-      <button onclick="closeModal('order-overlay')" style="width:100%; padding:10px; margin-top:10px; border:none; background:none; cursor:pointer; color:#fff;">បិទ</button>
-    </div>
-    <div id="order-qr-step" style="display: none;">
-      <h3>ស្កេនដើម្បីទូទាត់ប្រាក់</h3>
-      <p>ទឹកប្រាក់ត្រូវបង់: <b id="qr-total-price" style="color: #2ecc71;">$0.00</b></p>
-      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhBEWwk0nCemZJx0JCBmpHHmJGbjKenKbYpradXYZ9Q4K1HpMhj6m_d7onIuFbjeVoyfYRXEp-cqmv2UQeIJbQHil7BdK1cOGuk6MftLkMbnujNVap3QKV6KxZklRPgcjf6eNsXXREtNCELH4QoMONxpSHfkNtj9joF02qyYuGQ9K5SwhqpXXmDYEmL_RRP/s1707/ABA_Merchant_20260719143503.jpg" alt="KHQR Code" style="width: 180px; height: 180px; object-fit: contain; background: #fff; padding: 10px; border-radius: 10px; margin: 10px 0;">
-      <div id="payment-status-text" style="color: #f1c40f; font-size: 14px; margin: 10px 0; font-weight: bold;">⏳ កំពុងរង់ចាំការទូទាត់តាម ABA...</div>
-      <button onclick="backToOrderForm()" style="width:100%; padding:10px; margin-top:5px; border:none; background:none; cursor:pointer; color:#aaa;">ថយក្រោយ</button>
-    </div>
-  </div>
-</div>
-
-<div id="order-history-modal" class="modal-overlay">
-  <div class="form-box" style="max-width: 450px; text-align: left;">
-    <h3>📦 ប្រវត្តិការបញ្ជាទិញរបស់អ្នក</h3>
-    <div id="history-loading" style="text-align: center; color: #f1c40f; margin: 20px 0;">កំពុងទាញទិន្នន័យ...</div>
-    <div id="history-list" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px;"></div>
-    <button onclick="closeModal('order-history-modal')" class="checkout-btn" style="background: #e74c3c; margin-top: 0;">បិទ</button>
-  </div>
-</div>
-
-<div id="product-detail-modal" class="modal-overlay">
-    <div class="modal-fullscreen-content">
-        <button class="modal-back-btn" onclick="closeModal('product-detail-modal')">&#8592;</button>
-        <div style="width: 100%;">
-            <div id="detail-modal-slider"></div>
-            <div id="detail-slider-dots"></div>
+    <nav>
+        <div class="nav-left">
+            <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
+            <h1>🌿 Garden & Home Space</h1>
         </div>
-        <div style="width: 100%; padding: 20px; box-sizing: border-box; padding-bottom: 80px;">
-            <h2 id="detail-product-name" style="margin: 0 0 10px 0; font-size: 24px;"></h2>
-            <p id="detail-product-price" style="color: #2ecc71; font-weight: bold; font-size: 22px; margin-bottom: 15px;"></p>
-            <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
-                <div id="star-rating" style="font-size: 24px; cursor: pointer;">
-                    <span onclick="rateProduct(1)">★</span><span onclick="rateProduct(2)">★</span><span onclick="rateProduct(3)">★</span><span onclick="rateProduct(4)">★</span><span onclick="rateProduct(5)">★</span>
+        <div class="nav-links">
+            <a onclick="switchScreen('shop')">Shop</a>
+            <a onclick="switchScreen('home')">Home</a>
+            <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
+            <div id="auth-nav-container">
+                <button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="sideMenu" class="drawer-menu">
+        <div class="menu-header">
+            <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
+            <button onclick="closeMenu()" class="close-btn">&times;</button>
+        </div>
+        
+        <div class="marquee-container">
+            <div class="marquee-text">
+                🔥 ស្វាគមន៍មកកាន់ Garden & Home! មានលក់សម្ភារៈសំណង់ និងបរិក្ខារផ្ទះគ្រប់ប្រភេទ 🚚
+            </div>
+        </div>
+
+        <ul class="menu-list">
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🌱 ហាងទំនិញ (Shop)</a></li>
+            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
+            <li><a href="#">ក្បឿង និងគ្រោងឆ្អឹង</a></li>
+            <li><a href="#">បំពង់ទឹកស្អាត</a></li>
+            <li><a href="#">បរិក្ខារបន្ទប់ទឹក</a></li>
+            <li><a href="#">សម្ភារៈអគ្គិសនី</a></li>
+        </ul>
+    </div>
+
+    <div id="shop-screen" class="screen active">
+        <div class="shop-page-container">
+            <h2 style="color: #2E7D32; margin-bottom: 15px;">🌱 Flower & Plant Shop</h2>
+            <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                <p>កំពុងផ្ទុកទំនិញ...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="home-screen" class="screen">
+        <div class="main-container">
+            <div>
+                <div id="loginPromptBox" class="login-prompt-box">
+                    <p style="margin-bottom: 10px; color: #555;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
+                    <button class="google-btn" onclick="loginWithGoogle()">🌐 Login with Google</button>
                 </div>
-                <span id="tkRatingCount" style="font-size: 13px; color: #aaa;">(0.0 / 5)</span>
+                <div class="feed-section">
+                    <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
+                    <div id="feedContainer"><p style="text-align:center; color:#777;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
+                </div>
             </div>
-            <p id="detail-product-desc" style="color: #ccc; font-size: 15px; line-height: 1.5; margin-bottom: 20px;"></p>
-            <div id="detail-cart-action-container" style="margin-top: 20px;"></div>
-            <div style="margin-top: 20px;">
-                <button onclick="openCommentOverlay()" style="width: 100%; padding: 12px; background: #252525; color: #fff; border: 1px solid #444; border-radius: 8px; cursor: pointer; text-align: left; font-size: 15px;">💬 មតិយោបល់ (Comments)</button>
+            <div>
+                <div class="cart-box">
+                    <h3 style="color: #2e7d32; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                    <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
+                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #fe2c55;">$<span id="cart-total-price">0.00</span></b></p>
+                    <button onclick="checkoutCart()" style="width: 100%; background-color: #2e7d32; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                        💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
+                    </button>
+                </div>
             </div>
-        </div>
-        <div id="tkCommentOverlay" class="tk-comment-overlay">
-          <div class="tk-comment-header"><h3>មតិយោបល់</h3><span class="tk-comment-close" onclick="closeCommentOverlay()">&times;</span></div>
-          <div class="tk-comment-list" id="comments-list"></div>
-          <div class="tk-comment-input-box">
-            <input type="text" id="comment-input" placeholder="សរសេរមតិយោបល់...">
-            <button onclick="submitComment()">បញ្ជូន</button>
-          </div>
         </div>
     </div>
-</div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-  import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>អំពីហេង ហូម / Garden</h3>
+                <p><strong>Call / Telegram:</strong> 070 789 688</p>
+                <p><strong>Telegram Channel:</strong> t.me/HengHome</p>
+                <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
+            </div>
+            <div class="footer-col">
+                <h3>ដំណោះស្រាយរហ័ស</h3>
+                <ul>
+                    <li><a href="#">ទាក់ទងយើង</a></li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a></li>
+                    <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផល និងទិញទំនិញកាន់តែងាយស្រួល</p>
+                <p style="color: #ffc107; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Garden & Home Creative Space. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA1bT7N0hP-UhReopZ099oNewjpxvL8JRA",
-    authDomain: "myshoppayment-35ba8.firebaseapp.com",
-    projectId: "myshoppayment-35ba8",
-    databaseURL: "https://myshoppayment-35ba8-default-rtdb.firebaseio.com/"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getDatabase(app);
-  
-  let allProducts = [];
-  window.cart = [];
-  let currentProductIndex = null;
-  let productFeedback = {}; 
-  let paymentCheckInterval = null;
-  let currentOrderId = null;
+    <script>
+        function openMenu() { document.body.classList.add("menu-open"); }
+        function closeMenu() { document.body.classList.remove("menu-open"); }
+    </script>
 
-  function decodeHtml(html) {
-    if (!html) return "គ្មានពិពណ៌នា";
-    const txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  window.closeModal = (id) => { 
-    document.getElementById(id).style.display = 'none'; 
-    if(paymentCheckInterval) clearInterval(paymentCheckInterval);
-  };
-  
-  window.checkAndOrder = () => { 
-    if(auth.currentUser) {
-      document.getElementById('fixed-history-btn').style.display = 'none';
-      document.getElementById('order-overlay').style.display = 'flex';
-      document.getElementById('order-form-step').style.display = 'block';
-      document.getElementById('order-qr-step').style.display = 'none';
-      if (auth.currentUser.displayName) document.getElementById('cust-name').value = auth.currentUser.displayName;
-      const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-      document.getElementById("final-total").innerText = "$" + total.toFixed(2);
-      document.getElementById("qr-total-price").innerText = "$" + total.toFixed(2);
-    } else {
-      signInWithPopup(auth, new GoogleAuthProvider()).catch(err => alert(err.message));
-    }
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyChBCj-QYzdplvI3d5oD6QyuftMuKEM7Ns",
+            authDomain: "saleflower-ef0db.firebaseapp.com",
+            projectId: "saleflower-ef0db",
+            databaseURL: "https://saleflower-ef0db-default-rtdb.asia-southeast1.firebasedatabase.app",
+            storageBucket: "saleflower-ef0db.firebasestorage.app",
+            messagingSenderId: "753182297297",
+            appId: "1:753182297297:web:bc398b3a47631041c449f0",
+            measurementId: "G-XZHFWYWWN9"
+        };
 
-  window.showQRCode = async () => {
-    const name = document.getElementById('cust-name').value.trim();
-    const phone = document.getElementById('cust-phone').value.trim();
-    const address = document.getElementById('cust-address').value.trim();
-    if (!name || !phone || !address) return alert("សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!");
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
 
-    currentOrderId = "ORD-" + Date.now().toString().slice(-6);
-    const totalPriceVal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+        let cartCount = 0;
+        let cartTotal = 0;
+        let currentUser = null;
 
-    document.getElementById('order-form-step').style.display = 'none';
-    document.getElementById('order-qr-step').style.display = 'block';
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            const authNavContainer = document.getElementById('auth-nav-container');
+            if (user) {
+                authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#fe2c55; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
+                document.getElementById('loginPromptBox').style.display = 'none';
+            } else {
+                authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
+                document.getElementById('loginPromptBox').style.display = 'block';
+            }
+            fetchProducts();
+        });
 
-    await set(ref(db, 'orders/' + currentOrderId), {
-      orderid: currentOrderId, customerName: name, phone: phone, address: address, amount: totalPriceVal, status: "pending" 
-    });
+        window.loginWithGoogle = () => signInWithPopup(auth, provider).catch(err => alert("Login failed: " + err.message));
+        window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
 
-    if(paymentCheckInterval) clearInterval(paymentCheckInterval);
-    paymentCheckInterval = setInterval(async () => {
-      const snapshot = await get(child(ref(db), `orders/${currentOrderId}`));
-      if (snapshot.exists() && snapshot.val().status === "paid") {
-        clearInterval(paymentCheckInterval);
-        document.getElementById('payment-status-text').innerHTML = "✅ ទូទាត់ប្រាក់ជោគជ័យ!";
-        submitOrderToNodeServer(name, phone, address, "$" + totalPriceVal.toFixed(2));
-        setTimeout(() => { alert("បញ្ជាទិញជោគជ័យ!"); location.reload(); }, 1500);
-      }
-    }, 3000);
-  };
+        window.switchScreen = function(screenName) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
+            if (screenName === 'shop') {
+                document.getElementById('shop-screen').classList.add('active');
+                fetchProducts();
+            }
+        };
 
-  window.backToOrderForm = () => {
-    if(paymentCheckInterval) clearInterval(paymentCheckInterval);
-    document.getElementById('order-form-step').style.display = 'block';
-    document.getElementById('order-qr-step').style.display = 'none';
-  };
+        window.fetchProducts = async function() {
+            const productListDiv = document.getElementById('product-list');
+            try {
+                const response = await fetch('/api/products');
+                const allProducts = await response.json();
 
-  window.loadProductsFromSheet = async () => {
-    try {
-      const response = await fetch('/api/products');
-      allProducts = await response.json();
-      renderProducts('all');
-      startProductSliders();
-    } catch (err) { console.error(err); }
-  };
+                if (allProducts && allProducts.length > 0) {
+                    let html = "";
+                    allProducts.forEach(p => {
+                        html += `
+                            <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #fff;">
+                                <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
+                                <h3>${p.name}</h3>
+                                <p style="color: #fe2c55; font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#2E7D32; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer;">ទិញឥឡូវនេះ</button>
+                            </div>
+                        `;
+                    });
+                    productListDiv.innerHTML = html;
+                } else {
+                    productListDiv.innerHTML = "<p>មិនមានទំនិញទេ!</p>";
+                }
+            } catch (err) {
+                productListDiv.innerHTML = "<p>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
+            }
+        };
 
-  window.filterProducts = (cat) => { renderProducts(cat); startProductSliders(); };
+        window.buyProduct = async function(id, name, price, stock) {
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            let qty = Number(prompt(`បញ្ចូលចំនួនសម្រាប់ [${name}]:`, "1"));
+            if (!qty || qty <= 0 || qty > stock) { alert("ចំនួនមិនត្រឹមត្រូវ ឬលើសស្តុក!"); return; }
+            
+            let totalPrice = qty * price;
+            cartCount += qty;
+            cartTotal += totalPrice;
+            
+            document.getElementById('cart-count').innerText = cartCount;
+            document.getElementById('cart-items-num').innerText = cartCount;
+            document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
+            alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
+        };
 
-  window.renderProducts = (cat) => {
-    const grid = document.getElementById("productGrid");
-    grid.innerHTML = "";
-    let filtered = cat === 'all' ? allProducts : allProducts.filter(p => p.category === cat);
-    filtered.forEach((p) => {
-      let originalIndex = allProducts.findIndex(item => item.name === p.name);
-      let cartItem = cart.find(item => item.name === p.name);
-      let qty = cartItem ? cartItem.qty : 0;
-      let images = p.imageUrl ? p.imageUrl.split(',').map(url => url.trim()) : ["https://via.placeholder.com/150"];
-      let sliderHTML = `<div class="product-slider" data-images='${JSON.stringify(images)}'>` + images.map((url, i) => `<img src="${url}" style="opacity: ${i === 0 ? 1 : 0};">`).join('') + `</div>`;
-      let btnHTML = qty > 0 ? `<div style="display:flex; gap:15px; justify-content:center; align-items:center; margin:8px;"><button class="qty-btn" onclick="removeFromCart('${p.name}')">-</button><span>${qty}</span><button class="qty-btn" onclick="addToCart('${p.name}', ${p.price})">+</button></div>` : `<button class="add-to-cart-btn" onclick="addToCart('${p.name}', ${p.price})">បន្ថែម</button>`;
-      grid.innerHTML += `<div class="product-item"><div onclick="viewProduct(${originalIndex})" style="cursor: pointer;">${sliderHTML}<p><b>${p.name}</b></p><p style="color:#27ae60; font-weight:bold;">$${p.price}</p></div>${btnHTML}</div>`;
-    });
-  };
+        window.checkoutCart = async function() {
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            if (cartCount <= 0) { alert("កន្ត្រកទំនិញរបស់អ្នកទទេ។"); return; }
 
-  function startProductSliders() {
-    setInterval(() => {
-      document.querySelectorAll('.product-slider').forEach(slider => {
-        let imgs = slider.querySelectorAll('img');
-        if (imgs.length > 1) {
-          let currentIndex = Array.from(imgs).findIndex(img => img.style.opacity === '1');
-          let nextIndex = (currentIndex + 1) % imgs.length;
-          imgs[currentIndex].style.opacity = '0';
-          imgs[nextIndex].style.opacity = '1';
-        }
-      });
-    }, 3000);
-  }
+            let req_time = Math.floor(Date.now() / 1000).toString();
+            let tran_id = "INV" + req_time;
+            let amount = Number(cartTotal).toFixed(2);
+            let nameParts = (currentUser.displayName || "Valued Customer").split(" ");
 
-  window.addToCart = (name, price) => {
-    let item = cart.find(i => i.name === name);
-    if (item) item.qty += 1; else cart.push({ name, price, qty: 1 });
-    updateCartUI(); renderProducts('all'); startProductSliders();
-  };
+            let payload = {
+                req_time: req_time,
+                tran_id: tran_id,
+                amount: amount,
+                firstname: nameParts[0] || "Customer",
+                lastname: nameParts.slice(1).join(" ") || "Valued",
+                email: currentUser.email || "test@example.com",
+                phone: "012345678",
+                items: btoa(JSON.stringify([{ name: "Garden Products", quantity: cartCount.toString(), price: (cartTotal/cartCount).toFixed(2) }]))
+            };
 
-  window.removeFromCart = (name) => {
-    let index = cart.findIndex(i => i.name === name);
-    if (index > -1) {
-      if (cart[index].qty > 1) cart[index].qty -= 1; else cart.splice(index, 1);
-      updateCartUI(); renderProducts('all'); startProductSliders();
-    }
-  };
-
-  window.updateCartUI = () => {
-    const list = document.getElementById("cart-list");
-    list.innerHTML = "";
-    cart.forEach(item => { list.innerHTML += `<li>${item.name} (x${item.qty}) - $${(item.price * item.qty).toFixed(2)}</li>`; });
-    document.getElementById("total-price").innerText = "$" + cart.reduce((s, i) => s + (i.price * i.qty), 0).toFixed(2);
-    document.getElementById("cart-section").style.display = cart.length > 0 ? "block" : "none";
-  };
-
-  function submitOrderToNodeServer(name, phone, address, totalPrice) {
-    fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: "order", orderId: currentOrderId, customerName: name, phone, address, totalPrice })
-    });
-  }
-
-  window.viewProduct = (index) => {
-    currentProductIndex = index;
-    const p = allProducts[index];
-    let images = p.imageUrl ? p.imageUrl.split(',').map(url => url.trim()) : ["https://via.placeholder.com/150"];
-    document.getElementById('detail-modal-slider').innerHTML = `<div class="tiktok-slider" id="modalSliderContainer">${images.map(url => `<img src="${url}">`).join('')}</div>`;
-    document.getElementById('detail-product-name').innerText = p.name;
-    document.getElementById('detail-product-price').innerText = "$" + p.price;
-    document.getElementById('detail-product-desc').innerText = decodeHtml(p.description);
-    document.getElementById('product-detail-modal').style.display = 'flex';
-  };
-
-  window.openCommentOverlay = () => document.getElementById('tkCommentOverlay').style.display = 'flex';
-  window.closeCommentOverlay = () => document.getElementById('tkCommentOverlay').style.display = 'none';
-
-  loadProductsFromSheet();
-</script>
+            try {
+                let response = await fetch("https://abapayway1.hunan1997a.workers.dev", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                let result = await response.json();
+                if (result && result.checkout_url) {
+                    window.location.href = result.checkout_url;
+                } else {
+                    alert("ABA Error: " + (result.error || JSON.stringify(result)));
+                }
+            } catch (err) {
+                alert("ការតភ្ជាប់ Worker បរាជ័យ: " + err.message);
+            }
+        };
+    </script>
 </body>
 </html>
 
