@@ -15,7 +15,6 @@
             --text-main: #1c1e21;
             --text-muted: #777777;
             --border-color: #e4e6eb;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -27,13 +26,6 @@
             display: flex; 
             flex-direction: column; 
             min-height: 100vh;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        body.menu-open {
-            transform: translateX(280px);
-            overflow: hidden;
-            pointer-events: none;
         }
 
         .page-overlay {
@@ -45,6 +37,7 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
             z-index: 998;
         }
+        /* បង្ហាញ Overlay ពេលបើក Menu ដោយមិនបាច់រុញ body ឡើយ */
         body.menu-open .page-overlay {
             opacity: 1;
             visibility: visible;
@@ -164,7 +157,6 @@
         }
         
         .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 14px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); border: 1px solid var(--border-color); }
-        .info-box { display: none; }
         .login-prompt-box { text-align: center; padding: 24px; }
         
         .google-btn { background-color: #1877f2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(24,119,242,0.2); }
