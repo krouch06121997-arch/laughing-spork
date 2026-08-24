@@ -1,69 +1,83 @@
 const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// --- 1. CONFIGURATIONS & MIDDLEWARE ---
+// Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// កំណត់ទីតាំងថត (Folder) សម្រាប់ဖိုင် Frontend (HTML, CSS, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// URL របស់ Google Apps Script សម្រាប់ទាញយក និងបញ្ជូនទិន្នន័យ
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxifQAVyX7Zi_ipMf6wKPsJAq0V50O6tgmTfJqTcrySfDisVCOo9ujqP0M6V6TXJy4/exec";
+// Initialize SQLite Database
+const db = new sqlite3.Database('./database.sqlite', (err) => {
+    if (err) {
+        console.error('Error opening database', err.message);
+    } else {
+        console.log('Connected to SQLite database.');
+        // Create tables
+        db.run(`CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            price REAL,
+            imageUrl TEXT,
+            stock INTEGER
+        )`);
 
-// --- 2. API ROUTES ---
-
-// Route សម្រាប់ពិនិត្យមើលស្ថានភាព Server (Health Check)
-app.get('/api/status', (req, res) => {
-    res.json({ status: "Server is running smoothly", timestamp: new Date() });
+        db.run(`CREATE TABLE IF NOT EXISTS posts (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            content TEXT,
+            imageUrl TEXT,
+            author TEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`);
+    }
 });
 
-// API សម្រាប់ទាញយកទំនិញពី Google Sheets (ຜ່ານ Apps Script)
-app.get('/api/products', async (req, res) => {
-    try {
-        const fetch = (await import('node-fetch')).default;
-        const response = await fetch(`${APPS_SCRIPT_URL}?action=product`);
-                
-        if (!response.ok) {
-            throw new Error(`External API error: ${response.statusText}`);
+// Admin emails list (កំណត់អ៊ីមែលណាខ្លះជា Admin)
+const ADMIN_EMAILS = ["admin@revestimientos.com", "your-email@gmail.com"];
+
+// API: Get Products
+app.get('/api/products', (req, res) => {
+    db.all("SELECT * FROM products", [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
         }
-                
-        const data = await response.json();
-        res.json(data);
-    } catch (err) {
-        console.error("❌ Error fetching products:", err.message);
-        res.status(500).json({ error: "Failed to fetch products from database" });
+        res.json(rows);
+    });
+});
+
+// API: Get News Feed Posts
+app.get('/api/posts', (req, res) => {
+    db.all("SELECT * FROM posts ORDER BY id DESC", [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(rows);
+    });
+});
+
+// API: Create Post (Admin Only Check)
+app.post('/api/posts', (req, res) => {
+    const { title, content, imageUrl, email } = req.body;
+    
+    if (!ADMIN_EMAILS.includes(email)) {
+        return res.status(403).json({ error: "Access Denied: Only Admin can post!" });
     }
+
+    const query = `INSERT INTO posts (title, content, imageUrl, author) VALUES (?, ?, ?, ?)`;
+    db.run(query, [title, content, imageUrl, email], function(err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.json({ success: true, postId: this.lastID });
+    });
 });
 
-// API សម្រាប់បញ្ជូនទិន្នន័យបញ្ជាទិញ (Order) ឬ Review ទៅកាន់ Google Sheets
-app.post('/api/submit', async (req, res) => {
-    try {
-        const fetch = (await import('node-fetch')).default;
-        const response = await fetch(APPS_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(req.body)
-        });
-
-        const result = await response.json();
-        res.json({ success: true, message: "Data submitted successfully", data: result });
-    } catch (err) {
-        console.error("❌ Error submitting data:", err.message);
-        res.status(500).json({ error: "Failed to submit data to server" });
-    }
-});
-
-// Route ចុងក្រោយសម្រាប់គ្រប់គ្រង SPA (ប្រើ RegEx ដើម្បីការពាររាល់ Error លើ Express v5)
-app.get(/.*/, (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// --- 3. START SERVER ---
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running and listening on http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
