@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Garden & Home Creative Space</title>
+    <title>Revestimientos Deco Hogar Panel PU Piedra Natural - Revestimientos Deco Hogar</title>
     <style>
         :root {
-            --primary: #2e7d32;
-            --primary-dark: #1b5e20;
-            --accent: #fe2c55;
-            --warning: #ffc107;
-            --bg-color: #f0f2f5;
-            --surface: #ffffff;
-            --text-main: #1c1e21;
-            --text-muted: #777777;
-            --border-color: #e4e6eb;
+            --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
+            --primary-dark: #1e293b;    /* ពណ៌ថ្មដארលឹបជាងមុន */
+            --accent: #d97706;          /* ពណ៌លឿងទង់ដែង/ដីខ្សាច់ (Warm Amber) */
+            --warning: #f59e0b;         /* ពណ៌លឿងទុំ */
+            --bg-color: #f8fafc;        /* ពណ៌ផ្ទៃខាងក្រោយប្រផេះស្រាល */
+            --surface: #ffffff;         /* ពណ៌សសម្រាប់កាតទំនិញ */
+            --text-main: #1e293b;       /* ពណ៌អត្ថបទចាស់ */
+            --border-color: #cbd5e1;    /* ពណ៌គែមប្រផេះថ្ម */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -37,16 +36,15 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
             z-index: 998;
         }
-        /* បង្ហាញ Overlay ពេលបើក Menu ដោយមិនបាច់រុញ body ឡើយ */
         body.menu-open .page-overlay {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
         }
 
-        /* Navigation */
+        /* Navigation - រចនាប័ទ្មពណ៌ថ្មធម្មជាតិ */
         nav { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
+            background: linear-gradient(135deg, #334155, #0f172a); 
             color: white; 
             padding: 12px 25px; 
             display: flex; 
@@ -56,16 +54,17 @@
             top: 0; 
             z-index: 1000; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            border-bottom: 3px solid #d97706;
         }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
-        nav h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.3px; }
+        nav h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
         .nav-links { display: flex; align-items: center; gap: 15px; }
         .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
         .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
         .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
         
-        /* Side Drawer Menu with Stagger Animation */
+        /* Side Drawer Menu */
         .drawer-menu {
             height: 100%;
             width: 280px;
@@ -88,14 +87,14 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: var(--warning);
+            background-color: #334155;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .menu-title { font-weight: bold; font-size: 16px; color: #000; }
-        .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #000; }
+        .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
+        .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
 
         /* Marquee Animation */
         .marquee-container {
@@ -103,9 +102,9 @@
             white-space: nowrap;
             box-sizing: border-box;
             width: 100%;
-            background: #fff8e1;
+            background: #f1f5f9;
             padding: 8px 0;
-            border-bottom: 1px solid #ffe082;
+            border-bottom: 1px solid #cbd5e1;
             margin-top: 10px;
         }
         .marquee-text {
@@ -114,14 +113,14 @@
             animation: marquee 15s linear infinite;
             font-size: 13px;
             font-weight: bold;
-            color: #e65100;
+            color: #b45309;
         }
         @keyframes marquee {
             0%   { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
         }
 
-        /* Menu Items with Stagger Effect */
+        /* Menu Items */
         .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
         
         .drawer-menu ul li {
@@ -140,13 +139,13 @@
         .drawer-menu ul li a {
             padding: 12px 20px;
             text-decoration: none;
-            font-size: 15px;
-            color: #333;
+            font-size: 14px;
+            color: #334155;
             display: block;
-            border-bottom: 1px solid #f1f1f1;
+            border-bottom: 1px solid #f1f5f9;
             transition: 0.2s;
         }
-        .drawer-menu ul li a:hover { background-color: #f8f9fa; color: var(--warning); padding-left: 25px; }
+        .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
         .screen { display: none; flex: 1; }
         .screen.active { display: block; }
@@ -156,21 +155,22 @@
             .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
         }
         
-        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 14px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); border: 1px solid var(--border-color); }
+        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
         .login-prompt-box { text-align: center; padding: 24px; }
         
-        .google-btn { background-color: #1877f2; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(24,119,242,0.2); }
-        .google-btn:hover { background-color: #166fe5; }
+        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+        .google-btn:hover { background-color: #1d4ed8; }
         
         .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 
-        /* Footer */
+        /* Footer - ពណ៌ថ្មដុបក្រាស់ងងឹត */
         .site-footer {
-            background-color: #0b0b0b;
+            background-color: #0f172a;
             color: #ffffff;
             padding: 40px 20px 20px 20px;
             font-size: 14px;
             margin-top: auto;
+            border-top: 4px solid #334155;
         }
         .footer-container {
             display: flex;
@@ -186,22 +186,22 @@
             padding-right: 20px;
         }
         .footer-col h3 {
-            font-size: 16px;
-            color: var(--warning);
+            font-size: 15px;
+            color: #cbd5e1;
             margin-bottom: 15px;
-            border-bottom: 2px solid var(--warning);
+            border-bottom: 2px solid #d97706;
             display: inline-block;
             padding-bottom: 5px;
         }
         .footer-col p, .footer-col ul {
             margin-bottom: 10px;
-            color: #ccc;
+            color: #94a3b8;
             line-height: 1.6;
         }
         .footer-col ul { list-style: none; padding: 0; }
-        .footer-col ul li a { color: #ccc; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
-        .footer-col ul li a:hover { color: var(--warning); }
-        .footer-bottom { text-align: center; border-top: 1px solid #222; padding-top: 15px; margin-top: 20px; color: #777; font-size: 13px; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffffff; }
+        .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -211,7 +211,7 @@
     <nav>
         <div class="nav-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <h1>🌿 Garden & Home Space</h1>
+            <h1>🪨 Revestimientos Deco Hogar</h1>
         </div>
         <div class="nav-links">
             <a onclick="switchScreen('shop')">Shop</a>
@@ -231,23 +231,23 @@
         
         <div class="marquee-container">
             <div class="marquee-text">
-                🔥 ស្វាគមន៍មកកាន់ Garden & Home! មានលក់សម្ភារៈសំណង់ និងបរិក្ខារផ្ទះគ្រប់ប្រភេទ 🚚
+                🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះបែបធម្មជាតិប្រណីត 🚚
             </div>
         </div>
 
         <ul class="menu-list">
-            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🌱 ហាងទំនិញ (Shop)</a></li>
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
-            <li><a href="#" onclick="closeMenu();">ក្បឿង និងគ្រោងឆ្អឹង</a></li>
-            <li><a href="#" onclick="closeMenu();">បំពង់ទឹកស្អាត</a></li>
-            <li><a href="#" onclick="closeMenu();">បរិក្ខារបន្ទប់ទឹក</a></li>
-            <li><a href="#" onclick="closeMenu();">សម្ភារៈអគ្គិសនី</a></li>
+            <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
+            <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
+            <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
+            <li><a href="#" onclick="closeMenu();">ប្រព័ន្ធទឹក និងលម្អ</a></li>
         </ul>
     </div>
 
     <div id="shop-screen" class="screen active">
         <div class="shop-page-container">
-            <h2 style="color: var(--primary); margin-bottom: 15px;">🌱 Flower & Plant Shop</h2>
+            <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
             <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <p>កំពុងផ្ទុកទំនិញ...</p>
             </div>
@@ -258,20 +258,20 @@
         <div class="main-container">
             <div>
                 <div id="loginPromptBox" class="login-prompt-box">
-                    <p style="margin-bottom: 10px; color: #555;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
+                    <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
                     <button class="google-btn" onclick="loginWithGoogle()">🌐 Login with Google</button>
                 </div>
                 <div class="feed-section">
                     <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
-                    <div id="feedContainer"><p style="text-align:center; color:#777;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
+                    <div id="feedContainer"><p style="text-align:center; color:#64748b;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
                 </div>
             </div>
             <div>
                 <div class="cart-box">
-                    <h3 style="color: var(--primary); margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                    <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
                     <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
-                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: var(--accent);">$<span id="cart-total-price">0.00</span></b></p>
-                    <button onclick="checkoutCart()" style="width: 100%; background-color: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
+                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
                         💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
                     </button>
                 </div>
@@ -282,7 +282,7 @@
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-col">
-                <h3>អំពីហេង ហូម / Garden</h3>
+                <h3>Revestimientos Deco Hogar</h3>
                 <p><strong>Call / Telegram:</strong> 070 789 688</p>
                 <p><strong>Telegram Channel:</strong> t.me/HengHome</p>
                 <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
@@ -298,12 +298,12 @@
             </div>
             <div class="footer-col">
                 <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
-                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផល និងទិញទំនិញកាន់តែងាយស្រួល</p>
-                <p style="color: var(--warning); font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង និងទិញទំនិញកាន់តែងាយស្រួល</p>
+                <p style="color: #d97706; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Garden & Home Creative Space. All Rights Reserved.</p>
+            <p>&copy; 2026 Revestimientos Deco Hogar. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -339,7 +339,7 @@
             currentUser = user;
             const authNavContainer = document.getElementById('auth-nav-container');
             if (user) {
-                authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:var(--accent); border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
+                authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
                 document.getElementById('loginPromptBox').style.display = 'none';
             } else {
                 authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
@@ -372,9 +372,9 @@
                         html += `
                             <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: var(--surface);">
                                 <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
-                                <h3>${p.name}</h3>
-                                <p style="color: var(--accent); font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
-                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:var(--primary); color:white; border:none; padding:10px; border-radius:4px; cursor:pointer;">ទិញឥឡូវនេះ</button>
+                                <h3 style="font-size: 15px; color: #1e293b; margin-top: 8px;">${p.name}</h3>
+                                <p style="color: #d97706; font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer; font-weight: 600;">ទិញឥឡូវនេះ</button>
                             </div>
                         `;
                     });
@@ -419,7 +419,7 @@
                 lastname: nameParts.slice(1).join(" ") || "Valued",
                 email: currentUser.email || "test@example.com",
                 phone: "012345678",
-                items: btoa(JSON.stringify([{ name: "Garden Products", quantity: cartCount.toString(), price: (cartTotal/cartCount).toFixed(2) }]))
+                items: btoa(JSON.stringify([{ name: "Stone Products", quantity: cartCount.toString(), price: (cartTotal/cartCount).toFixed(2) }]))
             };
 
             try {
