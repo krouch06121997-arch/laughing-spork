@@ -37,7 +37,7 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 // Admin emails list (កំណត់អ៊ីមែលណាខ្លះជា Admin)
-const ADMIN_EMAILS = ["admin@revestimientos.com", "your-email@gmail.com"];
+const ADMIN_EMAILS = ["pachkrouch912@gmail.com"];
 
 // API: Get Products
 app.get('/api/products', (req, res) => {
