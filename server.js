@@ -1,67 +1,44 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bodyParser = require('body-parser');
+const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const DB_FILE = path.join(__dirname, 'database.json');
 
-// Middleware
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize SQLite Database
-const db = new sqlite3.Database('./database.sqlite', (err) => {
-    if (err) {
-        console.error('Error opening database', err.message);
-    } else {
-        console.log('Connected to SQLite database.');
-        // Create tables
-        db.run(`CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            price REAL,
-            imageUrl TEXT,
-            stock INTEGER
-        )`);
-
-        db.run(`CREATE TABLE IF NOT EXISTS posts (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            content TEXT,
-            imageUrl TEXT,
-            author TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )`);
+// មុខងារអាន Database ពី JSON file
+function readDB() {
+    if (!fs.existsSync(DB_FILE)) {
+        fs.writeFileSync(DB_FILE, JSON.stringify([]));
     }
-});
+    const data = fs.readFileSync(DB_FILE, 'utf8');
+    try {
+        return JSON.parse(data);
+    } catch (e) {
+        return [];
+    }
+}
 
-// Admin emails list (កំណត់អ៊ីមែលណាខ្លះជា Admin)
-const ADMIN_EMAILS = ["pachkrouch912@gmail.com"];
+// មុខងារសរសេរ Database ចូល JSON file
+function writeDB(data) {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+}
 
-// API: Get Products
-app.get('/api/products', (req, res) => {
-    db.all("SELECT * FROM products", [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json(rows);
-    });
-});
+// កំណត់ Email របស់អ្នកជា Admin
+const ADMIN_EMAILS = ["your-email@gmail.com"]; // <-- សូមប្តូរជា Email របស់អ្នក
 
-// API: Get News Feed Posts
+// យក Posts ទាំងអស់មកបង្ហាញ
 app.get('/api/posts', (req, res) => {
-    db.all("SELECT * FROM posts ORDER BY id DESC", [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json(rows);
-    });
+    const posts = readDB();
+    posts.sort((a, b) => b.id - a.id);
+    res.json(posts);
 });
 
-// API: Create Post (Admin Only Check)
+// បង្ហោះ Post ថ្មី (សម្រាប់តែ Admin)
 app.post('/api/posts', (req, res) => {
     const { title, content, imageUrl, email } = req.body;
     
@@ -69,15 +46,22 @@ app.post('/api/posts', (req, res) => {
         return res.status(403).json({ error: "Access Denied: Only Admin can post!" });
     }
 
-    const query = `INSERT INTO posts (title, content, imageUrl, author) VALUES (?, ?, ?, ?)`;
-    db.run(query, [title, content, imageUrl, email], function(err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true, postId: this.lastID });
-    });
+    const posts = readDB();
+    const newPost = {
+        id: Date.now(),
+        title,
+        content,
+        imageUrl: imageUrl || "",
+        author: email,
+        created_at: new Date().toLocaleString()
+    };
+
+    posts.push(newPost);
+    writeDB(posts);
+
+    res.json({ success: true, postId: newPost.id });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🚀 Server is running and listening on http://localhost:${PORT}`);
 });
