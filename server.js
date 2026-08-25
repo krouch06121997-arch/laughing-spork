@@ -1,345 +1,63 @@
-<!DOCTYPE html>
-<html lang="km">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revestimientos Deco Hogar Panel PU Piedra Natural - Revestimientos Deco Hogar</title>
-    <style>
-        :root {
-            --primary: #475569;
-            --primary-dark: #1e293b;
-            --accent: #d97706;
-            --warning: #f59e0b;
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --border-color: #cbd5e1;
-        }
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            line-height: 1.5; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh;
-        }
+const app = express();
+const PORT = process.env.PORT || 3000;
+const DB_FILE = path.join(__dirname, 'database.json');
 
-        .page-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 998;
-        }
-        body.menu-open .page-overlay {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
-        nav { 
-            background: linear-gradient(135deg, #334155, #0f172a); 
-            color: white; 
-            padding: 12px 25px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
-            border-bottom: 3px solid #d97706;
-        }
-        .nav-left { display: flex; align-items: center; gap: 15px; }
-        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
-        nav h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
-        .nav-links { display: flex; align-items: center; gap: 15px; }
-        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
-        .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
-        .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
-        
-        .drawer-menu {
-            height: 100%;
-            width: 280px;
-            position: fixed;
-            z-index: 9999;
-            top: 0;
-            left: -280px;
-            background-color: var(--surface);
-            overflow-x: hidden;
-            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding-top: 60px;
-            box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
-        }
-        body.menu-open .drawer-menu { left: 0; }
+function readDB() {
+    if (!fs.existsSync(DB_FILE)) {
+        fs.writeFileSync(DB_FILE, JSON.stringify([]));
+    }
+    const data = fs.readFileSync(DB_FILE, 'utf8');
+    try {
+        return JSON.parse(data);
+    } catch (e) {
+        return [];
+    }
+}
 
-        .drawer-menu .menu-header {
-            position: absolute; top: 0; left: 0; width: 100%;
-            background-color: #334155; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
-        .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
+function writeDB(data) {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+}
 
-        .marquee-container {
-            overflow: hidden; white-space: nowrap; box-sizing: border-box; width: 100%;
-            background: #f1f5f9; padding: 8px 0; border-bottom: 1px solid #cbd5e1; margin-top: 10px;
-        }
-        .marquee-text {
-            display: inline-block; padding-left: 100%;
-            animation: marquee 15s linear infinite; font-size: 13px; font-weight: bold; color: #b45309;
-        }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+const ADMIN_EMAILS = ["your-email@gmail.com"];
 
-        .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
-        .drawer-menu ul li a {
-            padding: 12px 20px; text-decoration: none; font-size: 14px; color: #334155;
-            display: block; border-bottom: 1px solid #f1f5f9; transition: 0.2s;
-        }
-        .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
+app.get('/api/posts', (req, res) => {
+    const posts = readDB();
+    posts.sort((a, b) => b.id - a.id);
+    res.json(posts);
+});
 
-        .screen { display: none; flex: 1; }
-        .screen.active { display: block; }
-        
-        .main-container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-        
-        /* Admin Post Form Styling */
-        .admin-post-card {
-            background: white; border: 2px dashed var(--accent); padding: 20px; border-radius: 12px; margin-bottom: 25px;
-            display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .admin-post-card input, .admin-post-card textarea {
-            width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px;
-        }
-        .admin-post-card button {
-            background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;
-        }
+app.post('/api/posts', (req, res) => {
+    const { title, content, imageUrl, email } = req.body;
+    
+    if (!ADMIN_EMAILS.includes(email)) {
+        return res.status(403).json({ error: "Access Denied: Only Admin can post!" });
+    }
 
-        /* News Feed Card Styling */
-        .feed-card {
-            background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
-        }
-        .feed-card img { width: 100%; height: 300px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
-        .feed-meta { font-size: 12px; color: #64748b; margin-bottom: 8px; }
+    const posts = readDB();
+    const newPost = {
+        id: Date.now(),
+        title,
+        content,
+        imageUrl: imageUrl || "",
+        author: email,
+        created_at: new Date().toLocaleString()
+    };
 
-        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
-        
-        .site-footer {
-            background-color: #0f172a; color: #ffffff; padding: 40px 20px 20px 20px; font-size: 14px; margin-top: auto; border-top: 4px solid #334155;
-        }
-        .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
-        .footer-col { flex: 1; min-width: 250px; margin-bottom: 20px; padding-right: 20px; }
-        .footer-col h3 { font-size: 15px; color: #cbd5e1; margin-bottom: 15px; border-bottom: 2px solid #d97706; display: inline-block; padding-bottom: 5px; }
-        .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
-    </style>
-</head>
-<body>
+    posts.push(newPost);
+    writeDB(posts);
 
-    <div class="page-overlay" onclick="closeMenu()"></div>
+    res.json({ success: true, postId: newPost.id });
+});
 
-    <nav>
-        <div class="nav-left">
-            <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <h1>🪨 Revestimientos Deco Hogar</h1>
-        </div>
-        <div class="nav-links">
-            <a onclick="switchScreen('feed')">News Feed</a>
-            <a onclick="switchScreen('home')">Home</a>
-            <div id="auth-nav-container">
-                <button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
-            </div>
-        </div>
-    </nav>
+app.listen(PORT, () => {
+    console.log(`🚀 Server is running and listening on http://localhost:${PORT}`);
+});
 
-    <div id="sideMenu" class="drawer-menu">
-        <div class="menu-header">
-            <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
-            <button onclick="closeMenu()" class="close-btn">&times;</button>
-        </div>
-        
-        <div class="marquee-container">
-            <div class="marquee-text">
-                🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងព័ត៌មានថ្មីៗប្រចាំថ្ងៃ 🚚
-            </div>
-        </div>
-
-        <ul class="menu-list">
-            <li><a href="#" onclick="switchScreen('feed'); closeMenu();">📰 News Feed</a></li>
-            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
-        </ul>
-    </div>
-
-    <!-- News Feed Screen -->
-    <div id="feed-screen" class="screen active">
-        <div class="main-container">
-            <h2 style="color: #334155; margin-bottom: 20px;">📰 ព័ត៌មានសកម្មភាពថ្មីៗ (News Feed)</h2>
-            
-            <!-- Admin Form (Visible only for Admins) -->
-            <div id="adminPostForm" class="admin-post-card">
-                <h3 style="color: var(--accent); margin-bottom: 10px;">✨ បង្ហោះព័ត៌មានថ្មី (សម្រាប់ Admin ប៉ុណ្ណោះ)</h3>
-                <input type="text" id="postTitle" placeholder="ចំណងជើងព័ត៌មាន...">
-                <textarea id="postContent" rows="3" placeholder="ខ្លឹមសារព័ត៌មាន..."></textarea>
-                <input type="text" id="postImageUrl" placeholder="តំណភ្ជាប់រូបភាព (Image URL)...">
-                <button onclick="createNewPost()">🚀 ចែករំលែក (Post)</button>
-            </div>
-
-            <!-- News Feed List Container -->
-            <div id="newsFeedContainer">
-                <p>កំពុងទាញយកព័ត៌មាន...</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="home-screen" class="screen">
-        <div class="main-container">
-            <div style="background: white; padding: 25px; border-radius: 12px; text-align: center;">
-                <h2>🏠 ទំព័រស្វាគមន៍ Revestimientos Deco Hogar</h2>
-                <p style="color: #64748b; margin-top: 10px;">ប្រព័ន្ធគ្រប់គ្រង និងទស្សនាព័ត៌មានថ្មីៗស្តីពីថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះ។</p>
-            </div>
-        </div>
-    </div>
-
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h3>Revestimientos Deco Hogar</h3>
-                <p><strong>Call / Telegram:</strong> 070 789 688</p>
-                <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Revestimientos Deco Hogar. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        function openMenu() { document.body.classList.add("menu-open"); }
-        function closeMenu() { document.body.classList.remove("menu-open"); }
-        function switchScreen(screenName) {
-            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-            if (screenName === 'feed') document.getElementById('feed-screen').classList.add('active');
-            if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
-        }
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyChBCj-QYzdplvI3d5oD6QyuftMuKEM7Ns",
-            authDomain: "saleflower-ef0db.firebaseapp.com",
-            projectId: "saleflower-ef0db",
-            databaseURL: "https://saleflower-ef0db-default-rtdb.asia-southeast1.firebasedatabase.app",
-            storageBucket: "saleflower-ef0db.firebasestorage.app",
-            messagingSenderId: "753182297297",
-            appId: "1:753182297297:web:bc398b3a47631041c449f0",
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        const ADMIN_EMAILS = ["admin@revestimientos.com", "your-email@gmail.com"]; // បញ្ចូល Email របស់អ្នកទីនេះដើម្បីធ្វើជា Admin
-        let currentUser = null;
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            const authNavContainer = document.getElementById('auth-nav-container');
-            const adminPostForm = document.getElementById('adminPostForm');
-
-            if (user) {
-                authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
-                
-                // ពិនិត្យសិទ្ធិ Admin
-                if (ADMIN_EMAILS.includes(user.email)) {
-                    adminPostForm.style.display = 'block';
-                } else {
-                    adminPostForm.style.display = 'none';
-                }
-            } else {
-                authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
-                adminPostForm.style.display = 'none';
-            }
-            fetchPosts();
-        });
-
-        window.loginWithGoogle = () => signInWithPopup(auth, provider).catch(err => alert("Login failed: " + err.message));
-        window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
-
-        // ទាញយក News Feed ពី SQLite Backend
-        window.fetchPosts = async function() {
-            const container = document.getElementById('newsFeedContainer');
-            try {
-                const res = await fetch('/api/posts');
-                const posts = await res.json();
-
-                if (posts && posts.length > 0) {
-                    let html = "";
-                    posts.forEach(p => {
-                        html += `
-                            <div class="feed-card">
-                                <div class="feed-meta">ដោយ: ${p.author} | កាលបរិច្ឆេទ: ${p.created_at}</div>
-                                <h3 style="color: #1e293b; margin-bottom: 8px;">${p.title}</h3>
-                                <p style="color: #475569;">${p.content}</p>
-                                ${p.imageUrl ? `<img src="${p.imageUrl}" alt="Post Image">` : ''}
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = "<p style='text-align:center; color:#64748b;'>មិនទាន់មានព័ត៌មានថ្មីៗនៅឡើយទេ!</p>";
-                }
-            } catch (err) {
-                container.innerHTML = "<p style='text-align:center; color:red;'>កំហុសในการទាញទិន្នន័យ News Feed!</p>";
-            }
-        };
-
-        // បង្ហោះ Post ថ្មីទៅកាន់ SQLite Backend (មានសុវត្ថិភាពត្រួតពិនិត្យ Admin នៅ Backend ស្រាប់)
-        window.createNewPost = async function() {
-            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
-
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const imageUrl = document.getElementById('postImageUrl').value;
-
-            if (!title || !content) {
-                alert("សូមបំពេញចំណងជើង និងខ្លឹមសារឱ្យបានគ្រប់គ្រាន់!");
-                return;
-            }
-
-            try {
-                const res = await fetch('/api/posts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title,
-                        content,
-                        imageUrl,
-                        email: currentUser.email
-                    })
-                });
-
-                const result = await res.json();
-                if (result.success) {
-                    alert("បានបង្ហោះព័ត៌មានដោយជោគជ័យ!");
-                    document.getElementById('postTitle').value = "";
-                    document.getElementById('postContent').value = "";
-                    document.getElementById('postImageUrl').value = "";
-                    fetchPosts();
-                } else {
-                    alert("បរាជ័យ: " + (result.error || "គ្មានសិទ្ធិបង្ហោះទេ!"));
-                }
-            } catch (err) {
-                alert("Error connecting to server: " + err.message);
-            }
-        };
-    </script>
-</body>
-</html>
