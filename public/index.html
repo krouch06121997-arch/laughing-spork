@@ -6,14 +6,14 @@
     <title>Revestimientos Deco Hogar Panel PU Piedra Natural - Revestimientos Deco Hogar</title>
     <style>
         :root {
-            --primary: #475569;
-            --primary-dark: #1e293b;
-            --accent: #d97706;
-            --warning: #f59e0b;
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --border-color: #cbd5e1;
+            --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
+            --primary-dark: #1e293b;    /* ពណ៌ថ្មដארលឹបជាងមុន */
+            --accent: #d97706;          /* ពណ៌លឿងទង់ដែង/ដីខ្សាច់ (Warm Amber) */
+            --warning: #f59e0b;         /* ពណ៌លឿងទុំ */
+            --bg-color: #f8fafc;        /* ពណ៌ផ្ទៃខាងក្រោយប្រផេះស្រាល */
+            --surface: #ffffff;         /* ពណ៌សសម្រាប់កាតទំនិញ */
+            --text-main: #1e293b;       /* ពណ៌អត្ថបទចាស់ */
+            --border-color: #cbd5e1;    /* ពណ៌គែមប្រផេះថ្ម */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -42,6 +42,7 @@
             pointer-events: auto;
         }
 
+        /* Navigation - រចនាប័ទ្មពណ៌ថ្មធម្មជាតិ */
         nav { 
             background: linear-gradient(135deg, #334155, #0f172a); 
             color: white; 
@@ -63,6 +64,7 @@
         .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
         .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
         
+        /* Side Drawer Menu */
         .drawer-menu {
             height: 100%;
             width: 280px;
@@ -76,66 +78,129 @@
             padding-top: 60px;
             box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
         }
-        body.menu-open .drawer-menu { left: 0; }
+        body.menu-open .drawer-menu {
+            left: 0;
+        }
 
         .drawer-menu .menu-header {
-            position: absolute; top: 0; left: 0; width: 100%;
-            background-color: #334155; padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #334155;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
         .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
 
+        /* Marquee Animation */
         .marquee-container {
-            overflow: hidden; white-space: nowrap; box-sizing: border-box; width: 100%;
-            background: #f1f5f9; padding: 8px 0; border-bottom: 1px solid #cbd5e1; margin-top: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            width: 100%;
+            background: #f1f5f9;
+            padding: 8px 0;
+            border-bottom: 1px solid #cbd5e1;
+            margin-top: 10px;
         }
         .marquee-text {
-            display: inline-block; padding-left: 100%;
-            animation: marquee 15s linear infinite; font-size: 13px; font-weight: bold; color: #b45309;
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 13px;
+            font-weight: bold;
+            color: #b45309;
         }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        @keyframes marquee {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
 
+        /* Menu Items */
         .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
+        
+        .drawer-menu ul li {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        body.menu-open .drawer-menu ul li:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+        body.menu-open .drawer-menu ul li:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        body.menu-open .drawer-menu ul li:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+        body.menu-open .drawer-menu ul li:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.4s; }
+        body.menu-open .drawer-menu ul li:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+        body.menu-open .drawer-menu ul li:nth-child(6) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
+
         .drawer-menu ul li a {
-            padding: 12px 20px; text-decoration: none; font-size: 14px; color: #334155;
-            display: block; border-bottom: 1px solid #f1f5f9; transition: 0.2s;
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #334155;
+            display: block;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
         }
         .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
         .screen { display: none; flex: 1; }
         .screen.active { display: block; }
+        .main-container { max-width: 1100px; margin: 24px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 0 16px; }
         
-        .main-container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+        @media (max-width: 768px) { 
+            .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
+        }
         
-        /* Admin Post Form Styling */
-        .admin-post-card {
-            background: white; border: 2px dashed var(--accent); padding: 20px; border-radius: 12px; margin-bottom: 25px;
-            display: none; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .admin-post-card input, .admin-post-card textarea {
-            width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px;
-        }
-        .admin-post-card button {
-            background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer;
-        }
+        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
+        .login-prompt-box { text-align: center; padding: 24px; }
+        
+        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+        .google-btn:hover { background-color: #1d4ed8; }
+        
+        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 
-        /* News Feed Card Styling */
-        .feed-card {
-            background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
-        }
-        .feed-card img { width: 100%; height: 300px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
-        .feed-meta { font-size: 12px; color: #64748b; margin-bottom: 8px; }
-
-        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
-        
+        /* Footer - ពណ៌ថ្មដុបក្រាស់ងងឹត */
         .site-footer {
-            background-color: #0f172a; color: #ffffff; padding: 40px 20px 20px 20px; font-size: 14px; margin-top: auto; border-top: 4px solid #334155;
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 40px 20px 20px 20px;
+            font-size: 14px;
+            margin-top: auto;
+            border-top: 4px solid #334155;
         }
-        .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
-        .footer-col { flex: 1; min-width: 250px; margin-bottom: 20px; padding-right: 20px; }
-        .footer-col h3 { font-size: 15px; color: #cbd5e1; margin-bottom: 15px; border-bottom: 2px solid #d97706; display: inline-block; padding-bottom: 5px; }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+        .footer-col h3 {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d97706;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-col p, .footer-col ul {
+            margin-bottom: 10px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffffff; }
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
     </style>
 </head>
@@ -149,8 +214,9 @@
             <h1>🪨 Revestimientos Deco Hogar</h1>
         </div>
         <div class="nav-links">
-            <a onclick="switchScreen('feed')">News Feed</a>
+            <a onclick="switchScreen('shop')">Shop</a>
             <a onclick="switchScreen('home')">Home</a>
+            <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
                 <button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
             </div>
@@ -165,42 +231,50 @@
         
         <div class="marquee-container">
             <div class="marquee-text">
-                🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងព័ត៌មានថ្មីៗប្រចាំថ្ងៃ 🚚
+                🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះបែបធម្មជាតិប្រណីត 🚚
             </div>
         </div>
 
         <ul class="menu-list">
-            <li><a href="#" onclick="switchScreen('feed'); closeMenu();">📰 News Feed</a></li>
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
+            <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
+            <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
+            <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
+            <li><a href="#" onclick="closeMenu();">ប្រព័ន្ធទឹក និងលម្អ</a></li>
         </ul>
     </div>
 
-    <!-- News Feed Screen -->
-    <div id="feed-screen" class="screen active">
-        <div class="main-container">
-            <h2 style="color: #334155; margin-bottom: 20px;">📰 ព័ត៌មានសកម្មភាពថ្មីៗ (News Feed)</h2>
-            
-            <!-- Admin Form (Visible only for Admins) -->
-            <div id="adminPostForm" class="admin-post-card">
-                <h3 style="color: var(--accent); margin-bottom: 10px;">✨ បង្ហោះព័ត៌មានថ្មី (សម្រាប់ Admin ប៉ុណ្ណោះ)</h3>
-                <input type="text" id="postTitle" placeholder="ចំណងជើងព័ត៌មាន...">
-                <textarea id="postContent" rows="3" placeholder="ខ្លឹមសារព័ត៌មាន..."></textarea>
-                <input type="text" id="postImageUrl" placeholder="តំណភ្ជាប់រូបភាព (Image URL)...">
-                <button onclick="createNewPost()">🚀 ចែករំលែក (Post)</button>
-            </div>
-
-            <!-- News Feed List Container -->
-            <div id="newsFeedContainer">
-                <p>កំពុងទាញយកព័ត៌មាន...</p>
+    <div id="shop-screen" class="screen active">
+        <div class="shop-page-container">
+            <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
+            <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+                <p>កំពុងផ្ទុកទំនិញ...</p>
             </div>
         </div>
     </div>
 
     <div id="home-screen" class="screen">
         <div class="main-container">
-            <div style="background: white; padding: 25px; border-radius: 12px; text-align: center;">
-                <h2>🏠 ទំព័រស្វាគមន៍ Revestimientos Deco Hogar</h2>
-                <p style="color: #64748b; margin-top: 10px;">ប្រព័ន្ធគ្រប់គ្រង និងទស្សនាព័ត៌មានថ្មីៗស្តីពីថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះ។</p>
+            <div>
+                <div id="loginPromptBox" class="login-prompt-box">
+                    <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
+                    <button class="google-btn" onclick="loginWithGoogle()">🌐 Login with Google</button>
+                </div>
+                <div class="feed-section">
+                    <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
+                    <div id="feedContainer"><p style="text-align:center; color:#64748b;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
+                </div>
+            </div>
+            <div>
+                <div class="cart-box">
+                    <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                    <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
+                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
+                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                        💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -210,7 +284,22 @@
             <div class="footer-col">
                 <h3>Revestimientos Deco Hogar</h3>
                 <p><strong>Call / Telegram:</strong> 070 789 688</p>
+                <p><strong>Telegram Channel:</strong> t.me/HengHome</p>
                 <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
+            </div>
+            <div class="footer-col">
+                <h3>ដំណោះស្រាយរហ័ស</h3>
+                <ul>
+                    <li><a href="#">ទាក់ទងយើង</a></li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a></li>
+                    <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង និងទិញទំនិញកាន់តែងាយស្រួល</p>
+                <p style="color: #d97706; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -221,11 +310,6 @@
     <script>
         function openMenu() { document.body.classList.add("menu-open"); }
         function closeMenu() { document.body.classList.remove("menu-open"); }
-        function switchScreen(screenName) {
-            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-            if (screenName === 'feed') document.getElementById('feed-screen').classList.add('active');
-            if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
-        }
     </script>
 
     <script type="module">
@@ -240,104 +324,118 @@
             storageBucket: "saleflower-ef0db.firebasestorage.app",
             messagingSenderId: "753182297297",
             appId: "1:753182297297:web:bc398b3a47631041c449f0",
+            measurementId: "G-XZHFWYWWN9"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        const ADMIN_EMAILS = ["admin@revestimientos.com", "your-email@gmail.com"]; // បញ្ចូល Email របស់អ្នកទីនេះដើម្បីធ្វើជា Admin
+        let cartCount = 0;
+        let cartTotal = 0;
         let currentUser = null;
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             currentUser = user;
             const authNavContainer = document.getElementById('auth-nav-container');
-            const adminPostForm = document.getElementById('adminPostForm');
-
             if (user) {
                 authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
-                
-                // ពិនិត្យសិទ្ធិ Admin
-                if (ADMIN_EMAILS.includes(user.email)) {
-                    adminPostForm.style.display = 'block';
-                } else {
-                    adminPostForm.style.display = 'none';
-                }
+                document.getElementById('loginPromptBox').style.display = 'none';
             } else {
                 authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
-                adminPostForm.style.display = 'none';
+                document.getElementById('loginPromptBox').style.display = 'block';
             }
-            fetchPosts();
+            fetchProducts();
         });
 
         window.loginWithGoogle = () => signInWithPopup(auth, provider).catch(err => alert("Login failed: " + err.message));
         window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
 
-        // ទាញយក News Feed ពី SQLite Backend
-        window.fetchPosts = async function() {
-            const container = document.getElementById('newsFeedContainer');
-            try {
-                const res = await fetch('/api/posts');
-                const posts = await res.json();
-
-                if (posts && posts.length > 0) {
-                    let html = "";
-                    posts.forEach(p => {
-                        html += `
-                            <div class="feed-card">
-                                <div class="feed-meta">ដោយ: ${p.author} | កាលបរិច្ឆេទ: ${p.created_at}</div>
-                                <h3 style="color: #1e293b; margin-bottom: 8px;">${p.title}</h3>
-                                <p style="color: #475569;">${p.content}</p>
-                                ${p.imageUrl ? `<img src="${p.imageUrl}" alt="Post Image">` : ''}
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = "<p style='text-align:center; color:#64748b;'>មិនទាន់មានព័ត៌មានថ្មីៗនៅឡើយទេ!</p>";
-                }
-            } catch (err) {
-                container.innerHTML = "<p style='text-align:center; color:red;'>កំហុសในการទាញទិន្នន័យ News Feed!</p>";
+        window.switchScreen = function(screenName) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
+            if (screenName === 'shop') {
+                document.getElementById('shop-screen').classList.add('active');
+                fetchProducts();
             }
         };
 
-        // បង្ហោះ Post ថ្មីទៅកាន់ SQLite Backend (មានសុវត្ថិភាពត្រួតពិនិត្យ Admin នៅ Backend ស្រាប់)
-        window.createNewPost = async function() {
-            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
-
-            const title = document.getElementById('postTitle').value;
-            const content = document.getElementById('postContent').value;
-            const imageUrl = document.getElementById('postImageUrl').value;
-
-            if (!title || !content) {
-                alert("សូមបំពេញចំណងជើង និងខ្លឹមសារឱ្យបានគ្រប់គ្រាន់!");
-                return;
-            }
-
+        window.fetchProducts = async function() {
+            const productListDiv = document.getElementById('product-list');
             try {
-                const res = await fetch('/api/posts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title,
-                        content,
-                        imageUrl,
-                        email: currentUser.email
-                    })
-                });
+                const response = await fetch('/api/products');
+                const allProducts = await response.json();
 
-                const result = await res.json();
-                if (result.success) {
-                    alert("បានបង្ហោះព័ត៌មានដោយជោគជ័យ!");
-                    document.getElementById('postTitle').value = "";
-                    document.getElementById('postContent').value = "";
-                    document.getElementById('postImageUrl').value = "";
-                    fetchPosts();
+                if (allProducts && allProducts.length > 0) {
+                    let html = "";
+                    allProducts.forEach(p => {
+                        html += `
+                            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: var(--surface);">
+                                <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
+                                <h3 style="font-size: 15px; color: #1e293b; margin-top: 8px;">${p.name}</h3>
+                                <p style="color: #d97706; font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer; font-weight: 600;">ទិញឥឡូវនេះ</button>
+                            </div>
+                        `;
+                    });
+                    productListDiv.innerHTML = html;
                 } else {
-                    alert("បរាជ័យ: " + (result.error || "គ្មានសិទ្ធិបង្ហោះទេ!"));
+                    productListDiv.innerHTML = "<p>មិនមានទំនិញទេ!</p>";
                 }
             } catch (err) {
-                alert("Error connecting to server: " + err.message);
+                productListDiv.innerHTML = "<p>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
+            }
+        };
+
+        window.buyProduct = async function(id, name, price, stock) {
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            let qty = Number(prompt(`បញ្ចូលចំនួនសម្រាប់ [${name}]:`, "1"));
+            if (!qty || qty <= 0 || qty > stock) { alert("ចំនួនមិនត្រឹមត្រូវ ឬលើសស្តុក!"); return; }
+            
+            let totalPrice = qty * price;
+            cartCount += qty;
+            cartTotal += totalPrice;
+            
+            document.getElementById('cart-count').innerText = cartCount;
+            document.getElementById('cart-items-num').innerText = cartCount;
+            document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
+            alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
+        };
+
+        window.checkoutCart = async function() {
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            if (cartCount <= 0) { alert("កន្ត្រកទំនិញរបស់អ្នកទទេ។"); return; }
+
+            let req_time = Math.floor(Date.now() / 1000).toString();
+            let tran_id = "INV" + req_time;
+            let amount = Number(cartTotal).toFixed(2);
+            let nameParts = (currentUser.displayName || "Valued Customer").split(" ");
+
+            let payload = {
+                req_time: req_time,
+                tran_id: tran_id,
+                amount: amount,
+                firstname: nameParts[0] || "Customer",
+                lastname: nameParts.slice(1).join(" ") || "Valued",
+                email: currentUser.email || "test@example.com",
+                phone: "012345678",
+                items: btoa(JSON.stringify([{ name: "Stone Products", quantity: cartCount.toString(), price: (cartTotal/cartCount).toFixed(2) }]))
+            };
+
+            try {
+                let response = await fetch("https://abapayway1.hunan1997a.workers.dev", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                let result = await response.json();
+                if (result && result.checkout_url) {
+                    window.location.href = result.checkout_url;
+                } else {
+                    alert("ABA Error: " + (result.error || JSON.stringify(result)));
+                }
+            } catch (err) {
+                alert("ការតភ្ជាប់ Worker បរាជ័យ: " + err.message);
             }
         };
     </script>
