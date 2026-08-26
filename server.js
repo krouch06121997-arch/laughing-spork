@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -6,58 +7,57 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DB_FILE = path.join(__dirname, 'database.json');
+const PRODUCTS_FILE = path.join(__dirname, 'products.json');
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-function readDB() {
-    if (!fs.existsSync(DB_FILE)) {
-        fs.writeFileSync(DB_FILE, JSON.stringify([]));
+function readDB(filePath) {
+    if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, JSON.stringify([]));
     }
-    const data = fs.readFileSync(DB_FILE, 'utf8');
-    try {
-        return JSON.parse(data);
-    } catch (e) {
-        return [];
-    }
+    const data = fs.readFileSync(filePath, 'utf8');
+    try { return JSON.parse(data); } catch (e) { return []; }
 }
 
-function writeDB(data) {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+function writeDB(filePath, data) {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
 
-const ADMIN_EMAILS = ["your-email@gmail.com"];
+// API ផ្ដល់ Firebase Config ឱ្យ Frontend ដោយសុវត្ថិភាព
+app.get('/api/config', (req, res) => {
+    res.json({
+        apiKey: process.env.FIREBASE_API_KEY,
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        databaseURL: process.env.FIREBASE_DATABASE_URL,
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.FIREBASE_APP_ID
+    });
+});
 
+// API ទាញយកទំនិញ
+app.get('/api/products', (req, res) => {
+    let products = readDB(PRODUCTS_FILE);
+    if (products.length === 0) {
+        products = [
+            { id: "1", name: "Panel PU ថ្មធម្មជាតិបែបបុរាណ", price: 12, stock: 10, imageUrl: "https://i.ibb.co/689W87n/placeholder.jpg" },
+            { id: "2", name: "ទឹកថ្នាំការពារសំណើមថ្ម", price: 90, stock: 5, imageUrl: "https://i.ibb.co/689W87n/placeholder.jpg" },
+            { id: "3", name: "ប្លុក SKD ថ្មស៊េរីថ្មី", price: 10, stock: 20, imageUrl: "https://i.ibb.co/689W87n/placeholder.jpg" }
+        ];
+        writeDB(PRODUCTS_FILE, products);
+    }
+    res.json(products);
+});
+
+// API ទាញយក Posts
 app.get('/api/posts', (req, res) => {
-    const posts = readDB();
+    const posts = readDB(DB_FILE);
     posts.sort((a, b) => b.id - a.id);
     res.json(posts);
 });
 
-app.post('/api/posts', (req, res) => {
-    const { title, content, imageUrl, email } = req.body;
-    
-    if (!ADMIN_EMAILS.includes(email)) {
-        return res.status(403).json({ error: "Access Denied: Only Admin can post!" });
-    }
-
-    const posts = readDB();
-    const newPost = {
-        id: Date.now(),
-        title,
-        content,
-        imageUrl: imageUrl || "",
-        author: email,
-        created_at: new Date().toLocaleString()
-    };
-
-    posts.push(newPost);
-    writeDB(posts);
-
-    res.json({ success: true, postId: newPost.id });
-});
-
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running and listening on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
