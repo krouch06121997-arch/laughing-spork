@@ -3,78 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revestimientos Deco Hogar Panel PU Piedra Natural</title>
+    <title>Revestimientos Deco Hogar Panel PU Piedra Natural - Revestimientos Deco Hogar</title>
     <style>
         :root {
-            --primary: #475569;
-            --primary-dark: #1e293b;
-            --accent: #d97706;
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --border-color: #cbd5e1;
+            --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
+            --primary-dark: #1e293b;    /* ពណ៌ថ្មដארលឹបជាងមុន */
+            --accent: #d97706;          /* ពណ៌លឿងទង់ដែង/ដីខ្សាច់ (Warm Amber) */
+            --warning: #f59e0b;         /* ពណ៌លឿងទុំ */
+            --bg-color: #f8fafc;        /* ពណ៌ផ្ទៃខាងក្រោយប្រផេះស្រាល */
+            --surface: #ffffff;         /* ពណ៌សសម្រាប់កាតទំនិញ */
+            --text-main: #1e293b;       /* ពណ៌អត្ថបទចាស់ */
+            --border-color: #cbd5e1;    /* ពណ៌គែមប្រផេះថ្ម */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.5; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+        }
 
         .page-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); opacity: 0; visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease; z-index: 998;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 998;
         }
-        body.menu-open .page-overlay { opacity: 1; visibility: visible; pointer-events: auto; }
+        body.menu-open .page-overlay {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
 
+        /* Navigation - រចនាប័ទ្មពណ៌ថ្មធម្មជាតិ */
         nav { 
-            background: linear-gradient(135deg, #334155, #0f172a); color: white; padding: 12px 25px; 
-            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; 
-            z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-bottom: 3px solid #d97706;
+            background: linear-gradient(135deg, #334155, #0f172a); 
+            color: white; 
+            padding: 12px 25px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            border-bottom: 3px solid #d97706;
         }
         .nav-left { display: flex; align-items: center; gap: 15px; }
-        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; }
-        nav h1 { font-size: 16px; font-weight: 700; }
+        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
+        nav h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
         .nav-links { display: flex; align-items: center; gap: 15px; }
-        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; }
-        .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; }
+        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
+        .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
         
+        /* Side Drawer Menu */
         .drawer-menu {
-            height: 100%; width: 280px; position: fixed; z-index: 9999; top: 0; left: -280px;
-            background-color: var(--surface); transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding-top: 60px; box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
+            height: 100%;
+            width: 280px;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: -280px;
+            background-color: var(--surface);
+            overflow-x: hidden;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-top: 60px;
+            box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
         }
-        body.menu-open .drawer-menu { left: 0; }
+        body.menu-open .drawer-menu {
+            left: 0;
+        }
+
         .drawer-menu .menu-header {
-            position: absolute; top: 0; left: 0; width: 100%; background-color: #334155;
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #334155;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
         .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
 
+        /* Marquee Animation */
         .marquee-container {
-            overflow: hidden; white-space: nowrap; width: 100%; background: #f1f5f9; padding: 8px 0; border-bottom: 1px solid #cbd5e1; margin-top: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            width: 100%;
+            background: #f1f5f9;
+            padding: 8px 0;
+            border-bottom: 1px solid #cbd5e1;
+            margin-top: 10px;
         }
         .marquee-text {
-            display: inline-block; padding-left: 100%; animation: marquee 15s linear infinite; font-size: 13px; font-weight: bold; color: #b45309;
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+            font-size: 13px;
+            font-weight: bold;
+            color: #b45309;
         }
-        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        @keyframes marquee {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
+        }
 
-        .drawer-menu ul { padding: 0; list-style-type: none; }
-        .drawer-menu ul li a { padding: 12px 20px; text-decoration: none; font-size: 14px; color: #334155; display: block; border-bottom: 1px solid #f1f5f9; }
-        .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; }
+        /* Menu Items */
+        .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
+        
+        .drawer-menu ul li {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        body.menu-open .drawer-menu ul li:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+        body.menu-open .drawer-menu ul li:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        body.menu-open .drawer-menu ul li:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+        body.menu-open .drawer-menu ul li:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.4s; }
+        body.menu-open .drawer-menu ul li:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+        body.menu-open .drawer-menu ul li:nth-child(6) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
+
+        .drawer-menu ul li a {
+            padding: 12px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            color: #334155;
+            display: block;
+            border-bottom: 1px solid #f1f5f9;
+            transition: 0.2s;
+        }
+        .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
         .screen { display: none; flex: 1; }
         .screen.active { display: block; }
         .main-container { max-width: 1100px; margin: 24px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 0 16px; }
-        @media (max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
-
-        .card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; border: 1px solid var(--border-color); }
+        
+        @media (max-width: 768px) { 
+            .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
+        }
+        
+        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
         .login-prompt-box { text-align: center; padding: 24px; }
-        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        
+        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+        .google-btn:hover { background-color: #1d4ed8; }
+        
         .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 
-        .site-footer { background-color: #0f172a; color: #ffffff; padding: 30px 20px; margin-top: auto; border-top: 4px solid #334155; font-size: 14px; }
-        .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
-        .footer-col { flex: 1; min-width: 250px; margin-bottom: 20px; }
+        /* Footer - ពណ៌ថ្មដុបក្រាស់ងងឹត */
+        .site-footer {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 40px 20px 20px 20px;
+            font-size: 14px;
+            margin-top: auto;
+            border-top: 4px solid #334155;
+        }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+        .footer-col h3 {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d97706;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-col p, .footer-col ul {
+            margin-bottom: 10px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .footer-col ul { list-style: none; padding: 0; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffffff; }
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
     </style>
 </head>
@@ -102,20 +228,26 @@
             <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
             <button onclick="closeMenu()" class="close-btn">&times;</button>
         </div>
+        
         <div class="marquee-container">
-            <div class="marquee-text">🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះបែបប្រណីត 🚚</div>
+            <div class="marquee-text">
+                🪨 Panel PU Piedra Natural - ថ្មធម្មជាតិ និងសម្ភារៈតុបតែងផ្ទះបែបធម្មជាតិប្រណីត 🚚
+            </div>
         </div>
-        <ul>
-            <li><a onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
-            <li><a onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
-            <li><a onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
-            <li><a onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
+
+        <ul class="menu-list">
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
+            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
+            <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
+            <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
+            <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
+            <li><a href="#" onclick="closeMenu();">ប្រព័ន្ធទឹក និងលម្អ</a></li>
         </ul>
     </div>
 
     <div id="shop-screen" class="screen active">
         <div class="shop-page-container">
-            <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 ហាងលក់សម្ភារៈថ្ម និង Panel PU</h2>
+            <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
             <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <p>កំពុងផ្ទុកទំនិញ...</p>
             </div>
@@ -125,22 +257,22 @@
     <div id="home-screen" class="screen">
         <div class="main-container">
             <div>
-                <div id="loginPromptBox" class="card login-prompt-box">
+                <div id="loginPromptBox" class="login-prompt-box">
                     <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
                     <button class="google-btn" onclick="loginWithGoogle()">🌐 Login with Google</button>
                 </div>
-                <div class="card">
+                <div class="feed-section">
                     <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
-                    <div id="feedContainer"><p style="color:#64748b;">គ្មានព័ត៌មានថ្មីទេ។</p></div>
+                    <div id="feedContainer"><p style="text-align:center; color:#64748b;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
                 </div>
             </div>
             <div>
-                <div class="card">
-                    <h3 style="margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                <div class="cart-box">
+                    <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
                     <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
                     <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
-                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer;">
-                        💳 Proceed to Checkout (ABA)
+                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                        💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
                     </button>
                 </div>
             </div>
@@ -152,7 +284,22 @@
             <div class="footer-col">
                 <h3>Revestimientos Deco Hogar</h3>
                 <p><strong>Call / Telegram:</strong> 070 789 688</p>
+                <p><strong>Telegram Channel:</strong> t.me/HengHome</p>
                 <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
+            </div>
+            <div class="footer-col">
+                <h3>ដំណោះស្រាយរហ័ស</h3>
+                <ul>
+                    <li><a href="#">ទាក់ទងយើង</a></li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a></li>
+                    <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង និងទិញទំនិញកាន់តែងាយស្រួល</p>
+                <p style="color: #d97706; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -169,37 +316,37 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        const firebaseConfig = {
+            apiKey: "AIzaSyChBCj-QYzdplvI3d5oD6QyuftMuKEM7Ns",
+            authDomain: "saleflower-ef0db.firebaseapp.com",
+            projectId: "saleflower-ef0db",
+            databaseURL: "https://saleflower-ef0db-default-rtdb.asia-southeast1.firebasedatabase.app",
+            storageBucket: "saleflower-ef0db.firebasestorage.app",
+            messagingSenderId: "753182297297",
+            appId: "1:753182297297:web:bc398b3a47631041c449f0",
+            measurementId: "G-XZHFWYWWN9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
         let cartCount = 0;
         let cartTotal = 0;
         let currentUser = null;
-        let auth, provider;
 
-        async function initApp() {
-            try {
-                const res = await fetch('/api/config');
-                const firebaseConfig = await res.json();
-
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                provider = new GoogleAuthProvider();
-
-                onAuthStateChanged(auth, (user) => {
-                    currentUser = user;
-                    const authNavContainer = document.getElementById('auth-nav-container');
-                    if (user) {
-                        authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
-                        document.getElementById('loginPromptBox').style.display = 'none';
-                    } else {
-                        authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
-                        document.getElementById('loginPromptBox').style.display = 'block';
-                    }
-                    fetchProducts();
-                    fetchPosts();
-                });
-            } catch (err) {
-                console.error("Initialization error:", err);
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            const authNavContainer = document.getElementById('auth-nav-container');
+            if (user) {
+                authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
+                document.getElementById('loginPromptBox').style.display = 'none';
+            } else {
+                authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
+                document.getElementById('loginPromptBox').style.display = 'block';
             }
-        }
+            fetchProducts();
+        });
 
         window.loginWithGoogle = () => signInWithPopup(auth, provider).catch(err => alert("Login failed: " + err.message));
         window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
@@ -207,7 +354,10 @@
         window.switchScreen = function(screenName) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
-            if (screenName === 'shop') document.getElementById('shop-screen').classList.add('active');
+            if (screenName === 'shop') {
+                document.getElementById('shop-screen').classList.add('active');
+                fetchProducts();
+            }
         };
 
         window.fetchProducts = async function() {
@@ -215,47 +365,37 @@
             try {
                 const response = await fetch('/api/products');
                 const allProducts = await response.json();
+
                 if (allProducts && allProducts.length > 0) {
                     let html = "";
                     allProducts.forEach(p => {
                         html += `
                             <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: var(--surface);">
-                                <img src="${p.imageUrl}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
-                                <h3 style="font-size: 15px; margin-top: 8px;">${p.name}</h3>
+                                <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
+                                <h3 style="font-size: 15px; color: #1e293b; margin-top: 8px;">${p.name}</h3>
                                 <p style="color: #d97706; font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
-                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer;">ទិញឥឡូវនេះ</button>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer; font-weight: 600;">ទិញឥឡូវនេះ</button>
                             </div>
                         `;
                     });
                     productListDiv.innerHTML = html;
+                } else {
+                    productListDiv.innerHTML = "<p>មិនមានទំនិញទេ!</p>";
                 }
             } catch (err) {
                 productListDiv.innerHTML = "<p>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
             }
         };
 
-        window.fetchPosts = async function() {
-            const feedContainer = document.getElementById('feedContainer');
-            try {
-                const response = await fetch('/api/posts');
-                const posts = await response.json();
-                if (posts.length > 0) {
-                    let html = "";
-                    posts.forEach(post => {
-                        html += `<div style="border-bottom:1px solid #eee; padding:10px 0;"><b>${post.title}</b><p>${post.content}</p></div>`;
-                    });
-                    feedContainer.innerHTML = html;
-                }
-            } catch (e) { console.log(e); }
-        };
-
-        window.buyProduct = function(id, name, price, stock) {
+        window.buyProduct = async function(id, name, price, stock) {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
             let qty = Number(prompt(`បញ្ចូលចំនួនសម្រាប់ [${name}]:`, "1"));
-            if (!qty || qty <= 0 || qty > stock) { alert("ចំនួនមិនត្រឹមត្រូវ!"); return; }
+            if (!qty || qty <= 0 || qty > stock) { alert("ចំនួនមិនត្រឹមត្រូវ ឬលើសស្តុក!"); return; }
             
+            let totalPrice = qty * price;
             cartCount += qty;
-            cartTotal += qty * price;
+            cartTotal += totalPrice;
+            
             document.getElementById('cart-count').innerText = cartCount;
             document.getElementById('cart-items-num').innerText = cartCount;
             document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
@@ -265,11 +405,41 @@
         window.checkoutCart = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
             if (cartCount <= 0) { alert("កន្ត្រកទំនិញរបស់អ្នកទទេ។"); return; }
-            alert("ដំណើរការទូទាត់ប្រាក់ ABA!");
-        };
 
-        initApp();
+            let req_time = Math.floor(Date.now() / 1000).toString();
+            let tran_id = "INV" + req_time;
+            let amount = Number(cartTotal).toFixed(2);
+            let nameParts = (currentUser.displayName || "Valued Customer").split(" ");
+
+            let payload = {
+                req_time: req_time,
+                tran_id: tran_id,
+                amount: amount,
+                firstname: nameParts[0] || "Customer",
+                lastname: nameParts.slice(1).join(" ") || "Valued",
+                email: currentUser.email || "test@example.com",
+                phone: "012345678",
+                items: btoa(JSON.stringify([{ name: "Stone Products", quantity: cartCount.toString(), price: (cartTotal/cartCount).toFixed(2) }]))
+            };
+
+            try {
+                let response = await fetch("https://abapayway1.hunan1997a.workers.dev", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                let result = await response.json();
+                if (result && result.checkout_url) {
+                    window.location.href = result.checkout_url;
+                } else {
+                    alert("ABA Error: " + (result.error || JSON.stringify(result)));
+                }
+            } catch (err) {
+                alert("ការតភ្ជាប់ Worker បរាជ័យ: " + err.message);
+            }
+        };
     </script>
 </body>
 </html>
 
+កូដនេះមាន animation menu អត់? Foot មានអត់?
