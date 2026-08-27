@@ -9,7 +9,12 @@ const PORT = process.env.PORT || 3000;
 const DB_FILE = path.join(__dirname, 'database.json');
 const PRODUCTS_FILE = path.join(__dirname, 'products.json');
 
+// --- [ផ្នែកបន្ថែមថ្មី] កំណត់ View Engine ជា EJS ---
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // ជំនួយការអានទិន្នន័យពី Form
 app.use(express.static(path.join(__dirname, 'public')));
 
 function readDB(filePath) {
@@ -23,6 +28,19 @@ function readDB(filePath) {
 function writeDB(filePath, data) {
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
 }
+
+// --- [ផ្នែកបន្ថែមថ្មី] Route សម្រាប់ទំព័រ Login និង Signup ---
+app.get('/login', (req, res) => {
+    res.render('login'); // វានឹងទៅអានហ្វាល views/login.ejs
+});
+
+app.get('/signup', (req, res) => {
+    res.render('signup'); // វានឹងទៅអានហ្វាល views/signup.ejs
+});
+
+// ==========================================
+// API ចាស់ៗរបស់អ្នករក្សាទុកនៅដដែល
+// ==========================================
 
 // API ផ្ដល់ Firebase Config ឱ្យ Frontend ដោយសុវត្ថិភាព
 app.get('/api/config', (req, res) => {
