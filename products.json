@@ -1,0 +1,24 @@
+[
+    {
+        "id": "1",
+        "name": "Panel PU ថ្មធម្មជាតិបែបបុរាណ",
+        "price": 12,
+        "stock": 10,
+        "imageUrl": "https://i.ibb.co/689W87n/placeholder.jpg"
+    },
+    {
+        "id": "2",
+        "name": "ទឹកថ្នាំការពារសំណើមថ្ម",
+        "price": 90,
+        "stock": 5,
+        "imageUrl": "https://i.ibb.co/689W87n/placeholder.jpg"
+    },
+    {
+        "id": "3",
+        "name": "ប្លុក SKD ថ្មស៊េរីថ្មី",
+        "price": 10,
+        "stock": 20,
+        "imageUrl": "https://i.ibb.co/689W87n/placeholder.jpg"
+    }
+]
+
