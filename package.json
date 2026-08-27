@@ -1,15 +1,16 @@
 {
     "name": "laughing-spork",
-      "version": "1.0.0",
-        "description": "",
-          "main": "server.js",
-            "scripts": {
-                "start": "node server.js"
-                  },
-                    "dependencies": {
-                        "body-parser": "^1.20.2",
-                            "express": "^4.19.2",
-                                "node-fetch": "^3.3.2"
-                                  }
-                                  }
-
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.6",
+        "dotenv": "^17.4.2",
+        "ejs": "^6.0.1",
+        "express": "^4.22.2",
+        "node-fetch": "^3.3.2"
+    }
+}
