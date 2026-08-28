@@ -72,6 +72,28 @@ app.get('/api/posts', (req, res) => {
     res.json(posts);
 });
 
+// API សម្រាប់รับ Post ថ្មីពី Admin ហើយរក្សាទុកក្នុង database.json
+app.post('/api/posts', (req, res) => {
+    const { mediaUrl, caption } = req.body;
+    
+    if (!mediaUrl) {
+        return res.status(400).json({ error: "Media URL is required!" });
+    }
+
+    const posts = readDB(DB_FILE);
+    const newPost = {
+        id: Date.now(),
+        mediaUrl: mediaUrl,
+        caption: caption || "",
+        timestamp: Date.now()
+    };
+
+    posts.push(newPost);
+    writeDB(DB_FILE, posts);
+
+    res.json({ success: true, post: newPost });
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
