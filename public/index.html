@@ -218,7 +218,8 @@
             <a onclick="switchScreen('home')">Home</a>
             <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
-                <button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
+                <!-- កែត្រង់នេះឱ្យរត់ទៅកាន់ទំព័រ login -->
+                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
             </div>
         </div>
     </nav>
@@ -259,7 +260,8 @@
             <div>
                 <div id="loginPromptBox" class="login-prompt-box">
                     <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
-                    <button class="google-btn" onclick="loginWithGoogle()">🌐 Login with Google</button>
+                    <!-- កែត្រង់នេះឱ្យរត់ទៅកាន់ទំព័រ login ដូចគ្នា -->
+                    <button class="google-btn" onclick="window.location.href='/login'">🌐 Login with Google</button>
                 </div>
                 <div class="feed-section">
                     <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
@@ -314,9 +316,8 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Firebase Config ថ្មីត្រូវចំ Project "Socialize" (socialize-f3881)
         const firebaseConfig = {
             apiKey: "AIzaSyDip5j54sGYDYgPZJMaLW9BiHgppuK41Nw",
             authDomain: "socialize-f3881.firebaseapp.com",
@@ -329,13 +330,6 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        
-        // កំណត់ភាសា និងកែសម្រួលដើម្បីការពារបញ្ហា Popup លើទូរស័ព្ទ
-        auth.useDeviceLanguage();
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({
-            prompt: 'select_account'
-        });
 
         let cartCount = 0;
         let cartTotal = 0;
@@ -348,13 +342,12 @@
                 authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
                 document.getElementById('loginPromptBox').style.display = 'none';
             } else {
-                authNavContainer.innerHTML = `<button class="google-btn" onclick="loginWithGoogle()" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
+                authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
                 document.getElementById('loginPromptBox').style.display = 'block';
             }
             fetchProducts();
         });
 
-        window.loginWithGoogle = () => signInWithPopup(auth, provider).catch(err => alert("Login failed: " + err.message));
         window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
 
         window.switchScreen = function(screenName) {
@@ -394,7 +387,7 @@
         };
 
         window.buyProduct = async function(id, name, price, stock) {
-            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); window.location.href = '/login'; return; }
             let qty = Number(prompt(`បញ្ចូលចំនួនសម្រាប់ [${name}]:`, "1"));
             if (!qty || qty <= 0 || qty > stock) { alert("ចំនួនមិនត្រឹមត្រូវ ឬលើសស្តុក!"); return; }
             
@@ -409,7 +402,7 @@
         };
 
         window.checkoutCart = async function() {
-            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); loginWithGoogle(); return; }
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); window.location.href = '/login'; return; }
             if (cartCount <= 0) { alert("កន្ត្រកទំនិញរបស់អ្នកទទេ។"); return; }
 
             let req_time = Math.floor(Date.now() / 1000).toString();
