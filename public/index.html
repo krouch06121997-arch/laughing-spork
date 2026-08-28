@@ -218,7 +218,6 @@
             <a onclick="switchScreen('home')">Home</a>
             <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
-                <!-- កែត្រង់នេះឱ្យរត់ទៅកាន់ទំព័រ login -->
                 <button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
             </div>
         </div>
@@ -260,14 +259,24 @@
             <div>
                 <div id="loginPromptBox" class="login-prompt-box">
                     <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
-                    <!-- កែត្រង់នេះឱ្យរត់ទៅកាន់ទំព័រ login ដូចគ្នា -->
                     <button class="google-btn" onclick="window.location.href='/login'">🌐 Login with Google</button>
                 </div>
+
+                <div id="adminUploadSection" style="background: white; padding: 18px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">🛠️ Admin Upload Feed (រូបភាព ឬ វីដេអូ)</h3>
+                    <input type="text" id="mediaUrlInput" placeholder="បញ្ចូល Link រូបភាព ឬ វីដេអូ (URL)" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+                    <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; height: 80px;"></textarea>
+                    <button onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Upload Post</button>
+                </div>
+
                 <div class="feed-section">
-                    <h2 style="font-size: 18px; margin-bottom: 12px;">News Feed</h2>
-                    <div id="feedContainer"><p style="text-align:center; color:#64748b;">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធរបស់យើងខ្ញុំ!</p></div>
+                    <h2 style="font-size: 18px; margin-bottom: 12px; color: #1e293b;">News Feed</h2>
+                    <div id="feedContainer">
+                        <p style="text-align:center; color:#64748b;">កំពុងទាញយកទិន្នន័យ...</p>
+                    </div>
                 </div>
             </div>
+
             <div>
                 <div class="cart-box">
                     <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
@@ -316,8 +325,10 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyDip5j54sGYDYgPZJMaLW9BiHgppuK41Nw",
             authDomain: "socialize-f3881.firebaseapp.com",
@@ -330,26 +341,42 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getDatabase(app);
 
         let cartCount = 0;
         let cartTotal = 0;
         let currentUser = null;
 
+        // កំណត់ Email របស់ Admin (សូមជំនួសដោយ Email របស់អ្នកពិតប្រាកដ)
+        const adminEmails = ["your-admin-email@gmail.com"]; 
+
+        // ត្រួតពិនិត្យស្ថានភាព Login របស់អ្នកប្រើប្រាស់
         onAuthStateChanged(auth, async (user) => {
             currentUser = user;
             const authNavContainer = document.getElementById('auth-nav-container');
+            const adminSection = document.getElementById('adminUploadSection');
+            
             if (user) {
                 authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
                 document.getElementById('loginPromptBox').style.display = 'none';
+
+                // បង្ហាញ Form Upload เฉพาะ Admin
+                if (adminEmails.includes(user.email)) {
+                    adminSection.style.display = 'block';
+                } else {
+                    adminSection.style.display = 'none';
+                }
             } else {
                 authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
                 document.getElementById('loginPromptBox').style.display = 'block';
+                adminSection.style.display = 'none';
             }
             fetchProducts();
         });
 
-        window.logoutUser = () => signOut(auth).then(() => alert("Logged out!"));
+        window.logoutUser = () => signOut(auth).then(() => alert("បានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ!"));
 
+        // មុខងារប្តូររវាង Screen (Shop និង Home)
         window.switchScreen = function(screenName) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
@@ -359,6 +386,7 @@
             }
         };
 
+        // ទាញយកផលិតផលពី Server
         window.fetchProducts = async function() {
             const productListDiv = document.getElementById('product-list');
             try {
@@ -386,6 +414,7 @@
             }
         };
 
+        // មុខងារទិញទំនិញ និងបញ្ចូលទៅក្នុង Cart
         window.buyProduct = async function(id, name, price, stock) {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); window.location.href = '/login'; return; }
             let qty = Number(prompt(`បញ្ចូលចំនួនសម្រាប់ [${name}]:`, "1"));
@@ -401,6 +430,7 @@
             alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
         };
 
+        // មុខងារទូទាត់ប្រាក់ຜ່ານ ABA Payway
         window.checkoutCart = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); window.location.href = '/login'; return; }
             if (cartCount <= 0) { alert("កន្ត្រកទំនិញរបស់អ្នកទទេ។"); return; }
@@ -437,6 +467,65 @@
                 alert("ការតភ្ជាប់ Worker បរាជ័យ: " + err.message);
             }
         };
+
+        // មុខងារ Admin Upload Post (រូបភាព ឬ វីដេអូ)
+        window.uploadNewFeed = function() {
+            if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
+            if (!adminEmails.includes(currentUser.email)) {
+                alert("អ្នកមិនមែនជា Admin ទេ មិនអាច Upload បានឡើយ!");
+                return;
+            }
+
+            const mediaUrl = document.getElementById('mediaUrlInput').value.trim();
+            const caption = document.getElementById('captionInput').value.trim();
+
+            if (!mediaUrl) { alert("សូមដាក់បញ្ចូល Link រូបភាព ឬវីដេអូជាមុនសិន!"); return; }
+
+            const newPostRef = push(ref(db, 'posts'));
+            set(newPostRef, {
+                mediaUrl: mediaUrl,
+                caption: caption,
+                timestamp: Date.now()
+            }).then(() => {
+                alert("Upload បានជោគជ័យ!");
+                document.getElementById('mediaUrlInput').value = '';
+                document.getElementById('captionInput').value = '';
+            }).catch(err => {
+                alert("Error: " + err.message);
+            });
+        };
+
+        // មុខងារទាញយក និងបង្ហាញ News Feed ស្វ័យប្រវត្តិពី Firebase Database
+        const feedContainer = document.getElementById('feedContainer');
+        const postsRef = ref(db, 'posts');
+
+        onValue(postsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                let html = "";
+                const postsArray = Object.entries(data).reverse(); // បង្ហាញពីថ្មីទៅចាស់
+                
+                postsArray.forEach(([id, post]) => {
+                    let mediaElement = "";
+                    // ពិនិត្យមើលថាតើជា Video ឬ Image តាមរយៈนามสกุลឯកសារ ឬ Link
+                    if (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("video")) {
+                        mediaElement = `<video src="${post.mediaUrl}" controls style="width: 100%; max-height: 400px; border-radius: 6px; margin-top: 10px; background: #000;"></video>`;
+                    } else {
+                        mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 6px; margin-top: 10px;">`;
+                    }
+
+                    html += `
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <p style="font-size: 14px; color: #1e293b; line-height: 1.6;">${post.caption || ''}</p>
+                            ${mediaElement}
+                        </div>
+                    `;
+                });
+                feedContainer.innerHTML = html;
+            } else {
+                feedContainer.innerHTML = `<p style="text-align:center; color:#64748b;">មិនទាន់មាន Post ណាមួយត្រូវបានបង្ហោះនៅឡើយទេ!</p>`;
+            }
+        });
     </script>
 </body>
 </html>
