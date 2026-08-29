@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_FILE = path.join(__dirname, 'database.json');
 const PRODUCTS_FILE = path.join(__dirname, 'products.json');
 
 // កំណត់ View Engine ជា EJS សម្រាប់ទំព័រ Login/Signup
@@ -65,34 +64,8 @@ app.get('/api/products', (req, res) => {
     res.json(products);
 });
 
-// API ទាញយក Posts
-app.get('/api/posts', (req, res) => {
-    const posts = readDB(DB_FILE);
-    posts.sort((a, b) => b.id - a.id);
-    res.json(posts);
-});
-
-// API សម្រាប់ទទួល Post ថ្មីពី Admin ហើយរក្សាទុកក្នុង database.json
-app.post('/api/posts', (req, res) => {
-    const { mediaUrl, caption } = req.body;
-    
-    if (!mediaUrl) {
-        return res.status(400).json({ error: "Media URL is required!" });
-    }
-
-    const posts = readDB(DB_FILE);
-    const newPost = {
-        id: Date.now(),
-        mediaUrl: mediaUrl,
-        caption: caption || "",
-        timestamp: Date.now()
-    };
-
-    posts.push(newPost);
-    writeDB(DB_FILE, posts);
-
-    res.json({ success: true, post: newPost });
-});
+// ចំណាំ៖ ការគ្រប់គ្រង Posts ត្រូវបានប្តូរទៅកាន់ Firebase Firestore ទាំងស្រុងនៅខាង Frontend 
+// ដូច្នេះ API សម្រាប់ posts staticfiles មិនចាំបាច់ត្រូវការនៅលើ Node.js server ទៀតទេ។
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
