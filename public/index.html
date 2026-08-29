@@ -46,7 +46,7 @@
         nav { 
             background: linear-gradient(135deg, #334155, #0f172a); 
             color: white; 
-            padding: 12px 20px; 
+            padding: 10px 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -59,48 +59,45 @@
         .nav-left { display: flex; align-items: center; gap: 12px; }
         .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
         nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; line-height: 1.2; }
-        
         .nav-links { display: flex; align-items: center; gap: 12px; }
         .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
         .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
-        .cart-badge { background-color: var(--accent); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+        .cart-badge { background-color: var(--accent); padding: 2px 6px; border-radius: 12px; font-size: 10px; font-weight: 700; }
         
-        /* Profile Section on Nav */
-        .user-profile-badge {
+        /* Profile Display Container in Nav */
+        .user-profile-nav {
             display: flex;
             align-items: center;
             gap: 8px;
             background: rgba(255, 255, 255, 0.1);
             padding: 4px 10px;
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .user-avatar-small {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #d97706;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
         }
         .user-name-text {
             font-size: 12px;
             font-weight: 600;
-            color: #f8fafc;
+            color: #fff;
             max-width: 90px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
-        .logout-icon-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .logout-icon-btn:hover { background: #dc2626; }
 
-        /* Side Drawer Menu */
+        /* Side Drawer Menu with Slide & Stagger Animations */
         .drawer-menu {
             height: 100%;
             width: 280px;
@@ -114,7 +111,9 @@
             padding-top: 60px;
             box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
         }
-        body.menu-open .drawer-menu { left: 0; }
+        body.menu-open .drawer-menu {
+            left: 0;
+        }
 
         .drawer-menu .menu-header {
             position: absolute;
@@ -154,51 +153,62 @@
             100% { transform: translate(-100%, 0); }
         }
 
-        /* Menu Items */
+        /* Menu Items with Staggered Transition */
         .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
+        
+        .drawer-menu ul li {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        body.menu-open .drawer-menu ul li:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+        body.menu-open .drawer-menu ul li:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        body.menu-open .drawer-menu ul li:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+        body.menu-open .drawer-menu ul li:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.4s; }
+        body.menu-open .drawer-menu ul li:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+        body.menu-open .drawer-menu ul li:nth-child(6) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
+
         .drawer-menu ul li a {
-            padding: 14px 20px;
+            padding: 12px 20px;
             text-decoration: none;
             font-size: 14px;
             color: #334155;
             display: block;
             border-bottom: 1px solid #f1f5f9;
             transition: 0.2s;
-            font-weight: 500;
         }
         .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
         .screen { display: none; flex: 1; }
         .screen.active { display: block; }
         
-        .main-container { max-width: 680px; margin: 20px auto; padding: 0 16px; }
-        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; }
-
-        @media (max-width: 768px) { 
-            .shop-page-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
-        }
+        /* Home Layout (Full width feed) */
+        .home-container { max-width: 680px; margin: 20px auto; padding: 0 16px; }
         
-        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
+        /* Shop Layout */
+        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+
+        .login-prompt-box, .admin-upload-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
         .login-prompt-box { text-align: center; padding: 24px; }
         
-        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+        .google-btn { background-color: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
         .google-btn:hover { background-color: #1d4ed8; }
-        
-        /* TikTok Style Feed Customization (No Profile Header) */
+
+        /* TikTok Style Feed Card (Without Profile Header) */
         .tiktok-feed-card {
             background: white;
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
         }
         .tiktok-caption {
-            padding: 14px 16px 10px 16px;
+            padding: 16px 16px 12px 16px;
             font-size: 14px;
             color: #1e293b;
             line-height: 1.5;
-            font-weight: 500;
         }
         .tiktok-media-container {
             width: 100%;
@@ -207,12 +217,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            max-height: 500px;
+            max-height: 550px;
             overflow: hidden;
         }
         .tiktok-media-container img, .tiktok-media-container video {
             width: 100%;
-            max-height: 500px;
+            max-height: 550px;
             object-fit: contain;
         }
         .tiktok-actions {
@@ -229,13 +239,15 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 13px;
+            font-size: 14px;
             color: #475569;
             cursor: pointer;
             font-weight: 600;
             transition: color 0.2s;
         }
-        .tiktok-action-btn:hover { color: #fe2c55; }
+        .tiktok-action-btn:hover {
+            color: #fe2c55;
+        }
 
         /* Footer */
         .site-footer {
@@ -282,20 +294,21 @@
 
     <div class="page-overlay" onclick="closeMenu()"></div>
 
+    <!-- Navigation -->
     <nav>
         <div class="nav-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <h1>🪨 Revestimientos Deco Hogar</h1>
+            <h1>Revestimientos<br>Deco Hogar</h1>
         </div>
         <div class="nav-links">
-            <a onclick="switchScreen('home')">Home</a>
             <a onclick="switchScreen('shop')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
-                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 5px 10px; font-size: 12px;">🔐 Login</button>
+                <button class="google-btn" onclick="window.location.href='/login'">🔐 Login</button>
             </div>
         </div>
     </nav>
 
+    <!-- Side Drawer Menu with Shop link added -->
     <div id="sideMenu" class="drawer-menu">
         <div class="menu-header">
             <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
@@ -310,7 +323,7 @@
 
         <ul class="menu-list">
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
-            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🛍️ ហាងទំនិញ (Shop & Cart)</a></li>
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងទំនិញ (Shop & Cart)</a></li>
             <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
             <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
             <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
@@ -318,32 +331,33 @@
         </ul>
     </div>
 
-    <!-- Shop Screen (Cart Box shows only here) -->
+    <!-- Shop Screen (Contains product list & cart checkout box) -->
     <div id="shop-screen" class="screen">
         <div class="shop-page-container">
-            <div>
-                <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
-                <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;">
-                    <p>កំពុងផ្ទុកទំនិញ...</p>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                <div>
+                    <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 ហាងលក់សម្ភារៈតុបតែង (Shop)</h2>
+                    <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+                        <p>កំពុងផ្ទុកទំនិញ...</p>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <!-- Cart Status Box (Only in Shop Screen) -->
-                <div class="cart-box">
-                    <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
-                    <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
-                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
-                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 13px;">
-                        💳 Proceed to Checkout (ABA)
-                    </button>
+                <div>
+                    <div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: sticky; top: 75px;">
+                        <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                        <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
+                        <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
+                        <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                            💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Home Screen (News Feed Only) -->
+    <!-- Home Screen (Default on Refresh / News Feed Only) -->
     <div id="home-screen" class="screen active">
-        <div class="main-container">
+        <div class="home-container">
             <!-- Login Prompt Box -->
             <div id="loginPromptBox" class="login-prompt-box">
                 <p style="margin-bottom: 10px; color: #475569; font-size: 14px;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
@@ -351,21 +365,19 @@
             </div>
 
             <!-- Admin Upload Form -->
-            <div id="adminUploadSection" style="background: white; padding: 16px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+            <div id="adminUploadSection" class="admin-upload-box" style="display: none;">
                 <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">🛠️ Admin Upload Feed</h3>
                 <div style="margin-bottom: 10px;">
-                    <label style="font-size: 12px; color: #475569; display: block; margin-bottom: 4px;">ជ្រើសរើសហ្វាលពីឧបករណ៍៖</label>
                     <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #f8fafc;">
                 </div>
-                <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; height: 70px;"></textarea>
+                <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; height: 70px;"></textarea>
                 <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Upload Post</button>
             </div>
 
             <!-- News Feed Section -->
             <div class="feed-section">
-                <h2 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">News Feed</h2>
                 <div id="feedContainer">
-                    <p style="text-align:center; color:#64748b;">កំពុងទាញយកទិន្នន័យ...</p>
+                    <p style="text-align:center; color:#64748b; padding: 20px;">កំពុងទាញយកទិន្នន័យ...</p>
                 </div>
             </div>
         </div>
@@ -376,7 +388,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>Revestimientos Deco Hogar</h3>
-                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ តាមតំម្រូវការ និងរៀបចំសួនច្បារ indoor Outdoor</p>
+                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ តាមតំម្រូវការរបស់អតិឋិជនបាន៖ ហើយក៏មានទទួលរៀបចំសួនច្បារគ្រប់ទំហំ នឹងលក់រុក្ខជាតិលំម្អរដែលធ្វើក្នុងស្រុកផ្ទាល់ តាមតម្រូវការរបស់អតិថិជន indoor Outdoor</p>
                 <p><strong>Call / Telegram:</strong> 086 99 34 75</p>
                 <p><strong>Telegram Channel:</strong> t.me/Pachkrouc</p>
                 <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
@@ -384,14 +396,15 @@
             <div class="footer-col">
                 <h3>ដំណោះស្រាយរហ័ស</h3>
                 <ul>
-                    <li><a href="#">ទាក់ទងយើង: 086207008</a></li>
-                    <li><a href="#">Google Map 🗺️</a></li>
+                    <li><a href="#">ទាក់ទងយើង</a> 086207008</li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a> google map 🗺️ https://maps.app.goo.gl/dDug9a7ceDnh7PuLA</li>
                     <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
-                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង</p>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង និងទិញទំនិញកាន់តែងាយស្រួល</p>
                 <p style="color: #d97706; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
             </div>
         </div>
@@ -406,7 +419,7 @@
         function closeMenu() { document.body.classList.remove("menu-open"); }
     </script>
 
-    <!-- App Scripts -->
+    <!-- App Scripts (Firebase Firestore Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -435,10 +448,15 @@
                     const adminSection = document.getElementById('adminUploadSection');
                     
                     if (user) {
+                        let photoHTML = user.photoURL 
+                            ? `<img src="${user.photoURL}" class="user-avatar-small">` 
+                            : `<div class="user-avatar-small">${(user.displayName || "U")[0].toUpperCase()}</div>`;
+                        
                         authNavContainer.innerHTML = `
-                            <div class="user-profile-badge">
-                                <span class="user-name-text" title="${user.displayName}">${user.displayName}</span>
-                                <button class="logout-icon-btn" onclick="logoutUser()" title="ចាកចេញ">✕</button>
+                            <div class="user-profile-nav">
+                                ${photoHTML}
+                                <span class="user-name-text">${user.displayName || 'User'}</span>
+                                <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:2px 6px; border-radius:4px; cursor:pointer; font-size:11px; margin-left:4px;">Logout</button>
                             </div>
                         `;
                         document.getElementById('loginPromptBox').style.display = 'none';
@@ -449,7 +467,7 @@
                             adminSection.style.display = 'none';
                         }
                     } else {
-                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 5px 10px; font-size: 12px;">🔐 Login</button>`;
+                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'">🔐 Login</button>`;
                         document.getElementById('loginPromptBox').style.display = 'block';
                         adminSection.style.display = 'none';
                     }
@@ -488,7 +506,7 @@
                                 <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 140px; object-fit: cover; border-radius: 5px;">
                                 <h3 style="font-size: 14px; color: #1e293b; margin-top: 6px;">${p.name}</h3>
                                 <p style="color: #d97706; font-weight: bold; margin: 6px 0; font-size: 13px;">Price: $${p.price}</p>
-                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer; font-weight: 600; font-size: 12px;">ទិញឥឡូវនេះ</button>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer; font-weight: 600; font-size: 13px;">ទិញឥឡូវនេះ</button>
                             </div>
                         `;
                     });
@@ -598,7 +616,7 @@
                 return;
             }
 
-            uploadBtn.innerText = "កំពុងរក្សាទុកក្នុង Firebase...";
+            uploadBtn.innerText = "កំពុងរក្សាទុក...";
 
             try {
                 await addDoc(collection(db, "posts"), {
@@ -631,9 +649,9 @@
                         const post = docSnap.data();
                         let mediaElement = "";
                         if (post.mediaUrl && (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("video"))) {
-                            mediaElement = `<video src="${post.mediaUrl}" controls style="width: 100%; max-height: 480px; background: #000;"></video>`;
+                            mediaElement = `<video src="${post.mediaUrl}" controls style="width: 100%; max-height: 500px; background: #000;"></video>`;
                         } else {
-                            mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 480px; object-fit: contain; background: #000;">`;
+                            mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 500px; object-fit: contain; background: #000;">`;
                         }
 
                         html += `
