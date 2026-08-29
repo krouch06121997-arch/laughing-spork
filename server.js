@@ -72,7 +72,7 @@ app.get('/api/posts', (req, res) => {
     res.json(posts);
 });
 
-// API សម្រាប់รับ Post ថ្មីពី Admin ហើយរក្សាទុកក្នុង database.json
+// API សម្រាប់ទទួល Post ថ្មីពី Admin ហើយរក្សាទុកក្នុង database.json
 app.post('/api/posts', (req, res) => {
     const { mediaUrl, caption } = req.body;
     
