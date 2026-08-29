@@ -214,8 +214,8 @@
             <h1>🪨 Revestimientos Deco Hogar</h1>
         </div>
         <div class="nav-links">
-            <a onclick="switchScreen('shop')">Shop</a>
             <a onclick="switchScreen('home')">Home</a>
+            <a onclick="switchScreen('shop')">Shop</a>
             <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
                 <button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
@@ -236,8 +236,8 @@
         </div>
 
         <ul class="menu-list">
-            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
             <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
             <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
             <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
@@ -246,7 +246,7 @@
     </div>
 
     <!-- Shop Screen -->
-    <div id="shop-screen" class="screen active">
+    <div id="shop-screen" class="screen">
         <div class="shop-page-container">
             <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
             <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
@@ -255,8 +255,8 @@
         </div>
     </div>
 
-    <!-- Home Screen (News Feed & Cart) -->
-    <div id="home-screen" class="screen">
+    <!-- Home Screen (News Feed & Cart) - កែប្រែជា Active (ទំព័រដំបូង) -->
+    <div id="home-screen" class="screen active">
         <div class="main-container">
             <div>
                 <!-- Login Prompt Box -->
