@@ -344,12 +344,13 @@
         function closeMenu() { document.body.classList.remove("menu-open"); }
     </script>
 
-    <!-- App Scripts -->
+    <!-- App Scripts (Firebase Firestore Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        let app, auth;
+        let app, auth, db;
         let cartCount = 0;
         let cartTotal = 0;
         let currentUser = null;
@@ -364,6 +365,7 @@
                 const config = await res.json();
                 app = initializeApp(config);
                 auth = getAuth(app);
+                db = getFirestore(app);
 
                 onAuthStateChanged(auth, async (user) => {
                     currentUser = user;
@@ -385,6 +387,7 @@
                         adminSection.style.display = 'none';
                     }
                     fetchProducts();
+                    fetchPosts();
                 });
             } catch (err) {
                 console.error("Firebase Init Error:", err);
@@ -483,7 +486,7 @@
             }
         };
 
-        // Admin Upload Post: Support both File Upload (Cloudinary) and Direct Link (URL)
+        // Admin Upload Post: Save directly to Firebase Firestore
         window.uploadNewFeed = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
             if (!adminEmails.includes(currentUser.email)) {
@@ -501,7 +504,6 @@
             const uploadBtn = document.getElementById('uploadPostBtn');
 
             if (file) {
-                // ករណីជ្រើសរើសហ្វាលពីក្នុងเครื่อง គឺ Upload ไปកាន់ Cloudinary ដូចដើម
                 uploadBtn.disabled = true;
                 uploadBtn.innerText = "กำลัง Upload... (កំពុងបញ្ជូនហ្វាល)";
 
@@ -528,7 +530,6 @@
                     return;
                 }
             } else if (urlInput) {
-                // ករណីដាក់ Link ផ្ទាល់ (ពី Pinterest ឬកន្លែងផ្សេង)
                 mediaUrl = urlInput;
             } else {
                 alert("សូមជ្រើសរើសហ្វាល ឬ ដាក់ Link (URL) ជាមុនសិន!");
@@ -536,44 +537,40 @@
             }
 
             uploadBtn.disabled = true;
-            uploadBtn.innerText = "កំពុងរក្សាទុក...";
+            uploadBtn.innerText = "កំពុងរក្សាទុកក្នុង Firebase...";
 
             try {
-                // ផ្ញើ Post ថ្មីទៅកាន់ Backend Server (/api/posts)
-                const response = await fetch('/api/posts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ mediaUrl, caption })
+                // រក្សាទុកចូល Firestore Collection "posts"
+                await addDoc(collection(db, "posts"), {
+                    mediaUrl: mediaUrl,
+                    caption: caption || "",
+                    timestamp: Date.now()
                 });
-                const result = await response.json();
 
-                if (result.success) {
-                    alert("Upload បានជោគជ័យ!");
-                    fileInput.value = '';
-                    document.getElementById('mediaUrlInput').value = '';
-                    document.getElementById('captionInput').value = '';
-                    fetchPosts();
-                } else {
-                    alert("Error saving to backend: " + result.error);
-                }
+                alert("Upload បានជោគជ័យ!");
+                fileInput.value = '';
+                document.getElementById('mediaUrlInput').value = '';
+                document.getElementById('captionInput').value = '';
+                fetchPosts();
             } catch (err) {
-                alert("การបញ្ជូនទិន្នន័យបរាជ័យ: " + err.message);
+                alert("ការរក្សាទុកទិន្នន័យបរាជ័យ: " + err.message);
             } finally {
                 uploadBtn.disabled = false;
                 uploadBtn.innerText = "Upload Post";
             }
         };
 
-        // Fetch Posts from Backend API (/api/posts)
+        // Fetch Posts from Firebase Firestore
         async function fetchPosts() {
             const feedContainer = document.getElementById('feedContainer');
             try {
-                const response = await fetch('/api/posts');
-                const postsArray = await response.json();
+                const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
 
-                if (postsArray && postsArray.length > 0) {
+                if (!querySnapshot.empty) {
                     let html = "";
-                    postsArray.forEach(post => {
+                    querySnapshot.forEach((docSnap) => {
+                        const post = docSnap.data();
                         let mediaElement = "";
                         if (post.mediaUrl && (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("video"))) {
                             mediaElement = `<video src="${post.mediaUrl}" controls style="width: 100%; max-height: 400px; border-radius: 6px; margin-top: 10px; background: #000;"></video>`;
@@ -593,11 +590,10 @@
                     feedContainer.innerHTML = `<p style="text-align:center; color:#64748b;">មិនទាន់មាន Post ណាមួយត្រូវបានបង្ហោះនៅឡើយទេ!</p>`;
                 }
             } catch (err) {
+                console.error("Fetch Posts Error:", err);
                 feedContainer.innerHTML = `<p style="text-align:center; color:#dc2626;">កំហុសក្នុងការទាញយក Feed!</p>`;
             }
         }
-
-        fetchPosts();
     </script>
 </body>
 </html>
