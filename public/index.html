@@ -265,13 +265,20 @@
                     <button class="google-btn" onclick="window.location.href='/login'">🌐 Login with Google</button>
                 </div>
 
-                <!-- Admin Upload Form (Updated with File Input for Cloudinary) -->
+                <!-- Admin Upload Form (Updated with File Input & Link Input) -->
                 <div id="adminUploadSection" style="background: white; padding: 18px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                     <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">🛠️ Admin Upload Feed (រូបភាព ឬ វីដេអូ)</h3>
                     
+                    <!-- ជ្រើសរើស Upload ពី File -->
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ជ្រើសរើសហ្វាលពីឧបករណ៍៖</label>
                         <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
+                    </div>
+
+                    <!-- ឬដាក់ Link ផ្ទាល់ (ពី Pinterest / វេបសាយផ្សេងៗ) -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ឬ ដាក់ Link (URL) វីដេអូ/រូបភាព (ពី Pinterest ฯលฯ)៖</label>
+                        <input type="text" id="mediaUrlInput" placeholder="https://..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
                     </div>
 
                     <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; height: 80px;"></textarea>
@@ -346,12 +353,9 @@
         let cartCount = 0;
         let cartTotal = 0;
         let currentUser = null;
-        const adminEmails = ["krouch06121997@gmail.com"]; // ដាក់អ៊ីមែលរបស់អ្នករួចជាស្រេច
+        const adminEmails = ["krouch06121997@gmail.com"];
 
-        // Cloudinary Configuration Constants
         const CLOUD_NAME = "qeil4wud";
-        // ចំណាំ៖ សូមធានាថាអ្នកបានបង្កើត Upload Preset ជាប្រភេទ "Unsigned" នៅក្នុង Cloudinary Dashboard របស់អ្នករួចរាល់ 
-        // ហើយជំនួសអត្ថបទ "ml_default" ខាងក្រោមដោយឈ្មោះ Upload Preset របស់អ្នក ប្រសិនបើវាខុសគ្នា។
         const UPLOAD_PRESET = "ml_default"; 
 
         async function initFirebase() {
@@ -479,7 +483,7 @@
             }
         };
 
-        // Admin Upload Post: Uploads file to Cloudinary first, then sends the URL to Backend (/api/posts)
+        // Admin Upload Post: Support both File Upload (Cloudinary) and Direct Link (URL)
         window.uploadNewFeed = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
             if (!adminEmails.includes(currentUser.email)) {
@@ -488,40 +492,54 @@
             }
 
             const fileInput = document.getElementById('mediaFileInput');
-            const file = fileInput.files[0];
+            const urlInput = document.getElementById('mediaUrlInput').value.trim();
             const caption = document.getElementById('captionInput').value.trim();
-
-            if (!file) { 
-                alert("សូមជ្រើសរើសរូបភាព ឬវីដេអូមួយជាមុនសិន!"); 
-                return; 
-            }
+            
+            const file = fileInput.files[0];
+            let mediaUrl = "";
 
             const uploadBtn = document.getElementById('uploadPostBtn');
+
+            if (file) {
+                // ករណីជ្រើសរើសហ្វាលពីក្នុងเครื่อง គឺ Upload ไปកាន់ Cloudinary ដូចដើម
+                uploadBtn.disabled = true;
+                uploadBtn.innerText = "กำลัง Upload... (កំពុងបញ្ជូនហ្វាល)";
+
+                let resourceType = file.type.startsWith('video/') ? 'video' : 'image';
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', UPLOAD_PRESET);
+
+                try {
+                    const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const cloudinaryData = await cloudinaryRes.json();
+
+                    if (!cloudinaryData.secure_url) {
+                        throw new Error(cloudinaryData.error?.message || "Cloudinary Upload failed");
+                    }
+                    mediaUrl = cloudinaryData.secure_url;
+                } catch (err) {
+                    alert("ការបញ្ជូនហ្វាលទៅ Cloudinary បរាជ័យ: " + err.message);
+                    uploadBtn.disabled = false;
+                    uploadBtn.innerText = "Upload Post";
+                    return;
+                }
+            } else if (urlInput) {
+                // ករណីដាក់ Link ផ្ទាល់ (ពី Pinterest ឬកន្លែងផ្សេង)
+                mediaUrl = urlInput;
+            } else {
+                alert("សូមជ្រើសរើសហ្វាល ឬ ដាក់ Link (URL) ជាមុនសិន!");
+                return;
+            }
+
             uploadBtn.disabled = true;
-            uploadBtn.innerText = "กำลัง Upload... (កំពុងបញ្ជូនហ្វាល)";
-
-            // កំណត់ប្រភេទ resource_type ទៅតាមប្រភេទហ្វាល (រូបភាព ឬ វីដេអូ)
-            let resourceType = file.type.startsWith('video/') ? 'video' : 'image';
-
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', UPLOAD_PRESET);
+            uploadBtn.innerText = "កំពុងរក្សាទុក...";
 
             try {
-                // ជំហានទី ១៖ Upload ទៅកាន់ Cloudinary API ដោយផ្ទាល់ពី Browser
-                const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const cloudinaryData = await cloudinaryRes.json();
-
-                if (!cloudinaryData.secure_url) {
-                    throw new Error(cloudinaryData.error?.message || "Cloudinary Upload failed");
-                }
-
-                const mediaUrl = cloudinaryData.secure_url;
-
-                // ជំហានទី ២៖ យក Link ដែលបានមក Save ចូល Backend Server របស់អ្នក (/api/posts)
+                // ផ្ញើ Post ថ្មីទៅកាន់ Backend Server (/api/posts)
                 const response = await fetch('/api/posts', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -532,13 +550,14 @@
                 if (result.success) {
                     alert("Upload បានជោគជ័យ!");
                     fileInput.value = '';
+                    document.getElementById('mediaUrlInput').value = '';
                     document.getElementById('captionInput').value = '';
                     fetchPosts();
                 } else {
                     alert("Error saving to backend: " + result.error);
                 }
             } catch (err) {
-                alert("ការបញ្ជូនទិន្នន័យបរាជ័យ: " + err.message);
+                alert("การបញ្ជូនទិន្នន័យបរាជ័យ: " + err.message);
             } finally {
                 uploadBtn.disabled = false;
                 uploadBtn.innerText = "Upload Post";
