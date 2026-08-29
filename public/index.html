@@ -6,14 +6,14 @@
     <title>Botanical Living</title>
     <style>
         :root {
-            --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
-            --primary-dark: #1e293b;    /* ពណ៌ថ្មដארលឹបជាងមុន */
-            --accent: #d97706;          /* ពណ៌លឿងទង់ដែង/ដីខ្សាច់ (Warm Amber) */
-            --warning: #f59e0b;         /* ពណ៌លឿងទុំ */
-            --bg-color: #f1f5f9;        /* ពណ៌ផ្ទៃខាងក្រោយប្រផេះស្រាល */
-            --surface: #ffffff;         /* ពណ៌សសម្រាប់កាតទំនិញ */
-            --text-main: #1e293b;       /* ពណ៌អត្ថបទចាស់ */
-            --border-color: #e2e8f0;    /* ពណ៌គែមប្រផេះស្រាល */
+            --primary: #475569;         
+            --primary-dark: #1e293b;    
+            --accent: #d97706;          
+            --warning: #f59e0b;         
+            --bg-color: #f1f5f9;        
+            --surface: #ffffff;         
+            --text-main: #1e293b;       
+            --border-color: #e2e8f0;    
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -42,11 +42,11 @@
             pointer-events: auto;
         }
 
-        /* Navigation - រចនាប័ទ្មពណ៌ថ្មធម្មជាតិ */
+        /* Navigation */
         nav { 
             background: linear-gradient(135deg, #334155, #0f172a); 
             color: white; 
-            padding: 12px 25px; 
+            padding: 10px 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -56,14 +56,47 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
             border-bottom: 3px solid #d97706;
         }
-        .nav-left { display: flex; align-items: center; gap: 15px; }
-        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
-        nav h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
-        .nav-links { display: flex; align-items: center; gap: 15px; }
-        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
-        .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
-        .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .menu-toggle-btn { font-size: 22px; background: none; border: none; cursor: pointer; color: white; padding: 4px; }
+        nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; line-height: 1.2; }
         
+        .nav-links { display: flex; align-items: center; gap: 12px; }
+        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .nav-links a:hover { opacity: 0.85; }
+        .cart-badge { background-color: var(--accent); padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+        
+        /* កែសម្រួលកន្លែង Profile ខាងលើឱ្យស្អាត */
+        .user-profile-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .user-name-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: #f8fafc;
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .logout-chip-btn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .logout-chip-btn:hover { background-color: #dc2626; }
+
         /* Side Drawer Menu */
         .drawer-menu {
             height: 100%;
@@ -75,26 +108,23 @@
             background-color: var(--surface);
             overflow-x: hidden;
             transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding-top: 60px;
+            padding-top: 55px;
             box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
         }
-        body.menu-open .drawer-menu {
-            left: 0;
-        }
+        body.menu-open .drawer-menu { left: 0; }
 
         .drawer-menu .menu-header {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100%;
             background-color: #334155;
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
-        .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
+        .menu-title { font-weight: bold; font-size: 14px; color: #ffffff; }
+        .close-btn { font-size: 26px; background: none; border: none; cursor: pointer; color: #ffffff; }
 
         /* Marquee Animation */
         .marquee-container {
@@ -122,20 +152,6 @@
 
         /* Menu Items */
         .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
-        
-        .drawer-menu ul li {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-
-        body.menu-open .drawer-menu ul li:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
-        body.menu-open .drawer-menu ul li:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
-        body.menu-open .drawer-menu ul li:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
-        body.menu-open .drawer-menu ul li:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.4s; }
-        body.menu-open .drawer-menu ul li:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
-        body.menu-open .drawer-menu ul li:nth-child(6) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
-
         .drawer-menu ul li a {
             padding: 12px 20px;
             text-decoration: none;
@@ -144,6 +160,7 @@
             display: block;
             border-bottom: 1px solid #f1f5f9;
             transition: 0.2s;
+            font-weight: 500;
         }
         .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
@@ -155,7 +172,7 @@
             .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
         }
         
-        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
+        .login-prompt-box, .cart-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
         .login-prompt-box { text-align: center; padding: 24px; }
         
         .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
@@ -163,7 +180,7 @@
         
         .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 
-        /* TikTok Style Feed Customization */
+        /* TikTok Style Feed Customization (គ្មាន Profile លើផុស) */
         .tiktok-feed-card {
             background: white;
             border: 1px solid var(--border-color);
@@ -171,37 +188,9 @@
             margin-bottom: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            transition: transform 0.2s ease;
-        }
-        .tiktok-feed-header {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            gap: 12px;
-        }
-        .tiktok-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #fe2c55, #25f4ee);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .tiktok-user-info h4 {
-            font-size: 14px;
-            color: #0f172a;
-            font-weight: 700;
-        }
-        .tiktok-user-info span {
-            font-size: 12px;
-            color: #64748b;
         }
         .tiktok-caption {
-            padding: 0 16px 12px 16px;
+            padding: 16px 16px 12px 16px;
             font-size: 14px;
             color: #1e293b;
             line-height: 1.5;
@@ -241,9 +230,7 @@
             font-weight: 600;
             transition: color 0.2s;
         }
-        .tiktok-action-btn:hover {
-            color: #fe2c55;
-        }
+        .tiktok-action-btn:hover { color: #fe2c55; }
 
         /* Footer */
         .site-footer {
@@ -297,10 +284,9 @@
         </div>
         <div class="nav-links">
             <a onclick="switchScreen('home')">Home</a>
-            <a onclick="switchScreen('shop')">Shop</a>
             <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
-                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
+                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 5px 10px; font-size: 12px;">🔐 Login</button>
             </div>
         </div>
     </nav>
@@ -351,7 +337,6 @@
                 <div id="adminUploadSection" style="background: white; padding: 18px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                     <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">🛠️ Admin Upload Feed (រូបភាព ឬ វីដេអូ)</h3>
                     
-                    <!-- ជ្រើសរើស Upload ពី File -->
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ជ្រើសរើសហ្វាលពីឧបករណ៍៖</label>
                         <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
@@ -390,8 +375,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>Revestimientos Deco Hogar</h3>
-                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ តាមតំម្រូវការរបស់អតិឋិជនបាន៖ ហើយក៏មានទទួល
-រៀបចំសួនច្បារគ្រប់ទំហំ នឹងលក់រុក្ខជាតិលំម្អរដែលធ្វើក្នុងស្រុកផ្ទាល់ ຕາມតម្រូវការរបស់អតិថិជន  indoor Outdoor</p>
+                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ តាមតំម្រូវការរបស់អតិឋិជនបាន៖ ហើយក៏មានទទួលរៀបចំសួនច្បារគ្រប់ទំហំ នឹងលក់រុក្ខជាតិលំម្អរដែលធ្វើក្នុងស្រុកផ្ទាល់ តាមតម្រូវការរបស់អតិថិជន indoor Outdoor</p>
                 <p><strong>Call / Telegram:</strong> 086 99 34 75</p>
                 <p><strong>Telegram Channel:</strong> t.me/Pachkrouc</p>
                 <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
@@ -400,7 +384,7 @@
                 <h3>ដំណោះស្រាយរហ័ស</h3>
                 <ul>
                     <li><a href="#">ទាក់ទងយើង</a>086207008</li>
-                    <li><a href="#">ស្វែងរកហាងលក់</a>google map 🗺️ https://maps.app.goo.gl/dDug9a7ceDnh7PuLA?g_st=com.google.maps.preview.copy</li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a>google map 🗺️</li>
                     <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                 </ul>
@@ -422,7 +406,7 @@
         function closeMenu() { document.body.classList.remove("menu-open"); }
     </script>
 
-    <!-- App Scripts (Firebase Firestore Integrated) -->
+    <!-- App Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -451,7 +435,12 @@
                     const adminSection = document.getElementById('adminUploadSection');
                     
                     if (user) {
-                        authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
+                        authNavContainer.innerHTML = `
+                            <div class="user-profile-badge">
+                                <span class="user-name-text">${user.displayName || 'User'}</span>
+                                <button onclick="logoutUser()" class="logout-chip-btn">Logout</button>
+                            </div>
+                        `;
                         document.getElementById('loginPromptBox').style.display = 'none';
 
                         if (adminEmails.includes(user.email)) {
@@ -460,7 +449,7 @@
                             adminSection.style.display = 'none';
                         }
                     } else {
-                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
+                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 5px 10px; font-size: 12px;">🔐 Login</button>`;
                         document.getElementById('loginPromptBox').style.display = 'block';
                         adminSection.style.display = 'none';
                     }
@@ -564,7 +553,6 @@
             }
         };
 
-        // Admin Upload Post: Save directly to Firebase Firestore
         window.uploadNewFeed = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
             if (!adminEmails.includes(currentUser.email)) {
@@ -585,7 +573,7 @@
             }
 
             uploadBtn.disabled = true;
-            uploadBtn.innerText = "กำลัง Upload... (កំពុងបញ្ជូនហ្វាល)";
+            uploadBtn.innerText = "កំពុង Upload...";
 
             let resourceType = file.type.startsWith('video/') ? 'video' : 'image';
             const formData = new FormData();
@@ -610,7 +598,7 @@
                 return;
             }
 
-            uploadBtn.innerText = "កំពុងរក្សាទុកក្នុង Firebase...";
+            uploadBtn.innerText = "កំពុងរក្សាទុក...";
 
             try {
                 await addDoc(collection(db, "posts"), {
@@ -631,7 +619,6 @@
             }
         };
 
-        // Fetch Posts from Firebase Firestore (Styled TikTok-like Feed)
         async function fetchPosts() {
             const feedContainer = document.getElementById('feedContainer');
             try {
@@ -649,18 +636,11 @@
                             mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 500px; object-fit: contain; background: #000;">`;
                         }
 
+                        let captionHtml = post.caption ? `<div class="tiktok-caption"><p>${post.caption}</p></div>` : '';
+
                         html += `
                             <div class="tiktok-feed-card">
-                                <div class="tiktok-feed-header">
-                                    <div class="tiktok-avatar">RD</div>
-                                    <div class="tiktok-user-info">
-                                        <h4>Revestimientos Deco Hogar</h4>
-                                        <span>Official Account • ថ្មធម្មជាតិ និងសួនច្បារ</span>
-                                    </div>
-                                </div>
-                                <div class="tiktok-caption">
-                                    <p>${post.caption || ''}</p>
-                                </div>
+                                ${captionHtml}
                                 <div class="tiktok-media-container">
                                     ${mediaElement}
                                 </div>
