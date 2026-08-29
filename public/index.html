@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Botanical Living</title>
-    <!-- Pinterest Embed Widget Script -->
-    <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
     <style>
         :root {
             --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
@@ -205,6 +203,8 @@
         .footer-col ul li a:hover { color: #ffffff; }
         .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
     </style>
+    <!-- Pinterest Embed SDK Script -->
+    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
 </head>
 <body>
 
@@ -271,13 +271,15 @@
                 <div id="adminUploadSection" style="background: white; padding: 18px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                     <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">🛠️ Admin Upload Feed (រូបភាព ឬ វីដេអូ)</h3>
                     
+                    <!-- ជ្រើសរើស Upload ពី File -->
                     <div style="margin-bottom: 10px;">
                         <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ជ្រើសរើសហ្វាលពីឧបករណ៍៖</label>
                         <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
                     </div>
 
+                    <!-- ឬដាក់ Link ផ្ទាល់ (ពី YouTube, Facebook, Pinterest ฯលฯ) -->
                     <div style="margin-bottom: 10px;">
-                        <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ឬ ដាក់ Link (URL) វីដេអូ/រូបភាព (ពី Pinterest ฯលฯ)៖</label>
+                        <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ឬ ដាក់ Link (YouTube, Facebook, Pinterest)៖</label>
                         <input type="text" id="mediaUrlInput" placeholder="https://..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
                     </div>
 
@@ -344,7 +346,7 @@
         function closeMenu() { document.body.classList.remove("menu-open"); }
     </script>
 
-    <!-- App Scripts (Firebase Firestore Integrated & Pinterest Embed Support) -->
+    <!-- App Scripts (Firebase Firestore Integrated with Auto-Embed for YouTube, Facebook & Pinterest) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -540,6 +542,7 @@
             uploadBtn.innerText = "កំពុងរក្សាទុកក្នុង Firebase...";
 
             try {
+                // រក្សាទុកចូល Firestore Collection "posts"
                 await addDoc(collection(db, "posts"), {
                     mediaUrl: mediaUrl,
                     caption: caption || "",
@@ -559,7 +562,7 @@
             }
         };
 
-        // Fetch Posts from Firebase Firestore (Supports Pinterest Embeds)
+        // Fetch Posts from Firebase Firestore with Support for YouTube, Facebook & Pinterest Embeds
         async function fetchPosts() {
             const feedContainer = document.getElementById('feedContainer');
             try {
@@ -571,22 +574,45 @@
                     querySnapshot.forEach((docSnap) => {
                         const post = docSnap.data();
                         let mediaElement = "";
-                        let mediaUrl = post.mediaUrl || "";
+                        let url = post.mediaUrl || "";
 
-                        // ពិនិត្យមើលថាតើជាហ្វាលវីដេអូ ឬ Cloudinary Video
-                        if (mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || mediaUrl.includes("/video/upload/")) {
-                            mediaElement = `<video src="${mediaUrl}" controls style="width: 100%; max-height: 400px; border-radius: 6px; margin-top: 10px; background: #000;"></video>`;
+                        // 1. YouTube Link Embed
+                        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+                            let videoId = "";
+                            if (url.includes("youtu.be/")) {
+                                videoId = url.split("youtu.be/")[1]?.split("?")[0];
+                            } else if (url.includes("watch?v=")) {
+                                videoId = url.split("watch?v=")[1]?.split("&")[0];
+                            }
+                            if (videoId) {
+                                mediaElement = `
+                                    <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; margin-top: 10px;">
+                                        <iframe src="https://www.youtube.com/embed/${videoId}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0; border-radius: 6px;" allowfullscreen></iframe>
+                                    </div>`;
+                            }
                         } 
-                        // ប្រសិនបើជា Link មកពី Pinterest ប្រើ Embed Widget
-                        else if (mediaUrl.includes("pinterest.") || mediaUrl.includes("pin.it")) {
+                        // 2. Facebook Post/Video Embed
+                        else if (url.includes("facebook.com") || url.includes("fb.watch")) {
+                            let encodedUrl = encodeURIComponent(url);
                             mediaElement = `
-                                <div style="margin-top: 10px; display: flex; justify-content: center;">
-                                    <a data-pin-do="embedPin" href="${mediaUrl}"></a>
+                                <div style="margin-top: 10px; display: flex; justify-content: center; overflow: hidden;">
+                                    <iframe src="https://www.facebook.com/plugins/post.php?href=${encodedUrl}&show_text=true&width=500" width="100%" height="450" style="border:none;overflow:hidden;border-radius:6px;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                                 </div>`;
                         } 
-                        // ករណីជាលីងរូបភាពធម្មតា
-                        else if (mediaUrl.startsWith("http://") || mediaUrl.startsWith("https://")) {
-                            mediaElement = `<img src="${mediaUrl}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 6px; margin-top: 10px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=Invalid+Media+URL';">`;
+                        // 3. Pinterest Pin Embed
+                        else if (url.includes("pinterest.com") || url.includes("pin.it")) {
+                            mediaElement = `
+                                <div style="margin-top: 10px; display: flex; justify-content: center;">
+                                    <a data-pin-do="embedPin" href="${url}"></a>
+                                </div>`;
+                        } 
+                        // 4. Video ធម្មតា (MP4) ឬ Cloudinary Video
+                        else if (url.match(/\.(mp4|webm|ogg|mov)$/i) || url.includes("/video/upload/")) {
+                            mediaElement = `<video src="${url}" controls style="width: 100%; max-height: 400px; border-radius: 6px; margin-top: 10px; background: #000;"></video>`;
+                        } 
+                        // 5. រូបភាពធម្មតា
+                        else if (url.startsWith("http://") || url.startsWith("https://")) {
+                            mediaElement = `<img src="${url}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 6px; margin-top: 10px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=Invalid+URL';">`;
                         }
 
                         html += `
@@ -598,7 +624,7 @@
                     });
                     feedContainer.innerHTML = html;
 
-                    // ឱ្យ Pinterest Widget Render លីងទាំងអស់ឡើងវិញឱ្យចេញជារូបរាងស្អាត
+                    // រត់កូដ Pinterest SDK ដើម្បីឱ្យវាទាញយកទម្រង់ Pin មកបង្ហាញស្អាត
                     if (window.PinUtils) {
                         window.PinUtils.build();
                     }
