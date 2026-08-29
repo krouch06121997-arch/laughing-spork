@@ -6,14 +6,14 @@
     <title>Botanical Living</title>
     <style>
         :root {
-            --primary: #475569;         
-            --primary-dark: #1e293b;    
-            --accent: #d97706;          
-            --warning: #f59e0b;         
-            --bg-color: #000000;        /* ផ្ទៃខាងក្រោយ TikTok គឺពណ៌ខ្មៅ */
-            --surface: #121212;         
-            --text-main: #ffffff;       
-            --border-color: #27272a;    
+            --primary: #475569;         /* ពណ៌ប្រផេះថ្មធម្មជាតិ (Slate) */
+            --primary-dark: #1e293b;    /* ពណ៌ថ្មដארលឹបជាងមុន */
+            --accent: #d97706;          /* ពណ៌លឿងទង់ដែង/ដីខ្សាច់ (Warm Amber) */
+            --warning: #f59e0b;         /* ពណ៌លឿងទុំ */
+            --bg-color: #f1f5f9;        /* ពណ៌ផ្ទៃខាងក្រោយប្រផេះស្រាល */
+            --surface: #ffffff;         /* ពណ៌សសម្រាប់កាតទំនិញ */
+            --text-main: #1e293b;       /* ពណ៌អត្ថបទចាស់ */
+            --border-color: #e2e8f0;    /* ពណ៌គែមប្រផេះស្រាល */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -25,13 +25,12 @@
             display: flex; 
             flex-direction: column; 
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .page-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.4);
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -43,27 +42,27 @@
             pointer-events: auto;
         }
 
-        /* Navigation - TikTok Style (Dark, Translucent) */
+        /* Navigation - រចនាប័ទ្មពណ៌ថ្មធម្មជាតិ */
         nav { 
-            background: rgba(18, 18, 18, 0.85);
-            backdrop-filter: blur(10px);
+            background: linear-gradient(135deg, #334155, #0f172a); 
             color: white; 
-            padding: 12px 20px; 
+            padding: 12px 25px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             position: sticky; 
             top: 0; 
             z-index: 1000; 
-            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            border-bottom: 3px solid #d97706;
         }
-        .nav-left { display: flex; align-items: center; gap: 12px; }
-        .menu-toggle-btn { font-size: 22px; background: none; border: none; cursor: pointer; color: white; padding: 4px; }
-        nav h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; }
-        .nav-links { display: flex; align-items: center; gap: 12px; }
-        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
+        nav h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
+        .nav-links { display: flex; align-items: center; gap: 15px; }
+        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
         .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
-        .cart-badge { background-color: #fe2c55; padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+        .cart-badge { background-color: var(--accent); padding: 2px 7px; border-radius: 12px; font-size: 11px; font-weight: 700; }
         
         /* Side Drawer Menu */
         .drawer-menu {
@@ -73,25 +72,26 @@
             z-index: 9999;
             top: 0;
             left: -280px;
-            background-color: #121212;
+            background-color: var(--surface);
             overflow-x: hidden;
             transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding-top: 60px;
-            box-shadow: 3px 0px 15px rgba(0,0,0,0.5);
-            border-right: 1px solid var(--border-color);
+            box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
         }
-        body.menu-open .drawer-menu { left: 0; }
+        body.menu-open .drawer-menu {
+            left: 0;
+        }
 
         .drawer-menu .menu-header {
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            background-color: #1a1a1a;
+            background-color: #334155;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
         }
         .menu-title { font-weight: bold; font-size: 15px; color: #ffffff; }
         .close-btn { font-size: 28px; background: none; border: none; cursor: pointer; color: #ffffff; }
@@ -102,9 +102,9 @@
             white-space: nowrap;
             box-sizing: border-box;
             width: 100%;
-            background: #1a1a1a;
+            background: #f1f5f9;
             padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #cbd5e1;
             margin-top: 10px;
         }
         .marquee-text {
@@ -113,179 +113,177 @@
             animation: marquee 15s linear infinite;
             font-size: 13px;
             font-weight: bold;
-            color: #fe2c55; /* TikTok Pink */
+            color: #b45309;
         }
         @keyframes marquee {
             0%   { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
         }
 
+        /* Menu Items */
         .drawer-menu ul { padding: 0; list-style-type: none; margin-top: 0; }
+        
+        .drawer-menu ul li {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        body.menu-open .drawer-menu ul li:nth-child(1) { opacity: 1; transform: translateX(0); transition-delay: 0.1s; }
+        body.menu-open .drawer-menu ul li:nth-child(2) { opacity: 1; transform: translateX(0); transition-delay: 0.2s; }
+        body.menu-open .drawer-menu ul li:nth-child(3) { opacity: 1; transform: translateX(0); transition-delay: 0.3s; }
+        body.menu-open .drawer-menu ul li:nth-child(4) { opacity: 1; transform: translateX(0); transition-delay: 0.4s; }
+        body.menu-open .drawer-menu ul li:nth-child(5) { opacity: 1; transform: translateX(0); transition-delay: 0.5s; }
+        body.menu-open .drawer-menu ul li:nth-child(6) { opacity: 1; transform: translateX(0); transition-delay: 0.6s; }
+
         .drawer-menu ul li a {
             padding: 12px 20px;
             text-decoration: none;
             font-size: 14px;
-            color: #d1d5db;
+            color: #334155;
             display: block;
-            border-bottom: 1px solid #1f1f1f;
+            border-bottom: 1px solid #f1f5f9;
             transition: 0.2s;
         }
-        .drawer-menu ul li a:hover { background-color: #1f1f1f; color: #fe2c55; padding-left: 25px; }
+        .drawer-menu ul li a:hover { background-color: #f8fafc; color: #d97706; padding-left: 25px; }
 
         .screen { display: none; flex: 1; }
         .screen.active { display: block; }
+        .main-container { max-width: 1100px; margin: 24px auto; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 0 16px; }
         
-        /* ================= TIKTOK FEED STYLE CSS ================= */
-        .tiktok-feed-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            padding: 10px 0 60px 0;
+        @media (max-width: 768px) { 
+            .main-container { grid-template-columns: 1fr; gap: 16px; margin: 12px auto; } 
         }
+        
+        .login-prompt-box, .cart-box, .info-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); }
+        .login-prompt-box { text-align: center; padding: 24px; }
+        
+        .google-btn { background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
+        .google-btn:hover { background-color: #1d4ed8; }
+        
+        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
 
-        /* Container សម្រាប់ Admin upload និង Login prompt */
-        .feed-top-controls {
-            width: 100%;
-            max-width: 420px;
-            padding: 0 10px;
-            margin-bottom: 15px;
-        }
-
-        .login-prompt-box { 
-            background: #18181b; 
-            border-radius: 12px; 
-            padding: 16px; 
-            text-align: center; 
+        /* TikTok Style Feed Customization */
+        .tiktok-feed-card {
+            background: white;
             border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-        }
-        
-        .google-btn { 
-            background-color: #fe2c55; /* ពណ៌ទាក់ទាញបែប TikTok */ 
-            color: white; 
-            border: none; 
-            padding: 8px 16px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            font-size: 13px; 
-            font-weight: 600; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px; 
-        }
-        .google-btn:hover { background-color: #e61e44; }
-
-        /* TikTok Reel Card (Vertical Video/Image container) */
-        .tiktok-card {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            height: 70vh; /* កម្ពស់ស្ទើរเต็มអេក្រង់ទូរស័ព្ទ */
-            background: #121212;
             border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease;
+        }
+        .tiktok-feed-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-        }
-
-        .tiktok-media {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* ពេញប្លង់បែប TikTok */
-            background: #000;
-        }
-
-        /* Overlays on TikTok Video (Caption & Action Buttons) */
-        .tiktok-overlay-info {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            right: 70px; /* เว้นកន្លែងទំនេរខាងស្តាំសម្រាប់ប៊ូតុង */
-            z-index: 2;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .tiktok-caption {
-            font-size: 14px;
-            color: #ffffff;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Right Action Bar (Like, Comment, Share icons style) */
-        .tiktok-actions {
-            position: absolute;
-            right: 12px;
-            bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            z-index: 3;
-        }
-
-        .action-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
-            border-radius: 50%;
-            width: 42px;
-            height: 42px;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            font-size: 18px;
-            transition: transform 0.2s;
-        }
-        .action-item:hover { transform: scale(1.1); }
-        .action-label { font-size: 11px; color: #fff; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-
-        /* Cart float box នៅពេលនៅទំព័រ Home ឬ Shop */
-        .cart-floating-box {
-            position: fixed;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(18, 18, 18, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            padding: 12px 18px;
-            border-radius: 30px;
-            z-index: 990;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            display: flex;
-            align-items: center;
+            padding: 14px 16px;
             gap: 12px;
         }
-
-        .shop-page-container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+        .tiktok-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fe2c55, #25f4ee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .tiktok-user-info h4 {
+            font-size: 14px;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .tiktok-user-info span {
+            font-size: 12px;
+            color: #64748b;
+        }
+        .tiktok-caption {
+            padding: 0 16px 12px 16px;
+            font-size: 14px;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+        .tiktok-media-container {
+            width: 100%;
+            background: #000;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-height: 550px;
+            overflow: hidden;
+        }
+        .tiktok-media-container img, .tiktok-media-container video {
+            width: 100%;
+            max-height: 550px;
+            object-fit: contain;
+        }
+        .tiktok-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 12px 16px;
+            border-top: 1px solid #f1f5f9;
+            background: #fafafa;
+        }
+        .tiktok-action-btn {
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .tiktok-action-btn:hover {
+            color: #fe2c55;
+        }
 
         /* Footer */
         .site-footer {
-            background-color: #0b0b0f;
-            color: #94a3b8;
+            background-color: #0f172a;
+            color: #ffffff;
             padding: 40px 20px 20px 20px;
-            font-size: 13px;
-            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+            margin-top: auto;
+            border-top: 4px solid #334155;
         }
-        .footer-container { display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; }
-        .footer-col { flex: 1; min-width: 250px; margin-bottom: 20px; padding-right: 20px; }
-        .footer-col h3 { font-size: 14px; color: #fff; margin-bottom: 12px; border-bottom: 2px solid #fe2c55; display: inline-block; padding-bottom: 4px; }
-        .footer-col p, .footer-col ul { margin-bottom: 8px; line-height: 1.5; }
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 20px;
+            padding-right: 20px;
+        }
+        .footer-col h3 {
+            font-size: 15px;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #d97706;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .footer-col p, .footer-col ul {
+            margin-bottom: 10px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
         .footer-col ul { list-style: none; padding: 0; }
-        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 6px; }
-        .footer-col ul li a:hover { color: #fff; }
-        .footer-bottom { text-align: center; border-top: 1px solid #1f1f1f; padding-top: 15px; margin-top: 15px; color: #52525b; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-col ul li a:hover { color: #ffffff; }
+        .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 15px; margin-top: 20px; color: #64748b; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -295,13 +293,14 @@
     <nav>
         <div class="nav-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <h1>🪨 Revestimientos Deco</h1>
+            <h1>🪨 Revestimientos Deco Hogar</h1>
         </div>
         <div class="nav-links">
             <a onclick="switchScreen('home')">Home</a>
             <a onclick="switchScreen('shop')">Shop</a>
+            <a onclick="switchScreen('home')">🛒 Cart (<span id="cart-count" class="cart-badge">0</span>)</a>
             <div id="auth-nav-container">
-                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 4px 10px; font-size: 12px;">Login</button>
+                <button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>
             </div>
         </div>
     </nav>
@@ -319,55 +318,71 @@
         </div>
 
         <ul class="menu-list">
-            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home Feed)</a></li>
+            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (Home)</a></li>
             <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងថ្មធម្មជាតិ (Shop)</a></li>
             <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
             <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
             <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
+            <li><a href="#" onclick="closeMenu();">ប្រព័ន្ធទឹក និងលម្អ</a></li>
         </ul>
     </div>
 
     <!-- Shop Screen -->
     <div id="shop-screen" class="screen">
         <div class="shop-page-container">
-            <h2 style="color: #fff; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU</h2>
-            <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px;">
+            <h2 style="color: #334155; margin-bottom: 15px; font-size: 18px;">🪨 Revestimientos Deco Hogar Panel PU Piedra Natural</h2>
+            <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
                 <p>កំពុងផ្ទុកទំនិញ...</p>
             </div>
         </div>
     </div>
 
-    <!-- Home Screen (TikTok Style Feed) - Active ជា Default -->
+    <!-- Home Screen (News Feed & Cart) -->
     <div id="home-screen" class="screen active">
-        <div class="tiktok-feed-wrapper">
-            
-            <!-- Admin Upload & Login Box -->
-            <div class="feed-top-controls">
+        <div class="main-container">
+            <div>
+                <!-- Login Prompt Box -->
                 <div id="loginPromptBox" class="login-prompt-box">
-                    <p style="margin-bottom: 10px; color: #a1a1aa; font-size: 13px;">សូមចូលគណនី Google ដើម្បីបង្ហោះ ឬទិញទំនិញ!</p>
+                    <p style="margin-bottom: 10px; color: #475569;">សូមចូលគណនី Google ដើម្បីចូលរួមក្នុងសហគមន៍!</p>
                     <button class="google-btn" onclick="window.location.href='/login'">🌐 Login with Google</button>
                 </div>
 
-                <div id="adminUploadSection" style="background: #18181b; padding: 14px; border-radius: 12px; margin-bottom: 15px; border: 1px solid var(--border-color); display: none;">
-                    <h3 style="font-size: 14px; margin-bottom: 10px; color: #fff;">🛠️ Admin Upload Reel</h3>
-                    <div style="margin-bottom: 8px;">
-                        <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 6px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 12px; background: #09090b; color: #fff;">
+                <!-- Admin Upload Form -->
+                <div id="adminUploadSection" style="background: white; padding: 18px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); display: none; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #1e293b;">🛠️ Admin Upload Feed (រូបភាព ឬ វីដេអូ)</h3>
+                    
+                    <!-- ជ្រើសរើស Upload ពី File -->
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 13px; color: #475569; display: block; margin-bottom: 4px;">ជ្រើសរើសហ្វាលពីឧបករណ៍៖</label>
+                        <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #f8fafc;">
                     </div>
-                    <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; height: 60px; background: #09090b; color: #fff;"></textarea>
-                    <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #fe2c55; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; width: 100%;">Upload Post</button>
+
+                    <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; height: 80px;"></textarea>
+                    
+                    <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;">Upload Post</button>
+                </div>
+
+                <!-- News Feed Section -->
+                <div class="feed-section">
+                    <h2 style="font-size: 18px; margin-bottom: 12px; color: #1e293b;">News Feed</h2>
+                    <div id="feedContainer">
+                        <p style="text-align:center; color:#64748b;">កំពុងទាញយកទិន្នន័យ...</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Feed Container (TikTok Cards will inject here) -->
-            <div id="feedContainer" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <p style="text-align:center; color:#71717a;">កំពុងទាញយករូបភាព/វីដេអូ...</p>
+            <div>
+                <!-- Cart Status Box -->
+                <div class="cart-box">
+                    <h3 style="color: #334155; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
+                    <p>ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
+                    <p style="margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
+                    <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                        💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Floating Cart Widget -->
-    <div class="cart-floating-box" onclick="checkoutCart()" style="cursor: pointer;">
-        🛒 <span id="cart-count" class="cart-badge">0</span> | <b style="color: #fe2c55;">$<span id="cart-total-price">0.00</span></b>
     </div>
 
     <!-- Footer -->
@@ -375,15 +390,25 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>Revestimientos Deco Hogar</h3>
-                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ និងរៀបចំសួនច្បារគ្រប់ទំហំ។</p>
+                <p><strong>មានទទួល:</strong> ធ្វើភ្នំទឹកធ្លាក់ តូច ធំ តាមតំម្រូវការរបស់អតិឋិជនបាន៖ ហើយក៏មានទទួល
+រៀបចំសួនច្បារគ្រប់ទំហំ នឹងលក់រុក្ខជាតិលំម្អរដែលធ្វើក្នុងស្រុកផ្ទាល់ ຕາມតម្រូវការរបស់អតិថិជន  indoor Outdoor</p>
                 <p><strong>Call / Telegram:</strong> 086 99 34 75</p>
+                <p><strong>Telegram Channel:</strong> t.me/Pachkrouc</p>
+                <p><strong>Address:</strong> #377EO, Mao Tse Toung Blvd, Phnom Penh</p>
             </div>
             <div class="footer-col">
                 <h3>ដំណោះស្រាយរហ័ស</h3>
                 <ul>
-                    <li><a href="#">ទាក់ទងយើង: 086207008</a></li>
-                    <li><a href="https://maps.app.goo.gl/dDug9a7ceDnh7PuLA?g_st=com.google.maps.preview.copy" target="_blank">Google Map 🗺️</a></li>
+                    <li><a href="#">ទាក់ទងយើង</a>086207008</li>
+                    <li><a href="#">ស្វែងរកហាងលក់</a>google map 🗺️ https://maps.app.goo.gl/dDug9a7ceDnh7PuLA?g_st=com.google.maps.preview.copy</li>
+                    <li><a href="#">លក្ខខណ្ឌសេវាកម្ម</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
                 </ul>
+            </div>
+            <div class="footer-col">
+                <h3>បញ្ជាទិញងាយស្រួលជាងមុន</h3>
+                <p>ទាញយកកម្មវិធីដើម្បីស្វែងរកផលិតផលថ្មតុបតែង និងទិញទំនិញកាន់តែងាយស្រួល</p>
+                <p style="color: #d97706; font-weight: bold; margin-top: 10px;">GET IT ON Google Play</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -426,7 +451,7 @@
                     const adminSection = document.getElementById('adminUploadSection');
                     
                     if (user) {
-                        authNavContainer.innerHTML = `<span style="font-size:12px; margin-right:6px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#27272a; border:none; color:white; padding:3px 8px; border-radius:4px; cursor:pointer; font-size:11px;">Logout</button>`;
+                        authNavContainer.innerHTML = `<span style="font-size:13px; margin-right:8px;">${user.displayName}</span> <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:12px;">Logout</button>`;
                         document.getElementById('loginPromptBox').style.display = 'none';
 
                         if (adminEmails.includes(user.email)) {
@@ -435,7 +460,7 @@
                             adminSection.style.display = 'none';
                         }
                     } else {
-                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 4px 10px; font-size: 12px;">Login</button>`;
+                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'" style="padding: 6px 12px; font-size: 13px;">🔐 Login</button>`;
                         document.getElementById('loginPromptBox').style.display = 'block';
                         adminSection.style.display = 'none';
                     }
@@ -470,20 +495,20 @@
                     let html = "";
                     allProducts.forEach(p => {
                         html += `
-                            <div style="border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; background: #121212;">
-                                <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 8px;">
-                                <h3 style="font-size: 14px; color: #fff; margin-top: 8px;">${p.name}</h3>
-                                <p style="color: #fe2c55; font-weight: bold; margin: 6px 0; font-size: 14px;">$${p.price}</p>
-                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#fe2c55; color:white; border:none; padding:8px; border-radius:6px; cursor:pointer; font-weight: 600; font-size:13px;">ទិញឥឡូវនេះ</button>
+                            <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; background: var(--surface);">
+                                <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" style="width: 100%; height: 160px; object-fit: cover; border-radius: 5px;">
+                                <h3 style="font-size: 15px; color: #1e293b; margin-top: 8px;">${p.name}</h3>
+                                <p style="color: #d97706; font-weight: bold; margin: 8px 0;">Price: $${p.price}</p>
+                                <button onclick="buyProduct('${p.id}', '${p.name}', ${p.price}, ${p.stock || 10})" style="width:100%; background:#334155; color:white; border:none; padding:10px; border-radius:4px; cursor:pointer; font-weight: 600;">ទិញឥឡូវនេះ</button>
                             </div>
                         `;
                     });
                     productListDiv.innerHTML = html;
                 } else {
-                    productListDiv.innerHTML = "<p style='color:#a1a1aa;'>មិនមានទំនិញទេ!</p>";
+                    productListDiv.innerHTML = "<p>មិនមានទំនិញទេ!</p>";
                 }
             } catch (err) {
-                productListDiv.innerHTML = "<p style='color:#ef4444;'>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
+                productListDiv.innerHTML = "<p>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
             }
         };
 
@@ -497,6 +522,7 @@
             cartTotal += totalPrice;
             
             document.getElementById('cart-count').innerText = cartCount;
+            document.getElementById('cart-items-num').innerText = cartCount;
             document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
             alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
         };
@@ -538,22 +564,28 @@
             }
         };
 
+        // Admin Upload Post: Save directly to Firebase Firestore
         window.uploadNewFeed = async function() {
             if (!currentUser) { alert("សូម Login ជាមុនសិន!"); return; }
             if (!adminEmails.includes(currentUser.email)) {
-                alert("អ្នកមិនមែនជា Admin ទេ!");
+                alert("អ្នកមិនមែនជា Admin ទេ មិនអាច Upload បានឡើយ!");
                 return;
             }
 
             const fileInput = document.getElementById('mediaFileInput');
             const caption = document.getElementById('captionInput').value.trim();
             const file = fileInput.files[0];
+            let mediaUrl = "";
+
             const uploadBtn = document.getElementById('uploadPostBtn');
 
-            if (!file) { alert("សូមជ្រើសរើសហ្វាលជាមុនសិន!"); return; }
+            if (!file) {
+                alert("សូមជ្រើសរើសហ្វាលរូបភាព ឬវីដេអូជាមុនសិន!");
+                return;
+            }
 
             uploadBtn.disabled = true;
-            uploadBtn.innerText = "กำลัง Upload...";
+            uploadBtn.innerText = "กำลัง Upload... (កំពុងបញ្ជូនហ្វាល)";
 
             let resourceType = file.type.startsWith('video/') ? 'video' : 'image';
             const formData = new FormData();
@@ -566,10 +598,23 @@
                     body: formData
                 });
                 const cloudinaryData = await cloudinaryRes.json();
-                if (!cloudinaryData.secure_url) throw new Error("Cloudinary error");
-                
+
+                if (!cloudinaryData.secure_url) {
+                    throw new Error(cloudinaryData.error?.message || "Cloudinary Upload failed");
+                }
+                mediaUrl = cloudinaryData.secure_url;
+            } catch (err) {
+                alert("ការបញ្ជូនហ្វាលទៅ Cloudinary បរាជ័យ: " + err.message);
+                uploadBtn.disabled = false;
+                uploadBtn.innerText = "Upload Post";
+                return;
+            }
+
+            uploadBtn.innerText = "កំពុងរក្សាទុកក្នុង Firebase...";
+
+            try {
                 await addDoc(collection(db, "posts"), {
-                    mediaUrl: cloudinaryData.secure_url,
+                    mediaUrl: mediaUrl,
                     caption: caption || "",
                     timestamp: Date.now()
                 });
@@ -579,13 +624,14 @@
                 document.getElementById('captionInput').value = '';
                 fetchPosts();
             } catch (err) {
-                alert("Upload បរាជ័យ: " + err.message);
+                alert("ការរក្សាទុកទិន្នន័យបរាជ័យ: " + err.message);
             } finally {
                 uploadBtn.disabled = false;
                 uploadBtn.innerText = "Upload Post";
             }
         };
 
+        // Fetch Posts from Firebase Firestore (Styled TikTok-like Feed)
         async function fetchPosts() {
             const feedContainer = document.getElementById('feedContainer');
             try {
@@ -598,32 +644,41 @@
                         const post = docSnap.data();
                         let mediaElement = "";
                         if (post.mediaUrl && (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("video"))) {
-                            mediaElement = `<video src="${post.mediaUrl}" autoplay loop muted playsinline class="tiktok-media"></video>`;
+                            mediaElement = `<video src="${post.mediaUrl}" controls style="width: 100%; max-height: 500px; background: #000;"></video>`;
                         } else {
-                            mediaElement = `<img src="${post.mediaUrl}" class="tiktok-media">`;
+                            mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 500px; object-fit: contain; background: #000;">`;
                         }
 
                         html += `
-                            <div class="tiktok-card">
-                                ${mediaElement}
-                                <div class="tiktok-overlay-info">
-                                    <p class="tiktok-caption">${post.caption || ''}</p>
+                            <div class="tiktok-feed-card">
+                                <div class="tiktok-feed-header">
+                                    <div class="tiktok-avatar">RD</div>
+                                    <div class="tiktok-user-info">
+                                        <h4>Revestimientos Deco Hogar</h4>
+                                        <span>Official Account • ថ្មធម្មជាតិ និងសួនច្បារ</span>
+                                    </div>
+                                </div>
+                                <div class="tiktok-caption">
+                                    <p>${post.caption || ''}</p>
+                                </div>
+                                <div class="tiktok-media-container">
+                                    ${mediaElement}
                                 </div>
                                 <div class="tiktok-actions">
-                                    <div class="action-item" onclick="alert('Liked!')">❤️<span class="action-label">12k</span></div>
-                                    <div class="action-item" onclick="alert('Comments')">💬<span class="action-label">245</span></div>
-                                    <div class="action-item" onclick="alert('Shared!')">↗️<span class="action-label">Share</span></div>
+                                    <button class="tiktok-action-btn">❤️ Like</button>
+                                    <button class="tiktok-action-btn">💬 Comment</button>
+                                    <button class="tiktok-action-btn">↗️ Share</button>
                                 </div>
                             </div>
                         `;
                     });
                     feedContainer.innerHTML = html;
                 } else {
-                    feedContainer.innerHTML = `<p style="text-align:center; color:#71717a; padding: 40px;">មិនទាន់មាន Feed ណាមួយទេ!</p>`;
+                    feedContainer.innerHTML = `<p style="text-align:center; color:#64748b; padding: 20px;">មិនទាន់មាន Post ណាមួយត្រូវបានបង្ហោះនៅឡើយទេ!</p>`;
                 }
             } catch (err) {
-                console.error(err);
-                feedContainer.innerHTML = `<p style="text-align:center; color:#ef4444;">កំហុសក្នុងការទាញយក Feed!</p>`;
+                console.error("Fetch Posts Error:", err);
+                feedContainer.innerHTML = `<p style="text-align:center; color:#dc2626;">កំហុសក្នុងការទាញយក Feed!</p>`;
             }
         }
     </script>
