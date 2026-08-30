@@ -41,12 +41,12 @@
             pointer-events: auto;
         }
 
-        /* Navigation */
-        nav { 
+        /* Top Header (Minimalist) */
+        .top-header { 
             background: rgba(15, 23, 42, 0.85); 
             backdrop-filter: blur(10px);
             color: white; 
-            padding: 10px 20px; 
+            padding: 10px 16px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
@@ -57,47 +57,54 @@
             z-index: 1000; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .nav-left { display: flex; align-items: center; gap: 12px; }
-        .menu-toggle-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: white; padding: 4px 8px; }
-        nav h1 { font-size: 14px; font-weight: 700; letter-spacing: 0.3px; line-height: 1.2; }
-        .nav-links { display: flex; align-items: center; gap: 12px; }
-        .nav-links a, .nav-links button { color: white; text-decoration: none; font-size: 13px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; transition: opacity 0.2s; }
-        .nav-links a:hover, .nav-links button:hover { opacity: 0.85; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
+        .menu-toggle-btn { font-size: 22px; background: none; border: none; cursor: pointer; color: white; padding: 2px 6px; }
+        .top-header h1 { font-size: 13px; font-weight: 700; line-height: 1.2; }
         
-        .google-btn { background-color: #2563eb; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
-        .google-btn:hover { background-color: #1d4ed8; }
-
-        /* Profile Nav Container */
-        .user-profile-nav {
+        /* Bottom TikTok Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: env(safe-area-inset-bottom);
         }
-        .user-avatar-small {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            object-fit: cover;
-            background: #d97706;
+        .nav-item {
+            background: none;
+            border: none;
+            color: #94a3b8;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
-            font-weight: bold;
-            color: white;
-        }
-        .user-name-text {
-            font-size: 12px;
+            cursor: pointer;
+            flex: 1;
+            height: 100%;
+            transition: color 0.2s;
+            font-size: 10px;
             font-weight: 600;
-            color: #fff;
-            max-width: 90px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            gap: 3px;
+        }
+        .nav-item.active { color: #ffffff; }
+        .nav-icon { font-size: 20px; }
+        .cart-badge {
+            position: absolute;
+            top: 8px;
+            right: calc(50% - 20px);
+            background: #dc2626;
+            color: white;
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 10px;
+            font-weight: bold;
         }
 
         /* Side Drawer Menu */
@@ -171,13 +178,15 @@
         .screen.active { display: block; }
         
         #home-screen {
-            padding-top: 55px;
+            padding-top: 50px;
+            padding-bottom: 60px;
             height: 100vh;
             overflow: hidden;
         }
 
-        #shop-screen {
-            padding-top: 75px;
+        #shop-screen, #profile-screen {
+            padding-top: 65px;
+            padding-bottom: 80px;
             overflow-y: auto;
             background: var(--bg-color);
         }
@@ -185,7 +194,7 @@
         /* TikTok Vertical Snap Scroll Feed Container */
         .tiktok-container {
             width: 100%;
-            height: calc(100vh - 55px);
+            height: calc(100vh - 110px);
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
@@ -195,7 +204,7 @@
         /* Individual TikTok Feed Item */
         .tiktok-item {
             width: 100%;
-            height: calc(100vh - 55px);
+            height: calc(100vh - 110px);
             scroll-snap-align: start;
             scroll-snap-stop: always;
             position: relative;
@@ -217,14 +226,14 @@
         .tiktok-media-wrapper img, .tiktok-media-wrapper video {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Keeps original ratio without cropping */
+            object-fit: contain;
             background: #000;
         }
 
-        /* Overlay Content on Video/Image */
+        /* Overlay Content */
         .tiktok-overlay-content {
             position: absolute;
-            bottom: 25px;
+            bottom: 20px;
             left: 16px;
             right: 80px;
             z-index: 10;
@@ -245,18 +254,18 @@
         .tiktok-floating-actions {
             position: absolute;
             right: 12px;
-            bottom: 30px;
+            bottom: 25px;
             z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
         .tiktok-float-btn {
             background: rgba(0, 0, 0, 0.4);
             border: none;
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -268,30 +277,11 @@
             transition: transform 0.2s;
         }
         .tiktok-float-btn:active { transform: scale(0.9); }
-        .tiktok-float-icon { font-size: 20px; }
-        .tiktok-float-count { font-size: 11px; font-weight: bold; margin-top: 2px; }
+        .tiktok-float-icon { font-size: 18px; }
+        .tiktok-float-count { font-size: 10px; font-weight: bold; margin-top: 1px; }
 
-        /* Admin Upload Floating Button */
-        .admin-upload-floating {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 99;
-            background: rgba(37, 99, 235, 0.9);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            display: none;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-        }
-
-        /* Shop Layout */
-        .shop-page-container { max-width: 1100px; margin: 0 auto 40px auto; padding: 0 16px; width: 100%; color: #1e293b; }
+        /* Shop & Profile Layout */
+        .page-container { max-width: 1100px; margin: 0 auto; padding: 16px; width: 100%; color: #1e293b; }
         .admin-upload-box { background: white; border-radius: 12px; padding: 18px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); border: 1px solid var(--border-color); color: #1e293b; }
     </style>
 </head>
@@ -299,18 +289,14 @@
 
     <div class="page-overlay" onclick="closeMenu()"></div>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-left">
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <h1>Revestimientos<br>Deco Hogar</h1>
+            <h1>Revestimientos Deco Hogar</h1>
         </div>
-        <div class="nav-links">
-            <div id="auth-nav-container">
-                <button class="google-btn" onclick="window.location.href='/login'">🔐 Login</button>
-            </div>
-        </div>
-    </nav>
+        <div id="top-auth-status" style="font-size: 12px; font-weight: 600; color: #cbd5e1;"></div>
+    </header>
 
     <!-- Side Drawer Menu -->
     <div id="sideMenu" class="drawer-menu">
@@ -327,26 +313,26 @@
 
         <ul class="menu-list">
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម (TikTok Feed)</a></li>
-            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងទំនិញ (Shop & Cart)</a></li>
+            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🪨 ហាងទំនិញ (Shop)</a></li>
+            <li><a href="#" onclick="switchScreen('cart'); closeMenu();">🛒 កន្ត្រកទំនិញ (Cart)</a></li>
             <li><a href="#" onclick="closeMenu();">Panel PU ថ្មធម្មជាតិ</a></li>
             <li><a href="#" onclick="closeMenu();">ថ្មក្រាលផ្លូវ / ថ្មបាសាល់</a></li>
             <li><a href="#" onclick="closeMenu();">សម្ភារៈតុបតែងសួនច្បារ</a></li>
-            <li><a href="#" onclick="closeMenu();">ប្រព័ន្ធទឹក និងលម្អ</a></li>
         </ul>
     </div>
 
-    <!-- Home Screen (TikTok Style Vertical Snap Scroll Feed) -->
+    <!-- Home Screen (TikTok Style Feed) -->
     <div id="home-screen" class="screen active">
         <div class="tiktok-container" id="feedContainer">
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #888;">
-                <p>កំពុងទាញយកព័ត៌មាន...</p>
+                <p>កំពុងទាញយកមាតិកា...</p>
             </div>
         </div>
     </div>
 
     <!-- Shop Screen -->
     <div id="shop-screen" class="screen">
-        <div class="shop-page-container">
+        <div class="page-container">
             <div id="adminUploadSection" class="admin-upload-box" style="display: none;">
                 <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">🛠️ Admin Upload Feed</h3>
                 <div style="margin-bottom: 10px;">
@@ -356,31 +342,57 @@
                 <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Upload Post</button>
             </div>
 
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
-                <div>
-                    <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🪨 ហាងលក់សម្ភារៈតុបតែង (Shop)</h2>
-                    <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
-                        <p style="color: #fff;">កំពុងផ្ទុកទំនិញ...</p>
-                    </div>
-                </div>
-                <div>
-                    <div style="background: white; border-radius: 12px; padding: 18px; border: 1px solid var(--border-color); box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: sticky; top: 75px;">
-                        <h3 style="color: #1e293b; margin-bottom: 10px; font-size: 16px;">🛒 Cart Status</h3>
-                        <p style="color: #1e293b;">ចំនួនសរុប: <span id="cart-items-num">0</span> ឯកតា</p>
-                        <p style="color: #1e293b; margin-bottom: 12px;">ទឹកប្រាក់សរុប: <b style="color: #d97706;">$<span id="cart-total-price">0.00</span></b></p>
-                        <button onclick="checkoutCart()" style="width: 100%; background-color: #334155; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px;">
-                            💳 Proceed to Checkout (ទូទាត់ប្រាក់ ABA)
-                        </button>
-                    </div>
-                </div>
+            <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🪨 ហាងលក់សម្ភារៈតុបតែង (Shop)</h2>
+            <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
+                <p style="color: #fff;">កំពុងផ្ទុកទំនិញ...</p>
             </div>
         </div>
     </div>
 
-    <!-- Admin Floating Button -->
-    <div id="adminFloatBtn" class="admin-upload-floating" onclick="switchScreen('shop');">
-        ➕ បង្ហោះមាតិកាថ្មី (Admin)
+    <!-- Cart Screen -->
+    <div id="cart-screen" class="screen">
+        <div class="page-container" style="max-width: 600px;">
+            <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🛒 កន្ត្រកទំនិញរបស់អ្នក (Cart)</h2>
+            <div style="background: white; border-radius: 12px; padding: 20px; color: #1e293b; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <p style="margin-bottom: 10px;">ចំនួនទំនិញសរុប: <span id="cart-items-num" style="font-weight: bold;">0</span> ឯកតា</p>
+                <p style="margin-bottom: 15px;">ទឹកប្រាក់សរុប: <b style="color: #d97706; font-size: 18px;">$<span id="cart-total-price">0.00</span></b></p>
+                <button onclick="checkoutCart()" style="width: 100%; background-color: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                    💳 បង់ប្រាក់តាមរយៈ ABA Payway
+                </button>
+            </div>
+        </div>
     </div>
+
+    <!-- Profile Screen -->
+    <div id="profile-screen" class="screen">
+        <div class="page-container" style="max-width: 500px; text-align: center;">
+            <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 18px;">👤 គណនីរបស់អ្នក (Profile)</h2>
+            <div id="profile-content" style="background: white; border-radius: 12px; padding: 30px; color: #1e293b; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <p style="color: #64748b;">កំពុងពិនិត្យការចូល...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TikTok Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchScreen('home', this)">
+            <span class="nav-icon">🏠</span>
+            <span>ទំព័រដើម</span>
+        </button>
+        <button class="nav-item" onclick="switchScreen('shop', this)">
+            <span class="nav-icon">🪨</span>
+            <span>ហាង</span>
+        </button>
+        <button class="nav-item" onclick="switchScreen('cart', this)" style="position: relative;">
+            <span class="nav-icon">🛒</span>
+            <span>កន្ត្រក</span>
+            <span class="cart-badge" id="navCartBadge">0</span>
+        </button>
+        <button class="nav-item" onclick="switchScreen('profile', this)">
+            <span class="nav-icon">👤</span>
+            <span>គណនី</span>
+        </button>
+    </nav>
 
     <!-- UI Scripts -->
     <script>
@@ -413,34 +425,31 @@
 
                 onAuthStateChanged(auth, async (user) => {
                     currentUser = user;
-                    const authNavContainer = document.getElementById('auth-nav-container');
+                    const topAuthStatus = document.getElementById('top-auth-status');
                     const adminSection = document.getElementById('adminUploadSection');
-                    const adminFloatBtn = document.getElementById('adminFloatBtn');
+                    const profileContent = document.getElementById('profile-content');
                     
                     if (user) {
-                        let photoHTML = user.photoURL 
-                            ? `<img src="${user.photoURL}" class="user-avatar-small">` 
-                            : `<div class="user-avatar-small">${(user.displayName || "U")[0].toUpperCase()}</div>`;
-                        
-                        authNavContainer.innerHTML = `
-                            <div class="user-profile-nav">
-                                ${photoHTML}
-                                <span class="user-name-text">${user.displayName || 'User'}</span>
-                                <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:2px 6px; border-radius:4px; cursor:pointer; font-size:11px; margin-left:4px;">Logout</button>
-                            </div>
+                        topAuthStatus.innerText = user.displayName || user.email;
+                        profileContent.innerHTML = `
+                            <img src="${user.photoURL || 'https://via.placeholder.com/80'}" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid #d97706;">
+                            <h3 style="font-size: 16px; margin-bottom: 4px;">${user.displayName || 'User'}</h3>
+                            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">${user.email}</p>
+                            <button onclick="logoutUser()" style="background:#dc2626; border:none; color:white; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight: bold; font-size: 13px;">ចាកចេញពីប្រព័ន្ធ (Logout)</button>
                         `;
 
                         if (adminEmails.includes(user.email)) {
                             adminSection.style.display = 'block';
-                            adminFloatBtn.style.display = 'flex';
                         } else {
                             adminSection.style.display = 'none';
-                            adminFloatBtn.style.display = 'none';
                         }
                     } else {
-                        authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'">🔐 Login</button>`;
+                        topAuthStatus.innerHTML = `<a href="/login" style="color: #60a5fa; text-decoration: none;">🔐 Login</a>`;
+                        profileContent.innerHTML = `
+                            <p style="margin-bottom: 15px; font-size: 14px; color: #334155;">អ្នកមិនទាន់បានចូលគណនីទេ។</p>
+                            <button onclick="window.location.href='/login'" style="background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer; font-size: 13px;">🔐 ចូលគណនី Google</button>
+                        `;
                         adminSection.style.display = 'none';
-                        adminFloatBtn.style.display = 'none';
                     }
                     fetchProducts();
                     fetchPosts();
@@ -454,14 +463,30 @@
 
         window.logoutUser = () => signOut(auth).then(() => alert("បានចាកចេញពីប្រព័ន្ធដោយជោគជ័យ!"));
 
-        window.switchScreen = function(screenName) {
+        window.switchScreen = function(screenName, btnElement) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(el => el.classList.remove('active'));
+
+            if(btnElement) {
+                btnElement.classList.add('active');
+            } else {
+                // If switched programmatically, find matching button
+                const buttons = document.querySelectorAll('.bottom-nav .nav-item');
+                if(screenName === 'home') buttons[0].classList.add('active');
+                if(screenName === 'shop') buttons[1].classList.add('active');
+                if(screenName === 'cart') buttons[2].classList.add('active');
+                if(screenName === 'profile') buttons[3].classList.add('active');
+            }
+
             if (screenName === 'home') {
                 document.getElementById('home-screen').classList.add('active');
-            }
-            if (screenName === 'shop') {
+            } else if (screenName === 'shop') {
                 document.getElementById('shop-screen').classList.add('active');
                 fetchProducts();
+            } else if (screenName === 'cart') {
+                document.getElementById('cart-screen').classList.add('active');
+            } else if (screenName === 'profile') {
+                document.getElementById('profile-screen').classList.add('active');
             }
         };
 
@@ -503,6 +528,7 @@
             
             document.getElementById('cart-items-num').innerText = cartCount;
             document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
+            document.getElementById('navCartBadge').innerText = cartCount;
             alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
         };
 
@@ -621,8 +647,6 @@
                     querySnapshot.forEach((docSnap) => {
                         const post = docSnap.data();
                         let mediaElement = "";
-                        
-                        // Check if media is video or image based on URL extension or type keywords
                         const isVideo = post.mediaUrl && (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("/video/upload/"));
 
                         if (isVideo) {
