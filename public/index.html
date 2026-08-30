@@ -87,7 +87,7 @@
             font-weight: bold;
         }
 
-        /* Bottom TikTok Navigation Bar with Auto-Hide Animation */
+        /* Bottom TikTok Navigation Bar with Smooth Auto-Hide Animation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -358,7 +358,7 @@
         </ul>
     </div>
 
-    <!-- Home Screen (TikTok Style Feed with Touch/Scroll Gestures for Nav Auto-Hide & Reveal) -->
+    <!-- Home Screen (TikTok Style Feed) -->
     <div id="home-screen" class="screen active">
         <div class="tiktok-container" id="feedContainer">
             <div style="display: flex; justify-content: center; align-items: center; height: 100vh; color: #888;">
@@ -419,7 +419,7 @@
         </div>
     </div>
 
-    <!-- TikTok Bottom Navigation Bar (With Auto-Hide & Pull/Swipe Down to Show) -->
+    <!-- TikTok Bottom Navigation Bar -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" onclick="switchScreen('home', this)">
             <span class="nav-icon">🏠</span>
@@ -440,45 +440,43 @@
         </button>
     </nav>
 
-    <!-- UI & Touch Gesture Scripts -->
+    <!-- UI & Touch Gesture Scripts for Robust Auto-Hide -->
     <script>
         function openMenu() { document.body.classList.add("menu-open"); }
         function closeMenu() { document.body.classList.remove("menu-open"); }
 
-        // Touch & Scroll Gestures for Auto-Hide and Pull/Swipe Down to Show Bottom Nav
+        // Robust Touch & Scroll Direction Detection for Auto-Hide Nav
         const bottomNav = document.getElementById('bottomNav');
-        let lastScrollTop = 0;
         let touchStartY = 0;
+        let lastScrollTop = 0;
 
-        // 1. Wheel/Scroll detection
+        window.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', function(e) {
+            let touchEndY = e.touches[0].clientY;
+            let diffY = touchEndY - touchStartY;
+
+            // If swiping down (diffY > 15), show nav. If swiping up (diffY < -15), hide nav.
+            if (diffY > 15) {
+                bottomNav.classList.remove('nav-hidden');
+            } else if (diffY < -15) {
+                bottomNav.classList.add('nav-hidden');
+            }
+        }, { passive: true });
+
+        // Backup scroll detection for mouse wheel or trackpad
         function handleScroll(container) {
             let st = container.scrollTop;
-            if (st > lastScrollTop && st > 30) {
-                // Scroll Down -> Hide Nav
+            if (st > lastScrollTop && st > 20) {
                 bottomNav.classList.add('nav-hidden');
-            } else if (st < lastScrollTop) {
-                // Scroll Up -> Show Nav
+            } else {
                 bottomNav.classList.remove('nav-hidden');
             }
             lastScrollTop = st <= 0 ? 0 : st;
         }
 
-        // 2. Touch swipe down detection anywhere on home feed or screens to bring back nav
-        window.addEventListener('touchstart', function(e) {
-            touchStartY = e.touches[0].clientY;
-        }, {passive: true});
-
-        window.addEventListener('touchmove', function(e) {
-            let touchEndY = e.touches[0].clientY;
-            let diffY = touchEndY - touchStartY;
-            
-            // If swiping/dragging down significantly (> 40px), force show bottom nav
-            if (diffY > 40) {
-                bottomNav.classList.remove('nav-hidden');
-            }
-        }, {passive: true});
-
-        // Attach scroll listeners
         document.getElementById('home-screen').addEventListener('scroll', function() { handleScroll(this); }, true);
         document.getElementById('shop-screen').addEventListener('scroll', function() { handleScroll(this); });
         document.getElementById('upload-screen').addEventListener('scroll', function() { handleScroll(this); });
@@ -696,7 +694,7 @@
                 }
                 mediaUrl = cloudinaryData.secure_url;
             } catch (err) {
-                alert("การបញ្ជូនហ្វាលទៅ Cloudinary បរាជ័យ: " + err.message);
+                alert("ការបញ្ជូនហ្វាលទៅ Cloudinary បរាជ័យ: " + err.message);
                 uploadBtn.disabled = false;
                 uploadBtn.innerText = "📤 Upload Post";
                 return;
