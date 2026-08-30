@@ -1,4 +1,4 @@
-// កូដសម្រាប់គ្រប់គ្រងការ Add Product
+// កូដសម្រាប់គ្រប់គ្រងការ Add Product ដាច់ដោយឡែក
 const CLOUD_NAME = "qeil4wud";
 const UPLOAD_PRESET = "ml_default";
 
@@ -37,7 +37,7 @@ window.addNewProduct = async function() {
 
         saveBtn.innerText = "កំពុងរក្សាទុក Product...";
 
-        // ២. ส่งទិន្នន័យទៅ Server របស់អ្នក
+        // ២. ส่งទិន្នន័យទៅ Server
         const response = await fetch('/api/products', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -47,11 +47,12 @@ window.addNewProduct = async function() {
         const result = await response.json();
         if (result.success) {
             alert("✅ បន្ថែមផលិតផលផ្កាបានជោគជ័យ!");
-            // เคลียร์ Form
+            // សម្អាត Form ក្រោយពេលជោគជ័យ
             document.getElementById('prodNameInput').value = '';
             document.getElementById('prodPriceInput').value = '';
             fileInput.value = '';
-            // ហៅទាញយកទំនិញមកបង្ហាញឡើងវិញ
+            
+            // ហៅទាញយកទំនិញមកបង្ហាញឡើងវិញ (ប្រសិនបើមាន Function នេះក្នុង Project)
             if (typeof fetchProducts === 'function') {
                 fetchProducts();
             }
@@ -65,4 +66,3 @@ window.addNewProduct = async function() {
         saveBtn.innerText = "💾 រក្សាទុកផលិតផល (Save Product)";
     }
 };
-
