@@ -427,7 +427,7 @@
                 <button class="google-btn" onclick="window.location.href='/login'">🌐 Login with Google</button>
             </div>
 
-            <!-- Admin Upload Form -->
+            <!-- Admin Upload Form (Feed) -->
             <div id="adminUploadSection" class="admin-upload-box" style="display: none;">
                 <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">🛠️ Admin Upload Feed</h3>
                 <div style="margin-bottom: 10px;">
@@ -435,6 +435,24 @@
                 </div>
                 <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; height: 70px;"></textarea>
                 <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Upload Post</button>
+            </div>
+
+            <!-- Admin Add Product Form (Added) -->
+            <div id="adminProductUploadBox" class="admin-upload-box" style="display: none;">
+                <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">🌸 បន្ថែមផលិតផលថ្មី (Add Product)</h3>
+                <div style="margin-bottom: 8px;">
+                    <input type="text" id="prodNameInput" placeholder="ឈ្មោះផលិតផល (ឧ. ថ្មធម្មជាតិ)" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <input type="number" id="prodPriceInput" placeholder="តម្លៃ ($)" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <input type="number" id="prodStockInput" placeholder="ចំនួនស្តុក (Stock)" value="10" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px;">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="file" id="prodImageFile" accept="image/*" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #f8fafc;">
+                </div>
+                <button id="saveProductBtn" onclick="addNewProduct()" style="background: #10b981; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">💾 រក្សាទុកផលិតផល</button>
             </div>
 
             <!-- News Feed Section -->
@@ -524,6 +542,7 @@
                     currentUser = user;
                     const authNavContainer = document.getElementById('auth-nav-container');
                     const adminSection = document.getElementById('adminUploadSection');
+                    const adminProductBox = document.getElementById('adminProductUploadBox');
                     
                     if (user) {
                         let photoHTML = user.photoURL 
@@ -547,14 +566,17 @@
                         document.getElementById('loginPromptBox').style.display = 'none';
 
                         if (adminEmails.includes(user.email)) {
-                            adminSection.style.display = 'block';
+                            if(adminSection) adminSection.style.display = 'block';
+                            if(adminProductBox) adminProductBox.style.display = 'block';
                         } else {
-                            adminSection.style.display = 'none';
+                            if(adminSection) adminSection.style.display = 'none';
+                            if(adminProductBox) adminProductBox.style.display = 'none';
                         }
                     } else {
                         authNavContainer.innerHTML = `<button class="google-btn" onclick="window.location.href='/login'">🔐 Login</button>`;
                         document.getElementById('loginPromptBox').style.display = 'block';
-                        adminSection.style.display = 'none';
+                        if(adminSection) adminSection.style.display = 'none';
+                        if(adminProductBox) adminProductBox.style.display = 'none';
                     }
                     fetchProducts();
                     fetchPosts();
@@ -733,7 +755,6 @@
                         const post = docSnap.data();
                         let mediaElement = "";
                         if (post.mediaUrl && (post.mediaUrl.match(/\.(mp4|webm|ogg|mov)$/i) || post.mediaUrl.includes("video"))) {
-                            // បានបន្ថែម controls និងលុប muted ចេញ ដើម្បីបើកសម្លេងវីដេអូ
                             mediaElement = `<video src="${post.mediaUrl}" controls playsinline style="width: 100%; max-height: 500px; background: #000;"></video>`;
                         } else {
                             mediaElement = `<img src="${post.mediaUrl}" style="width: 100%; max-height: 500px; object-fit: contain; background: #000;">`;
@@ -765,6 +786,9 @@
             }
         }
     </script>
+
+    <!-- Admin Product Separate Script -->
+    <script src="/admin-product.js"></script>
 </body>
 </html>
 
