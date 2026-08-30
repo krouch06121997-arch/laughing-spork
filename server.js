@@ -64,8 +64,36 @@ app.get('/api/products', (req, res) => {
     res.json(products);
 });
 
-// ចំណាំ៖ ការគ្រប់គ្រង Posts ត្រូវបានប្តូរទៅកាន់ Firebase Firestore ទាំងស្រុងនៅខាង Frontend 
-// ដូច្នេះ API សម្រាប់ posts staticfiles មិនចាំបាច់ត្រូវការនៅលើ Node.js server ទៀតទេ។
+// ==========================================
+// API សម្រាប់ Add Product ថ្មី (បន្ថែមថ្មីនៅទីនេះ)
+// ==========================================
+app.post('/api/products', (req, res) => {
+    try {
+        const { name, price, imageUrl, stock } = req.body;
+        
+        // ពិនិត្យទិន្នន័យចាំបាច់
+        if (!name || price === undefined) {
+            return res.status(400).json({ success: false, error: "សូមបញ្ចូលឈ្មោះ និងតម្លៃផលិតផលឱ្យបានត្រឹមត្រូវ!" });
+        }
+
+        let products = readDB(PRODUCTS_FILE);
+
+        const newProduct = {
+            id: 'prod_' + Date.now(),
+            name: name,
+            price: Number(price) || 0,
+            stock: Number(stock) || 10,
+            imageUrl: imageUrl || "https://i.ibb.co/689W87n/placeholder.jpg"
+        };
+
+        products.push(newProduct);
+        writeDB(PRODUCTS_FILE, products);
+
+        res.json({ success: true, message: "បានបន្ថែមផលិតផលដោយជោគជ័យ!", product: newProduct });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
