@@ -87,7 +87,7 @@
             font-weight: bold;
         }
 
-        /* Bottom TikTok Navigation Bar with Auto-Hide Animation (3 Tabs: Home, Shop, Profile) */
+        /* Bottom TikTok Navigation Bar with Auto-Hide Animation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -102,7 +102,7 @@
             z-index: 1000;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: env(safe-area-inset-bottom);
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .bottom-nav.nav-hidden {
             transform: translateY(100%);
@@ -126,6 +126,18 @@
         }
         .nav-item.active { color: #ffffff; }
         .nav-icon { font-size: 20px; }
+        .nav-icon-plus {
+            font-size: 22px;
+            background: #2563eb;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
 
         /* Side Drawer Menu with Smooth Slide Animation */
         .drawer-menu {
@@ -204,7 +216,7 @@
             overflow: hidden;
         }
 
-        #shop-screen, #profile-screen, #cart-screen {
+        #shop-screen, #profile-screen, #cart-screen, #upload-screen {
             padding-top: 65px;
             padding-bottom: 80px;
             overflow-y: auto;
@@ -215,7 +227,7 @@
         /* TikTok Vertical Snap Scroll Feed Container */
         .tiktok-container {
             width: 100%;
-            height: calc(100vh - 110px);
+            height: 100vh;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
             -webkit-overflow-scrolling: touch;
@@ -225,7 +237,7 @@
         /* Individual TikTok Feed Item */
         .tiktok-item {
             width: 100%;
-            height: calc(100vh - 110px);
+            height: 100vh;
             scroll-snap-align: start;
             scroll-snap-stop: always;
             position: relative;
@@ -310,6 +322,7 @@
 
     <div class="page-overlay" onclick="closeMenu()"></div>
 
+    <!-- Top Header with Cart on Top Right -->
     <header class="top-header">
         <div class="header-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
@@ -322,6 +335,7 @@
         </div>
     </header>
 
+    <!-- Side Drawer Menu -->
     <div id="sideMenu" class="drawer-menu">
         <div class="menu-header">
             <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
@@ -344,25 +358,18 @@
         </ul>
     </div>
 
+    <!-- Home Screen (TikTok Style Feed with Touch/Scroll Gestures for Nav Auto-Hide & Reveal) -->
     <div id="home-screen" class="screen active">
         <div class="tiktok-container" id="feedContainer">
-            <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #888;">
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; color: #888;">
                 <p>កំពុងទាញយកមាតិកា...</p>
             </div>
         </div>
     </div>
 
+    <!-- Shop Screen -->
     <div id="shop-screen" class="screen">
         <div class="page-container">
-            <div id="adminUploadSection" class="admin-upload-box" style="display: none;">
-                <h3 style="font-size: 15px; margin-bottom: 10px; color: #1e293b;">🛠️ Admin Upload Feed</h3>
-                <div style="margin-bottom: 10px;">
-                    <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #f8fafc;">
-                </div>
-                <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; height: 70px;"></textarea>
-                <button id="uploadPostBtn" onclick="uploadNewFeed()" style="background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Upload Post</button>
-            </div>
-
             <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🪨 ហាងលក់សម្ភារៈតុបតែង (Shop)</h2>
             <div id="product-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
                 <p style="color: #fff;">កំពុងផ្ទុកទំនិញ...</p>
@@ -370,6 +377,25 @@
         </div>
     </div>
 
+    <!-- Admin Upload Screen -->
+    <div id="upload-screen" class="screen">
+        <div class="page-container" style="max-width: 600px;">
+            <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🛠️ បង្ហោះមាតិកាថ្មី (Admin Upload)</h2>
+            <div class="admin-upload-box">
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">ជ្រើសរើសរូបភាព ឬវីដេអូ:</label>
+                    <input type="file" id="mediaFileInput" accept="image/*,video/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #f8fafc;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">អត្ថបទពិពណ៌នា (Caption):</label>
+                    <textarea id="captionInput" placeholder="សរសេរអត្ថបទពិពណ៌នា..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; height: 90px;"></textarea>
+                </div>
+                <button id="uploadPostBtn" onclick="uploadNewFeed()" style="width: 100%; background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 14px;">📤 Upload Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Screen -->
     <div id="cart-screen" class="screen">
         <div class="page-container" style="max-width: 600px;">
             <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🛒 កន្ត្រកទំនិញរបស់អ្នក (Cart)</h2>
@@ -383,6 +409,7 @@
         </div>
     </div>
 
+    <!-- Profile Screen -->
     <div id="profile-screen" class="screen">
         <div class="page-container" style="max-width: 500px; text-align: center;">
             <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 18px;">👤 គណនីរបស់អ្នក (Profile)</h2>
@@ -392,6 +419,7 @@
         </div>
     </div>
 
+    <!-- TikTok Bottom Navigation Bar (With Auto-Hide & Pull/Swipe Down to Show) -->
     <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" onclick="switchScreen('home', this)">
             <span class="nav-icon">🏠</span>
@@ -401,39 +429,64 @@
             <span class="nav-icon">🪨</span>
             <span>ហាង</span>
         </button>
+        <!-- Plus Button for Admin Only -->
+        <button class="nav-item" id="adminUploadTabBtn" onclick="switchScreen('upload', this)" style="display: none;">
+            <span class="nav-icon-plus">+</span>
+            <span>បង្ហោះ</span>
+        </button>
         <button class="nav-item" onclick="switchScreen('profile', this)">
             <span class="nav-icon">👤</span>
             <span>គណនី</span>
         </button>
     </nav>
 
+    <!-- UI & Touch Gesture Scripts -->
     <script>
         function openMenu() { document.body.classList.add("menu-open"); }
         function closeMenu() { document.body.classList.remove("menu-open"); }
 
-        // Auto-Hide Bottom Nav on Scroll (TikTok Behavior: Scroll Down hides, Scroll Up shows)
-        let lastScrollTop = 0;
+        // Touch & Scroll Gestures for Auto-Hide and Pull/Swipe Down to Show Bottom Nav
         const bottomNav = document.getElementById('bottomNav');
+        let lastScrollTop = 0;
+        let touchStartY = 0;
 
+        // 1. Wheel/Scroll detection
         function handleScroll(container) {
             let st = container.scrollTop;
-            if (st > lastScrollTop && st > 50) {
+            if (st > lastScrollTop && st > 30) {
                 // Scroll Down -> Hide Nav
                 bottomNav.classList.add('nav-hidden');
-            } else {
+            } else if (st < lastScrollTop) {
                 // Scroll Up -> Show Nav
                 bottomNav.classList.remove('nav-hidden');
             }
             lastScrollTop = st <= 0 ? 0 : st;
         }
 
-        // Attach scroll listener to all scrollable screens & feed container
-        document.getElementById('home-screen').addEventListener('scroll', function(e) { handleScroll(this); }, true);
-        document.getElementById('shop-screen').addEventListener('scroll', function(e) { handleScroll(this); });
-        document.getElementById('cart-screen').addEventListener('scroll', function(e) { handleScroll(this); });
-        document.getElementById('profile-screen').addEventListener('scroll', function(e) { handleScroll(this); });
+        // 2. Touch swipe down detection anywhere on home feed or screens to bring back nav
+        window.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, {passive: true});
+
+        window.addEventListener('touchmove', function(e) {
+            let touchEndY = e.touches[0].clientY;
+            let diffY = touchEndY - touchStartY;
+            
+            // If swiping/dragging down significantly (> 40px), force show bottom nav
+            if (diffY > 40) {
+                bottomNav.classList.remove('nav-hidden');
+            }
+        }, {passive: true});
+
+        // Attach scroll listeners
+        document.getElementById('home-screen').addEventListener('scroll', function() { handleScroll(this); }, true);
+        document.getElementById('shop-screen').addEventListener('scroll', function() { handleScroll(this); });
+        document.getElementById('upload-screen').addEventListener('scroll', function() { handleScroll(this); });
+        document.getElementById('cart-screen').addEventListener('scroll', function() { handleScroll(this); });
+        document.getElementById('profile-screen').addEventListener('scroll', function() { handleScroll(this); });
     </script>
 
+    <!-- App Scripts (Firebase Firestore Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -458,7 +511,7 @@
 
                 onAuthStateChanged(auth, async (user) => {
                     currentUser = user;
-                    const adminSection = document.getElementById('adminUploadSection');
+                    const adminUploadTabBtn = document.getElementById('adminUploadTabBtn');
                     const profileContent = document.getElementById('profile-content');
                     
                     if (user) {
@@ -470,16 +523,16 @@
                         `;
 
                         if (adminEmails.includes(user.email)) {
-                            adminSection.style.display = 'block';
+                            adminUploadTabBtn.style.display = 'flex';
                         } else {
-                            adminSection.style.display = 'none';
+                            adminUploadTabBtn.style.display = 'none';
                         }
                     } else {
                         profileContent.innerHTML = `
                             <p style="margin-bottom: 15px; font-size: 14px; color: #334155;">អ្នកមិនទាន់បានចូលគណនីទេ។</p>
                             <button onclick="window.location.href='/login'" style="background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer; font-size: 13px;">🔐 ចូលគណនី Google</button>
                         `;
-                        adminSection.style.display = 'none';
+                        adminUploadTabBtn.style.display = 'none';
                     }
                     fetchProducts();
                     fetchPosts();
@@ -503,8 +556,11 @@
                 const buttons = document.querySelectorAll('.bottom-nav .nav-item');
                 if(screenName === 'home') buttons[0].classList.add('active');
                 if(screenName === 'shop') buttons[1].classList.add('active');
-                // Profile is at index 2 if cart is at top right
-                if(screenName === 'profile') buttons[2].classList.add('active');
+                if(screenName === 'upload' && buttons.length === 4) buttons[2].classList.add('active');
+                if(screenName === 'profile') {
+                    if(buttons.length === 4) buttons[3].classList.add('active');
+                    else buttons[2].classList.add('active');
+                }
             }
 
             if (screenName === 'home') {
@@ -512,6 +568,8 @@
             } else if (screenName === 'shop') {
                 document.getElementById('shop-screen').classList.add('active');
                 fetchProducts();
+            } else if (screenName === 'upload') {
+                document.getElementById('upload-screen').classList.add('active');
             } else if (screenName === 'cart') {
                 document.getElementById('cart-screen').classList.add('active');
             } else if (screenName === 'profile') {
@@ -619,7 +677,7 @@
             }
 
             uploadBtn.disabled = true;
-            uploadBtn.innerText = "กำลัง Upload...";
+            uploadBtn.innerText = "កំពុង Upload...";
 
             let resourceType = file.type.startsWith('video/') ? 'video' : 'image';
             const formData = new FormData();
@@ -640,7 +698,7 @@
             } catch (err) {
                 alert("การបញ្ជូនហ្វាលទៅ Cloudinary បរាជ័យ: " + err.message);
                 uploadBtn.disabled = false;
-                uploadBtn.innerText = "Upload Post";
+                uploadBtn.innerText = "📤 Upload Post";
                 return;
             }
 
@@ -662,7 +720,7 @@
                 alert("ការរក្សាទុកទិន្នន័យបរាជ័យ: " + err.message);
             } finally {
                 uploadBtn.disabled = false;
-                uploadBtn.innerText = "Upload Post";
+                uploadBtn.innerText = "📤 Upload Post";
             }
         };
 
@@ -712,11 +770,11 @@
                     });
                     feedContainer.innerHTML = html;
                 } else {
-                    feedContainer.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100%; color:#888;"><p>មិនទាន់មាន Post ណាមួយត្រូវបានបង្ហោះនៅឡើយទេ!</p></div>`;
+                    feedContainer.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh; color:#888;"><p>មិនទាន់មាន Post ណាមួយត្រូវបានបង្ហោះនៅឡើយទេ!</p></div>`;
                 }
             } catch (err) {
                 console.error("Fetch Posts Error:", err);
-                feedContainer.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100%; color:#dc2626;"><p>កំហុសក្នុងការទាញយក Feed!</p></div>`;
+                feedContainer.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; height:100vh; color:#dc2626;"><p>កំហុសក្នុងការទាញយក Feed!</p></div>`;
             }
         }
 
