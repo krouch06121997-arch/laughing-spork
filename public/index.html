@@ -41,7 +41,7 @@
             pointer-events: auto;
         }
 
-        /* Top Header (Minimalist) */
+        /* Top Header */
         .top-header { 
             background: rgba(15, 23, 42, 0.85); 
             backdrop-filter: blur(10px);
@@ -61,7 +61,33 @@
         .menu-toggle-btn { font-size: 22px; background: none; border: none; cursor: pointer; color: white; padding: 2px 6px; }
         .top-header h1 { font-size: 13px; font-weight: 700; line-height: 1.2; }
         
-        /* Bottom TikTok Navigation Bar */
+        /* Top Right Cart Button */
+        .header-cart-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .header-cart-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .top-cart-badge {
+            background: #dc2626;
+            color: white;
+            font-size: 10px;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Bottom TikTok Navigation Bar with Auto-Hide Animation (3 Tabs: Home, Shop, Profile) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -76,7 +102,12 @@
             z-index: 1000;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: env(safe-area-inset-bottom);
+            transition: transform 0.3s ease-in-out;
         }
+        .bottom-nav.nav-hidden {
+            transform: translateY(100%);
+        }
+
         .nav-item {
             background: none;
             border: none;
@@ -95,19 +126,8 @@
         }
         .nav-item.active { color: #ffffff; }
         .nav-icon { font-size: 20px; }
-        .cart-badge {
-            position: absolute;
-            top: 8px;
-            right: calc(50% - 20px);
-            background: #dc2626;
-            color: white;
-            font-size: 9px;
-            padding: 1px 5px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
 
-        /* Side Drawer Menu */
+        /* Side Drawer Menu with Smooth Slide Animation */
         .drawer-menu {
             height: 100%;
             width: 280px;
@@ -118,9 +138,9 @@
             background-color: #ffffff;
             color: #1e293b;
             overflow-x: hidden;
-            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             padding-top: 60px;
-            box-shadow: 3px 0px 10px rgba(0,0,0,0.2);
+            box-shadow: 5px 0px 15px rgba(0,0,0,0.3);
         }
         body.menu-open .drawer-menu { left: 0; }
 
@@ -184,11 +204,12 @@
             overflow: hidden;
         }
 
-        #shop-screen, #profile-screen {
+        #shop-screen, #profile-screen, #cart-screen {
             padding-top: 65px;
             padding-bottom: 80px;
             overflow-y: auto;
             background: var(--bg-color);
+            height: 100vh;
         }
 
         /* TikTok Vertical Snap Scroll Feed Container */
@@ -289,16 +310,18 @@
 
     <div class="page-overlay" onclick="closeMenu()"></div>
 
-    <!-- Top Header -->
     <header class="top-header">
         <div class="header-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
             <h1>Revestimientos Deco Hogar</h1>
         </div>
-        <div id="top-auth-status" style="font-size: 12px; font-weight: 600; color: #cbd5e1;"></div>
+        <div>
+            <button class="header-cart-btn" onclick="switchScreen('cart')">
+                🛒 កន្ត្រក <span class="top-cart-badge" id="topCartBadge">0</span>
+            </button>
+        </div>
     </header>
 
-    <!-- Side Drawer Menu -->
     <div id="sideMenu" class="drawer-menu">
         <div class="menu-header">
             <span class="menu-title">ម៉ឺនុយរុករក (Menu)</span>
@@ -321,7 +344,6 @@
         </ul>
     </div>
 
-    <!-- Home Screen (TikTok Style Feed) -->
     <div id="home-screen" class="screen active">
         <div class="tiktok-container" id="feedContainer">
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; color: #888;">
@@ -330,7 +352,6 @@
         </div>
     </div>
 
-    <!-- Shop Screen -->
     <div id="shop-screen" class="screen">
         <div class="page-container">
             <div id="adminUploadSection" class="admin-upload-box" style="display: none;">
@@ -349,7 +370,6 @@
         </div>
     </div>
 
-    <!-- Cart Screen -->
     <div id="cart-screen" class="screen">
         <div class="page-container" style="max-width: 600px;">
             <h2 style="color: #ffffff; margin-bottom: 15px; font-size: 18px;">🛒 កន្ត្រកទំនិញរបស់អ្នក (Cart)</h2>
@@ -363,7 +383,6 @@
         </div>
     </div>
 
-    <!-- Profile Screen -->
     <div id="profile-screen" class="screen">
         <div class="page-container" style="max-width: 500px; text-align: center;">
             <h2 style="color: #ffffff; margin-bottom: 20px; font-size: 18px;">👤 គណនីរបស់អ្នក (Profile)</h2>
@@ -373,8 +392,7 @@
         </div>
     </div>
 
-    <!-- TikTok Bottom Navigation Bar -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" id="bottomNav">
         <button class="nav-item active" onclick="switchScreen('home', this)">
             <span class="nav-icon">🏠</span>
             <span>ទំព័រដើម</span>
@@ -383,24 +401,39 @@
             <span class="nav-icon">🪨</span>
             <span>ហាង</span>
         </button>
-        <button class="nav-item" onclick="switchScreen('cart', this)" style="position: relative;">
-            <span class="nav-icon">🛒</span>
-            <span>កន្ត្រក</span>
-            <span class="cart-badge" id="navCartBadge">0</span>
-        </button>
         <button class="nav-item" onclick="switchScreen('profile', this)">
             <span class="nav-icon">👤</span>
             <span>គណនី</span>
         </button>
     </nav>
 
-    <!-- UI Scripts -->
     <script>
         function openMenu() { document.body.classList.add("menu-open"); }
         function closeMenu() { document.body.classList.remove("menu-open"); }
+
+        // Auto-Hide Bottom Nav on Scroll (TikTok Behavior: Scroll Down hides, Scroll Up shows)
+        let lastScrollTop = 0;
+        const bottomNav = document.getElementById('bottomNav');
+
+        function handleScroll(container) {
+            let st = container.scrollTop;
+            if (st > lastScrollTop && st > 50) {
+                // Scroll Down -> Hide Nav
+                bottomNav.classList.add('nav-hidden');
+            } else {
+                // Scroll Up -> Show Nav
+                bottomNav.classList.remove('nav-hidden');
+            }
+            lastScrollTop = st <= 0 ? 0 : st;
+        }
+
+        // Attach scroll listener to all scrollable screens & feed container
+        document.getElementById('home-screen').addEventListener('scroll', function(e) { handleScroll(this); }, true);
+        document.getElementById('shop-screen').addEventListener('scroll', function(e) { handleScroll(this); });
+        document.getElementById('cart-screen').addEventListener('scroll', function(e) { handleScroll(this); });
+        document.getElementById('profile-screen').addEventListener('scroll', function(e) { handleScroll(this); });
     </script>
 
-    <!-- App Scripts (Firebase Firestore Integrated) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -425,12 +458,10 @@
 
                 onAuthStateChanged(auth, async (user) => {
                     currentUser = user;
-                    const topAuthStatus = document.getElementById('top-auth-status');
                     const adminSection = document.getElementById('adminUploadSection');
                     const profileContent = document.getElementById('profile-content');
                     
                     if (user) {
-                        topAuthStatus.innerText = user.displayName || user.email;
                         profileContent.innerHTML = `
                             <img src="${user.photoURL || 'https://via.placeholder.com/80'}" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 2px solid #d97706;">
                             <h3 style="font-size: 16px; margin-bottom: 4px;">${user.displayName || 'User'}</h3>
@@ -444,7 +475,6 @@
                             adminSection.style.display = 'none';
                         }
                     } else {
-                        topAuthStatus.innerHTML = `<a href="/login" style="color: #60a5fa; text-decoration: none;">🔐 Login</a>`;
                         profileContent.innerHTML = `
                             <p style="margin-bottom: 15px; font-size: 14px; color: #334155;">អ្នកមិនទាន់បានចូលគណនីទេ។</p>
                             <button onclick="window.location.href='/login'" style="background:#2563eb; color:white; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer; font-size: 13px;">🔐 ចូលគណនី Google</button>
@@ -470,12 +500,11 @@
             if(btnElement) {
                 btnElement.classList.add('active');
             } else {
-                // If switched programmatically, find matching button
                 const buttons = document.querySelectorAll('.bottom-nav .nav-item');
                 if(screenName === 'home') buttons[0].classList.add('active');
                 if(screenName === 'shop') buttons[1].classList.add('active');
-                if(screenName === 'cart') buttons[2].classList.add('active');
-                if(screenName === 'profile') buttons[3].classList.add('active');
+                // Profile is at index 2 if cart is at top right
+                if(screenName === 'profile') buttons[2].classList.add('active');
             }
 
             if (screenName === 'home') {
@@ -488,6 +517,7 @@
             } else if (screenName === 'profile') {
                 document.getElementById('profile-screen').classList.add('active');
             }
+            document.getElementById('bottomNav').classList.remove('nav-hidden');
         };
 
         window.fetchProducts = async function() {
@@ -528,7 +558,7 @@
             
             document.getElementById('cart-items-num').innerText = cartCount;
             document.getElementById('cart-total-price').innerText = cartTotal.toFixed(2);
-            document.getElementById('navCartBadge').innerText = cartCount;
+            document.getElementById('topCartBadge').innerText = cartCount;
             alert("បានបន្ថែមចូលកន្ត្រកជោគជ័យ!");
         };
 
