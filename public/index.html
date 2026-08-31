@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GreenHaven - ហាងសម្ភារៈតុបតែងផ្ទះ និងសួនច្បារ</title>
+    <title>Tellez Landscaping & Lawn Care Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2d4a3e;         
-            --primary-light: #4a7c59;
-            --accent: #588157;          
-            --accent-hover: #3a5a40;
-            --bg-color: #f4f6f4;        
+            --primary: #1f3a2e;         
+            --primary-dark: #12231b;    
+            --accent: #557a46;          
+            --accent-hover: #436136;
+            --bg-light: #f7f8f5;        
             --surface: #ffffff;         
             --text-main: #2b3a2f;       
             --text-muted: #6b7280;
-            --border-color: #e5e7eb;    
-            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.04), 0 2px 4px -1px rgba(0,0,0,0.02);
-            --shadow-md: 0 10px 25px -3px rgba(45, 74, 62, 0.08);
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 24px;
+            --border-color: #e2e8f0;    
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 25px -3px rgba(31, 58, 46, 0.1);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kantumruy Pro', sans-serif; }
         
         body { 
-            background-color: var(--bg-color); 
+            background-color: var(--bg-light); 
             color: var(--text-main); 
             line-height: 1.6; 
             display: flex; 
@@ -47,41 +47,25 @@
             color: var(--text-main); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm); border-bottom: 1px solid var(--border-color);
         }
-        .nav-left { display: flex; align-items: center; gap: 16px; }
+        .nav-left { display: flex; align-items: center; gap: 14px; }
         .menu-toggle-btn { 
             font-size: 20px; background: #f3f4f6; border: none; cursor: pointer; color: var(--text-main); 
             width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
-        .brand-logo { font-size: 18px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .brand-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .brand-logo img { width: 36px; height: 36px; object-fit: contain; }
+        .brand-text { font-size: 14px; font-weight: 700; color: var(--primary); line-height: 1.2; text-transform: uppercase; letter-spacing: 0.5px; }
         
         .nav-center-menu { display: flex; gap: 24px; list-style: none; align-items: center; }
-        .nav-center-menu a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 14px; transition: color 0.2s; }
-        .nav-center-menu a:hover { color: var(--primary-light); }
+        .nav-center-menu a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 13px; transition: color 0.2s; }
+        .nav-center-menu a:hover { color: var(--accent); }
 
-        .nav-right { display: flex; align-items: center; gap: 16px; }
-        .search-box-input {
-            background: #f3f4f6; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-size: 13px; width: 180px;
+        .request-quote-btn {
+            background: var(--primary); color: white; border: none; padding: 10px 20px;
+            border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.2s;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
         }
-        .user-avatar-btn { background: none; border: none; cursor: pointer; border-radius: 50%; }
-        .user-avatar-small {
-            width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--primary);
-            display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: white;
-        }
-
-        .profile-dropdown-menu {
-            position: absolute; right: 40px; top: 65px; width: 220px; background-color: var(--surface);
-            border-radius: var(--radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-color);
-            display: none; flex-direction: column; z-index: 1001;
-        }
-        .profile-dropdown-menu.show { display: flex; }
-        .dropdown-header { padding: 12px 16px; background: #f9fafb; border-bottom: 1px solid var(--border-color); }
-        .dropdown-user-name { font-size: 13px; font-weight: bold; }
-        .dropdown-user-email { font-size: 11px; color: var(--text-muted); }
-        .dropdown-item {
-            padding: 10px 16px; background: none; border: none; width: 100%; font-size: 13px;
-            color: #dc2626; cursor: pointer; font-weight: 600; text-align: left; display: flex; align-items: center; gap: 8px;
-        }
-        .dropdown-item:hover { background-color: #fef2f2; }
+        .request-quote-btn:hover { background: var(--primary-dark); }
 
         /* Drawer Menu */
         .drawer-menu {
@@ -106,100 +90,93 @@
 
         /* HERO SECTION */
         .hero-banner {
-            max-width: 1320px; margin: 20px auto; border-radius: var(--radius-lg); overflow: hidden;
-            background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-            padding: 70px 60px; color: white; box-shadow: var(--shadow-md);
+            max-width: 1400px; margin: 20px auto; border-radius: var(--radius-lg); overflow: hidden;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1558904541-efa8c4a737e6?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            padding: 90px 60px; color: white; box-shadow: var(--shadow-md);
         }
-        .hero-content h1 { font-size: 38px; font-weight: 700; margin-bottom: 10px; max-width: 600px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        .hero-content p { font-size: 15px; margin-bottom: 24px; color: #f3f4f6; max-width: 500px; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
-        .hero-buttons { display: flex; gap: 12px; }
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 10px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: background 0.2s; }
+        .hero-subtitle { font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #cbd5e1; margin-bottom: 8px; }
+        .hero-banner h1 { font-size: 42px; font-weight: 700; margin-bottom: 16px; max-width: 650px; line-height: 1.2; font-style: italic; }
+        .hero-banner p { font-size: 14px; margin-bottom: 28px; color: #e2e8f0; max-width: 500px; }
+        .hero-buttons { display: flex; gap: 14px; }
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 11px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; font-size: 13px; transition: background 0.2s; text-decoration: none; }
         .btn-primary:hover { background: var(--accent-hover); }
-        .btn-secondary { background: rgba(255,255,255,0.85); color: var(--text-main); border: none; padding: 10px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; font-size: 13px; backdrop-filter: blur(4px); transition: background 0.2s; }
-        .btn-secondary:hover { background: white; }
+        .btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.7); padding: 11px 22px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s; text-decoration: none; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
 
-        /* FEATURED CATEGORIES */
-        .section-container { max-width: 1320px; margin: 40px auto; padding: 0 20px; width: 100%; }
-        .section-title { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 24px; color: var(--text-main); }
+        /* SERVICES 5-COLUMNS SECTION */
+        .services-section { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
+        .services-header { text-align: center; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 24px; position: relative; }
+        .services-header::after { content: ''; display: block; width: 60px; height: 2px; background: var(--accent); margin: 6px auto 0 auto; }
         
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px; justify-items: center; }
-        .category-item { text-align: center; cursor: pointer; text-decoration: none; }
-        .category-circle {
-            width: 100px; height: 100px; border-radius: 50%; background: white; border: 2px solid #d1e7dd;
-            overflow: hidden; margin: 0 auto 10px auto; box-shadow: var(--shadow-sm); transition: transform 0.2s;
-        }
-        .category-item:hover .category-circle { transform: scale(1.05); border-color: var(--accent); }
-        .category-circle img { width: 100%; height: 100%; object-fit: cover; }
-        .category-name { font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+        .service-card { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px 18px; text-align: center; box-shadow: var(--shadow-sm); transition: transform 0.2s; }
+        .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent); }
+        .service-icon { font-size: 28px; margin-bottom: 14px; color: var(--accent); }
+        .service-title { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px; text-transform: uppercase; }
+        .service-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5; }
+        .service-link { font-size: 12px; font-weight: 700; color: var(--primary); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+        .service-link:hover { color: var(--accent); }
 
-        /* FEATURED PRODUCTS GRID */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .product-card {
-            background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md);
-            overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-        .product-img-box { width: 100%; height: 200px; background: #f9fafb; position: relative; overflow: hidden; }
-        .product-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-        .product-card:hover .product-img-box img { transform: scale(1.05); }
-        .product-details { padding: 16px; }
-        .product-title { font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
-        .product-rating { font-size: 12px; color: #f59e0b; margin-bottom: 8px; }
-        .product-footer-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-        .product-price { font-size: 15px; font-weight: 700; color: var(--primary); }
-        .add-to-cart-btn { background: #d1e7dd; color: #0f5132; border: none; padding: 6px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .add-to-cart-btn:hover { background: #badbcc; }
+        /* WHY CHOOSE US DARK SECTION */
+        .why-choose-section { background: var(--primary); color: white; padding: 50px 20px; margin: 40px 0; }
+        .why-choose-container { max-width: 1400px; margin: 0 auto; }
+        .why-choose-top { margin-bottom: 30px; }
+        .why-choose-top h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #a3b899; margin-bottom: 4px; }
+        .why-choose-top h2 { font-size: 26px; font-weight: 700; font-style: italic; }
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+        .why-item { display: flex; flex-direction: column; gap: 6px; }
+        .why-item-title { font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: #f1f5f9; }
+        .why-item-desc { font-size: 12px; color: #cbd5e1; line-height: 1.5; }
 
-        /* PROMO BANNER */
-        .promo-banner {
-            max-width: 1320px; margin: 40px auto; background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
-            border-radius: var(--radius-lg); padding: 30px 40px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: var(--shadow-sm);
-        }
-        .promo-text h2 { font-size: 22px; font-weight: 700; color: #1b4332; margin-bottom: 6px; }
-        .promo-text p { font-size: 13px; color: #2d6a4f; }
-
-        /* TWO COLUMNS: WHY CHOOSE US & TESTIMONIALS */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        @media(max-width: 900px) { .info-grid { grid-template-columns: 1fr; } }
+        /* RECENT WORK GALLERY */
+        .gallery-section { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
+        .gallery-top-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+        .gallery-top-row h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+        .gallery-top-row h2 { font-size: 24px; font-weight: 700; font-style: italic; }
         
-        .card-box { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
-        .card-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; text-align: center; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .gallery-img-box { height: 220px; border-radius: var(--radius-md); overflow: hidden; background: #e2e8f0; }
+        .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+        .gallery-img-box:hover img { transform: scale(1.05); }
 
-        /* Footer */
-        .site-footer { background-color: var(--surface); border-top: 1px solid var(--border-color); padding: 40px 20px 20px 20px; font-size: 13px; margin-top: 50px; }
-        .footer-container { display: flex; justify-content: space-between; max-width: 1320px; margin: 0 auto; gap: 30px; flex-wrap: wrap; }
-        .footer-col h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--primary); }
+        /* FOOTER BANNER & FOOTER */
+        .cta-banner { max-width: 1400px; margin: 40px auto; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: var(--radius-lg); padding: 40px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: var(--shadow-md); }
+        .cta-banner h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; font-style: italic; }
+        .cta-banner p { font-size: 13px; color: #cbd5e1; }
+
+        .site-footer { background-color: var(--primary-dark); color: #ffffff; padding: 40px 20px 20px 20px; font-size: 13px; margin-top: 40px; border-top: 3px solid var(--accent); }
+        .footer-container { display: flex; justify-content: space-between; max-width: 1400px; margin: 0 auto; gap: 30px; flex-wrap: wrap; }
+        .footer-col p, .footer-col ul { color: #94a3b8; line-height: 1.6; }
         .footer-col ul { list-style: none; }
-        .footer-col ul li a { color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 6px; }
-        .footer-col ul li a:hover { color: var(--text-main); }
-        .footer-bottom { text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 30px; color: var(--text-muted); font-size: 12px; }
+        .footer-col ul li a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 6px; }
+        .footer-col ul li a:hover { color: #ffffff; }
+        .footer-bottom { text-align: center; border-top: 1px solid #334155; padding-top: 20px; margin-top: 30px; color: #64748b; font-size: 12px; }
 
         .google-btn { background-color: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div class="page-overlay" onclick="closeMenu(); closeDropdown();"></div>
+    <div class="page-overlay" onclick="closeMenu();"></div>
 
     <!-- Navigation Bar -->
     <nav>
         <div class="nav-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <a href="#" class="brand-logo">🌿 GreenHaven</a>
+            <a href="#" class="brand-logo">
+                <div class="brand-text">Tellez<br><span style="font-size: 9px; font-weight: 400; letter-spacing: 0;">Landscaping & Lawn Care</span></div>
+            </a>
         </div>
         <ul class="nav-center-menu">
-            <li><a href="#" onclick="switchScreen('home')">Home</a></li>
-            <li><a href="#" onclick="switchScreen('shop')">Shop</a></li>
-            <li><a href="#">Plants</a></li>
-            <li><a href="#">Tools</a></li>
-            <li><a href="#">Outdoor</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#" onclick="switchScreen('home')">HOME</a></li>
+            <li><a href="#" onclick="switchScreen('about')">ABOUT</a></li>
+            <li><a href="#" onclick="switchScreen('services')">SERVICES</a></li>
+            <li><a href="#" onclick="switchScreen('gallery')">GALLERY</a></li>
+            <li><a href="#" onclick="switchScreen('reviews')">REVIEWS</a></li>
+            <li><a href="#" onclick="switchScreen('contact')">CONTACT</a></li>
         </ul>
-        <div class="nav-right">
-            <input type="text" placeholder="Search..." class="search-box-input">
+        <div class="nav-right" style="display: flex; align-items: center; gap: 12px;">
+            <a href="#" class="request-quote-btn">REQUEST A QUOTE</a>
             <div id="auth-nav-container">
                 <button class="google-btn" onclick="window.location.href='/login'">Login</button>
             </div>
@@ -209,15 +186,15 @@
     <!-- Side Drawer Menu -->
     <div id="sideMenu" class="drawer-menu">
         <div class="menu-header">
-            <span>ម៉ឺនុយរុករក</span>
+            <span>រុករកម៉ឺនុយ</span>
             <button onclick="closeMenu()" class="close-btn">&times;</button>
         </div>
         <ul>
             <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 Home</a></li>
-            <li><a href="#" onclick="switchScreen('shop'); closeMenu();">🛒 Shop Products</a></li>
-            <li><a href="#" onclick="closeMenu();">🌱 Plants Collection</a></li>
-            <li><a href="#" onclick="closeMenu();">🛠️ Gardening Tools</a></li>
-            <li><a href="#" onclick="closeMenu();">🏡 Outdoor Decor</a></li>
+            <li><a href="#" onclick="switchScreen('about'); closeMenu();">📖 About</a></li>
+            <li><a href="#" onclick="switchScreen('services'); closeMenu();">🛠️ Services</a></li>
+            <li><a href="#" onclick="switchScreen('gallery'); closeMenu();">🖼️ Gallery</a></li>
+            <li><a href="#" onclick="switchScreen('contact'); closeMenu();">📞 Contact</a></li>
         </ul>
     </div>
 
@@ -225,147 +202,146 @@
     <div id="home-screen" class="screen active">
         <!-- Hero Banner -->
         <div class="hero-banner">
-            <div class="hero-content">
-                <h1>Bring Nature Home</h1>
-                <p>Premium plants, gardening tools, and outdoor essentials for your modern living space.</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="switchScreen('shop')">Shop Now</button>
-                    <button class="btn-secondary">Explore Collections</button>
+            <div class="hero-subtitle">Beautiful Outdoors.</div>
+            <h1>Expert care.<br>Exceptional results.</h1>
+            <p>Professional lawn care and landscaping services in Winston-Salem and the surrounding areas.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">OUR SERVICES ➔</a>
+                <a href="#" class="btn-outline">REQUEST A QUOTE</a>
+            </div>
+        </div>
+
+        <!-- 5-Columns Services Section -->
+        <div class="services-section">
+            <div class="services-header">Complete care for your outdoor spaces</div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🌱</div>
+                    <div class="service-title">Lawn Care</div>
+                    <div class="service-desc">Mowing, edging, fertilization and more to keep your lawn healthy and green.</div>
+                    <a href="#" class="service-link">LEARN MORE ➔</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🌿</div>
+                    <div class="service-title">Landscaping</div>
+                    <div class="service-desc">Custom designs, plantings, mulch and stone for beautiful outdoor spaces.</div>
+                    <a href="#" class="service-link">LEARN MORE ➔</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✂️</div>
+                    <div class="service-title">Maintenance</div>
+                    <div class="service-desc">Seasonal cleanups, trimming, weeding and property upkeep you can count on.</div>
+                    <a href="#" class="service-link">LEARN MORE ➔</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🍃</div>
+                    <div class="service-title">Seasonal Services</div>
+                    <div class="service-desc">Spring and fall cleanups and leaf removal to keep your yard looking its best.</div>
+                    <a href="#" class="service-link">LEARN MORE ➔</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛒</div>
+                    <div class="service-title">Exterior Enhancements</div>
+                    <div class="service-desc">Mulch, decorative stone, flower beds and more to boost curb appeal.</div>
+                    <a href="#" class="service-link">LEARN MORE ➔</a>
                 </div>
             </div>
         </div>
 
-        <!-- Featured Categories -->
-        <div class="section-container">
-            <h2 class="section-title">Featured Categories</h2>
-            <div class="categories-grid">
-                <div class="category-item">
-                    <div class="category-circle"><img src="https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=300&q=80" alt="Indoor"></div>
-                    <div class="category-name">Indoor Plants</div>
+        <!-- Why Choose Us Section -->
+        <div class="why-choose-section">
+            <div class="why-choose-container">
+                <div class="why-choose-top">
+                    <h4>Why Choose Tellez?</h4>
+                    <h2>Local. Reliable. Quality Work.</h2>
                 </div>
-                <div class="category-item">
-                    <div class="category-circle"><img src="https://images.unsplash.com/photo-1525498128493-380d1990a112?auto=format&fit=crop&w=300&q=80" alt="Outdoor"></div>
-                    <div class="category-name">Outdoor Plants</div>
-                </div>
-                <div class="category-item">
-                    <div class="category-circle"><img src="https://images.unsplash.com/photo-1617576274987-1ff24ebd1a87?auto=format&fit=crop&w=300&q=80" alt="Tools"></div>
-                    <div class="category-name">Gardening Tools</div>
-                </div>
-                <div class="category-item">
-                    <div class="category-circle"><img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=300&q=80" alt="Planters"></div>
-                    <div class="category-name">Planters</div>
-                </div>
-                <div class="category-item">
-                    <div class="category-circle"><img src="https://images.unsplash.com/photo-1592417817098-8f3d69204b5f?auto=format&fit=crop&w=300&q=80" alt="Accessories"></div>
-                    <div class="category-name">Accessories</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Featured Products -->
-        <div class="section-container">
-            <h2 class="section-title">Featured Products</h2>
-            <div class="product-grid" id="featured-products-grid">
-                <!-- Loaded dynamically or static sample -->
-                <div class="product-card">
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=400&q=80" alt="Fiddle Leaf Fig">
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="why-item-title">👥 Family Owned & Operated</div>
+                        <div class="why-item-desc">We treat every property like it's our own.</div>
                     </div>
-                    <div class="product-details">
-                        <div class="product-title">Fiddle Leaf Fig</div>
-                        <div class="product-rating">★★★★★ 5</div>
-                        <div class="product-footer-row">
-                            <span class="product-price">$55.99</span>
-                            <button class="add-to-cart-btn">Add to Cart</button>
-                        </div>
+                    <div class="why-item">
+                        <div class="why-item-title">🛡️ Dependable Service</div>
+                        <div class="why-item-desc">On time, every time, with clear communication.</div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80" alt="Ceramic Planter Set">
+                    <div class="why-item">
+                        <div class="why-item-title">🌿 Attention to Detail</div>
+                        <div class="why-item-desc">We care about the little things.</div>
                     </div>
-                    <div class="product-details">
-                        <div class="product-title">Ceramic Planter Set</div>
-                        <div class="product-rating">★★★★☆ 4.5</div>
-                        <div class="product-footer-row">
-                            <span class="product-price">$32.50</span>
-                            <button class="add-to-cart-btn">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1617576274987-1ff24ebd1a87?auto=format&fit=crop&w=400&q=80" alt="Essential Gardening Set">
-                    </div>
-                    <div class="product-details">
-                        <div class="product-title">Essential Gardening Set</div>
-                        <div class="product-rating">★★★★☆ 4</div>
-                        <div class="product-footer-row">
-                            <span class="product-price">$24.99</span>
-                            <button class="add-to-cart-btn">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-img-box">
-                        <img src="https://images.unsplash.com/photo-1592417817098-8f3d69204b5f?auto=format&fit=crop&w=400&q=80" alt="Organic Potting Soil">
-                    </div>
-                    <div class="product-details">
-                        <div class="product-title">Organic Potting Soil</div>
-                        <div class="product-rating">★★★★★ 4.8</div>
-                        <div class="product-footer-row">
-                            <span class="product-price">$18.99</span>
-                            <button class="add-to-cart-btn">Add to Cart</button>
-                        </div>
+                    <div class="why-item">
+                        <div class="why-item-title">⭐ Satisfaction Guaranteed</div>
+                        <div class="why-item-desc">Your happiness is our highest priority.</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Promo Banner -->
-        <div class="section-container">
-            <div class="promo-banner">
-                <div class="promo-text">
-                    <h2>Spring Sale – Up to 30% Off.</h2>
-                    <p>Bring new life to your space with our limited-time offers.</p>
+        <!-- Recent Work Gallery -->
+        <div class="gallery-section">
+            <div class="gallery-top-row">
+                <div>
+                    <h4>Recent Work</h4>
+                    <h2>Spaces we're proud of.</h2>
                 </div>
-                <button class="btn-primary" style="background: #1b4332;">Shop Sale</button>
+                <a href="#" class="request-quote-btn" style="background: var(--primary);">VIEW GALLERY ➔</a>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1558904541-efa8c4a737e6?auto=format&fit=crop&w=500&q=80" alt="Work 1"></div>
+                <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1592417817098-8f3d69204b5f?auto=format&fit=crop&w=500&q=80" alt="Work 2"></div>
+                <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=500&q=80" alt="Work 3"></div>
+                <div class="gallery-img-box"><img src="https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=500&q=80" alt="Work 4"></div>
             </div>
         </div>
 
-        <!-- Why Choose Us & Testimonials -->
-        <div class="section-container">
-            <div class="info-grid">
-                <div class="card-box">
-                    <h3>Why Choose Us</h3>
-                    <div style="display: flex; justify-content: space-around; text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 16px;">
-                        <div>🌱 Eco-friendly</div>
-                        <div>🌿 Organic Plants</div>
-                        <div>⚡ Fast Delivery</div>
-                        <div>🛡️ Quality</div>
-                    </div>
-                    <div style="margin-top: 20px; font-size: 13px; color: var(--text-muted); text-align: center;">
-                        យើងធានាជូននូវគុណភាពដើមឈើ និងសម្ភារៈតុបតែងផ្ទះស្រស់ស្អាត សុវត្ថិភាព និងដឹកជញ្ជូនរហ័សទាន់ចិត្ត។
-                    </div>
+        <!-- Call to Action Banner -->
+        <div style="padding: 0 20px;">
+            <div class="cta-banner">
+                <div>
+                    <h2>Ready to transform your outdoor space?</h2>
+                    <p>Let's bring your vision to life.</p>
                 </div>
-                <div class="card-box">
-                    <h3>Testimonials</h3>
-                    <div style="font-size: 13px; color: var(--text-main); font-style: italic; text-align: center; margin-top: 10px;">
-                        "GreenHaven's plants are top quality! My living room has never looked better."
-                    </div>
-                    <div style="text-align: center; font-size: 12px; font-weight: bold; color: var(--primary); margin-top: 8px;">- Sarah M.</div>
-                </div>
+                <a href="#" class="request-quote-btn" style="background: var(--accent);">REQUEST YOUR FREE QUOTE TODAY!</a>
             </div>
         </div>
     </div>
 
-    <!-- ================= SHOP SCREEN ================= -->
-    <div id="shop-screen" class="screen">
-        <div class="section-container">
-            <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">🛒 ហាងទំនិញទាំងអស់ (All Products)</h2>
-            <div class="product-grid" id="full-product-list">
-                <p style="color: var(--text-muted);">កំពុងផ្ទុកទំនិញ...</p>
-            </div>
+    <!-- About Screen -->
+    <div id="about-screen" class="screen">
+        <div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 12px; color: var(--primary);">About Tellez Landscaping</h2>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">យើងគឺជាក្រុមការងារដែលមានបទពិសោធន៍ច្រើនឆ្នាំក្នុងការរៀបចំសួនច្បារ កាត់ស្មៅ និងតុបតែងបរិវេណខាងក្រៅផ្ទះឱ្យមានភាពស្រស់ស្អាតនិងទាក់ទាញបំផុតនៅ Winston-Salem។</p>
+        </div>
+    </div>
+
+    <!-- Services Screen -->
+    <div id="services-screen" class="screen">
+        <div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 12px; color: var(--primary);">Our Professional Services</h2>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">យើងផ្តល់ជូននូវសេវាកម្មថែទាំសួនច្បារ ការពុះចែងច្បារ និងការតុបតែងថ្មសួនច្បារដែលមានគុណភាពខ្ពស់។</p>
+        </div>
+    </div>
+
+    <!-- Gallery Screen -->
+    <div id="gallery-screen" class="screen">
+        <div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 12px; color: var(--primary);">Our Project Gallery</h2>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">រូបភាពការងារពិតៗដែលយើងបានបំពេញជូនអតិថិជនកន្លងមក។</p>
+        </div>
+    </div>
+
+    <!-- Reviews Screen -->
+    <div id="reviews-screen" class="screen">
+        <div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 12px; color: var(--primary);">Customer Reviews</h2>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">មតិយោបល់ និងការសរសើរពីអតិថិជនដែលបានប្រើប្រាស់សេវាកម្មយើងខ្ញុំ។</p>
+        </div>
+    </div>
+
+    <!-- Contact Screen -->
+    <div id="contact-screen" class="screen">
+        <div style="max-width: 1400px; margin: 40px auto; padding: 0 20px;">
+            <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 12px; color: var(--primary);">Contact Us</h2>
+            <p style="color: var(--text-muted); font-size: 14px; line-height: 1.8;">📞 Phone: (336) 972-3793 | ✉️ Email: info@tellezlawncare.net</p>
         </div>
     </div>
 
@@ -373,29 +349,18 @@
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-col" style="flex: 2;">
-                <h4>🌿 About Us</h4>
-                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; margin-bottom: 10px;">GreenHaven គឺជាហាងលក់រុក្ខជាតិ និងសម្ភារៈតុបតែងផ្ទះ និងសួនច្បារលំដាប់ខ្ពស់ ដើម្បីនាំយកធម្មជាតិមកកាន់គេហដ្ឋានរបស់អ្នក។</p>
-                <p style="color: var(--text-muted); font-size: 13px;">Call / Telegram: 086 99 34 75</p>
+                <h4 style="color: white; margin-bottom: 10px; font-size: 15px;">TELLEZ LANDSCAPING & LAWN CARE</h4>
+                <p>Professional lawn care and landscaping services in Winston-Salem and surrounding areas.</p>
             </div>
             <div class="footer-col">
-                <h4>Shop</h4>
-                <ul>
-                    <li><a href="#">All Plants</a></li>
-                    <li><a href="#">Tools</a></li>
-                    <li><a href="#">Sale</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Shipping</a></li>
-                </ul>
+                <h4 style="color: white; margin-bottom: 10px; font-size: 15px;">Contact Info</h4>
+                <p>📞 (336) 972-3793</p>
+                <p>✉️ info@tellezlawncare.net</p>
+                <p>📍 Winston-Salem, NC & Surrounding Areas</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 GreenHaven. All Rights Reserved.</p>
+            <p>&copy; 2026 Tellez Landscaping & Lawn Care Services. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -403,52 +368,15 @@
     <script>
         function openMenu() { document.body.classList.add("menu-open"); }
         function closeMenu() { document.body.classList.remove("menu-open"); }
-        function closeDropdown() {
-            const dropdown = document.getElementById('profileDropdownMenu');
-            if(dropdown) dropdown.classList.remove('show');
-        }
 
         window.switchScreen = function(screenName) {
             document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
             if (screenName === 'home') document.getElementById('home-screen').classList.add('active');
-            if (screenName === 'shop') {
-                document.getElementById('shop-screen').classList.add('active');
-                fetchShopProducts();
-            }
-        }
-
-        async function fetchShopProducts() {
-            const container = document.getElementById('full-product-list');
-            try {
-                const response = await fetch('/api/products');
-                const products = await response.json();
-                if (products && products.length > 0) {
-                    let html = "";
-                    products.forEach(p => {
-                        let imgSrc = (p.imageUrl && p.imageUrl.startsWith('http')) ? p.imageUrl : 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=400&q=80';
-                        html += `
-                            <div class="product-card">
-                                <div class="product-img-box">
-                                    <img src="${imgSrc}" alt="${p.name}">
-                                </div>
-                                <div class="product-details">
-                                    <div class="product-title">${p.name}</div>
-                                    <div class="product-rating">★★★★★ 5.0</div>
-                                    <div class="product-footer-row">
-                                        <span class="product-price">$${Number(p.price).toFixed(2)}</span>
-                                        <button class="add-to-cart-btn">Add to Cart</button>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = "<p style='color: var(--text-muted);'>មិនមានទំនិញបង្ហាញទេ!</p>";
-                }
-            } catch (err) {
-                container.innerHTML = "<p style='color: #dc2626;'>កំហុសក្នុងការទាញទិន្នន័យទំនិញ!</p>";
-            }
+            if (screenName === 'about') document.getElementById('about-screen').classList.add('active');
+            if (screenName === 'services') document.getElementById('services-screen').classList.add('active');
+            if (screenName === 'gallery') document.getElementById('gallery-screen').classList.add('active');
+            if (screenName === 'reviews') document.getElementById('reviews-screen').classList.add('active');
+            if (screenName === 'contact') document.getElementById('contact-screen').classList.add('active');
         }
     </script>
 </body>
