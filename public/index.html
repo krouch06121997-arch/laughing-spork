@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NatureCraft - សេវាកម្មរៀបចំសួនច្បារ និងទឹកធ្លាក់</title>
+    <title>NatureCraft - សេវាកម្មរៀបចំសួនច្បារ ទឹកធ្លាក់ និងលក់ផ្កា</title>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -55,7 +55,7 @@
         
         .nav-center-menu { display: flex; gap: 25px; list-style: none; align-items: center; }
         @media(max-width: 768px) { .nav-center-menu { display: none; } }
-        .nav-center-menu a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 13px; transition: var(--transition); }
+        .nav-center-menu a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 13px; transition: var(--transition); cursor: pointer; }
         .nav-center-menu a:hover { color: var(--accent-gold); }
 
         .contact-top-btn {
@@ -80,7 +80,7 @@
         .drawer-menu ul { list-style: none; padding: 10px 0; }
         .drawer-menu ul li a {
             padding: 14px 24px; text-decoration: none; font-size: 14px; color: var(--text-muted);
-            display: block; border-bottom: 1px solid var(--border-color); font-weight: 500; transition: var(--transition);
+            display: block; border-bottom: 1px solid var(--border-color); font-weight: 500; transition: var(--transition); cursor: pointer;
         }
         .drawer-menu ul li a:hover { color: var(--text-main); background: rgba(255,255,255,0.03); padding-left: 28px; }
 
@@ -101,7 +101,7 @@
         .hero-img-box { width: 100%; height: 320px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); box-shadow: var(--shadow-glow); }
         .hero-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Container & Posts Grid */
+        /* Container & Grid */
         .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; width: 100%; }
         .section-title { font-size: 22px; font-weight: 700; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
         
@@ -112,7 +112,7 @@
             transition: var(--transition);
         }
         .post-card:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
-        .post-img-wrap { width: 100vh; height: 220px; max-width: 100%; overflow: hidden; position: relative; }
+        .post-img-wrap { width: 100%; height: 220px; overflow: hidden; position: relative; }
         .post-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .post-card:hover .post-img-wrap img { transform: scale(1.06); }
         
@@ -121,6 +121,8 @@
         .post-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
         .post-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
         
+        .price-tag { font-size: 16px; font-weight: 700; color: var(--accent-gold); margin-bottom: 12px; }
+
         .post-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 12px; }
         .post-date { font-size: 12px; color: var(--text-muted); }
         .detail-btn { background: transparent; color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: var(--transition); }
@@ -137,12 +139,13 @@
     <nav>
         <div class="nav-left">
             <button class="menu-toggle-btn" onclick="openMenu()">☰</button>
-            <a href="#" class="brand-logo">NatureCraft</a>
+            <a href="#" class="brand-logo" onclick="switchScreen('home')">NatureCraft</a>
         </div>
         <ul class="nav-center-menu">
-            <li><a href="#" onclick="switchScreen('home')">ទំព័រដើម</a></li>
-            <li><a href="#" onclick="switchScreen('posts')">គម្រោង និងស្នាដៃ (Posts)</a></li>
-            <li><a href="#" onclick="switchScreen('services')">សេវាកម្ម</a></li>
+            <li><a onclick="switchScreen('home')">ទំព័រដើម</a></li>
+            <li><a onclick="switchScreen('shop')">ហាងលក់ផ្កា (Shop)</a></li>
+            <li><a onclick="switchScreen('posts')">គម្រោងសួន & ទឹកធ្លាក់</a></li>
+            <li><a onclick="switchScreen('services')">សេវាកម្ម</a></li>
         </ul>
         <div>
             <button class="contact-top-btn" onclick="switchScreen('services')">ទំនាក់ទំនង</button>
@@ -155,18 +158,22 @@
             <button onclick="closeMenu()" class="close-btn">&times;</button>
         </div>
         <ul>
-            <li><a href="#" onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម</a></li>
-            <li><a href="#" onclick="switchScreen('posts'); closeMenu();">🌿 គម្រោងសួន និងទឹកធ្លាក់ (Posts)</a></li>
-            <li><a href="#" onclick="switchScreen('services'); closeMenu();">🛠️ សេវាកម្មរបស់យើង</a></li>
+            <li><a onclick="switchScreen('home'); closeMenu();">🏠 ទំព័រដើម</a></li>
+            <li><a onclick="switchScreen('shop'); closeMenu();">🌸 ហាងលក់ផ្កា និង प्लांट्स</a></li>
+            <li><a onclick="switchScreen('posts'); closeMenu();">🌿 គម្រោងសួន និងទឹកធ្លាក់</a></li>
+            <li><a onclick="switchScreen('services'); closeMenu();">🛠️ សេវាកម្មរបស់យើង</a></li>
         </ul>
     </div>
 
     <div id="home-screen" class="screen active">
         <div class="hero-section">
             <div class="hero-content">
-                <h1>រៀបចំសួនច្បារ និងទឹកធ្លាក់ <span>ប្រណិតទាន់សម័យ។</span></h1>
-                <p>ជំនាញខាងរចនាសួនច្បារ ទឹកធ្លាក់ធម្មជាតិ និងក្រាលផ្លូវដើរថ្មធម្មជាតិយ៉ាងល្អប្រណិតសម្រាប់គេហដ្ឋាន និងវីឡារបស់ท่าน។</p>
-                <button class="contact-top-btn" onclick="switchScreen('posts')" style="padding: 12px 24px; font-size: 13px;">មើលកម្រងគម្រោងទាំងអស់</button>
+                <h1>រៀបចំសួនច្បារ ទឹកធ្លាក់ <span>និងផ្គត់ផ្គង់ផ្កាប្រណិត។</span></h1>
+                <p>សេវាកម្មរចនាសួនច្បារ ទឹកធ្លាក់ធម្មជាតិ ក្រាលផ្លូវដើរ និងមានលក់ផ្កាចម្រុះពណ៌ ដើមឈើលម្អរសម្រាប់គេហដ្ឋានលោកអ្នក។</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="contact-top-btn" onclick="switchScreen('shop')" style="padding: 12px 20px; font-size: 13px;">ចូលមើលហាងលក់ផ្កា</button>
+                    <button class="detail-btn" onclick="switchScreen('posts')" style="padding: 12px 20px; font-size: 13px;">មើលគម្រោងសួន</button>
+                </div>
             </div>
             <div class="hero-img-box">
                 <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80" alt="Garden Hero">
@@ -174,9 +181,65 @@
         </div>
     </div>
 
+    <div id="shop-screen" class="screen">
+        <div class="container">
+            <div class="section-title">🌸 ហាងលក់ផ្កា និងរុក្ខជាតិលម្អ (Flower & Plant Shop)</div>
+            <div class="posts-grid">
+                <div class="post-card">
+                    is-card
+                    <div class="post-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=600&q=80" alt="Flower">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-badge">ផ្កាលម្អសួន</span>
+                        <div class="post-title"> 화분 (កញ្ចប់ផ្កាចម្រុះពណ៌តុបតែងសួន)</div>
+                        <div class="post-desc">ផ្កាចម្រុះពណ៌ស្រស់ស្អាត ធន់នឹងកម្ដៅថ្ងៃ ងាយស្រួលដាំជុំវិញសួនច្បារ។</div>
+                        <div class="price-tag">$25.00</div>
+                        <div class="post-footer">
+                            <span class="post-date">មានស្តុកស្រាប់</span>
+                            <button class="detail-btn" onclick="alert('បានបន្ថែមទំនិញចូលកន្ត្រក!');">ទិញឥឡូវនេះ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=600&q=80" alt="Indoor Plant">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-badge">ដើមឈើក្នុងបន្ទប់</span>
+                        <div class="post-title">ដើមឈើលម្អខ្យល់អាកាស (Indoor Plant)</div>
+                        <div class="post-desc">ជួយបន្សុទ្ធខ្យល់ក្នុងផ្ទះ បង្កើតបរិយាកាសស្រស់ស្រាយ និងហេងៗ។</div>
+                        <div class="price-tag">$35.00</div>
+                        <div class="post-footer">
+                            <span class="post-date">មានស្តុកស្រាប់</span>
+                            <button class="detail-btn" onclick="alert('បានបន្ថែមទំនិញចូលកន្ត្រក!');">ទិញឥឡូវនេះ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=600&q=80" alt="Potted Flowers">
+                    </div>
+                    <div class="post-content">
+                        <span class="post-badge">กระถางดอกไม้</span>
+                        <div class="post-title">ផើងផ្កាស្រស់រៀបចំស្រាប់សម្រាប់ដាក់មុខផ្ទះ</div>
+                        <div class="post-desc">រៀបចំក្នុងផើងសេរ៉ាមិចយ៉ាងប្រណិត សាកសមដាក់តាំងនៅរានហាល ឬមុខផ្ទះវីឡា។</div>
+                        <div class="price-tag">$45.00</div>
+                        <div class="post-footer">
+                            <span class="post-date">មានស្តុកស្រាប់</span>
+                            <button class="detail-btn" onclick="alert('បានបន្ថែមទំនិញចូលកន្ត្រក!');">ទិញឥឡូវនេះ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="posts-screen" class="screen">
         <div class="container">
-            <div class="section-title">🌿 កម្រងគម្រោង និងការផុសសកម្មភាព (Projects & Posts)</div>
+            <div class="section-title">🌿 កម្រងគម្រោងសួនច្បារ និងទឹកធ្លាក់ (Projects & Posts)</div>
             <div class="posts-grid">
                 <div class="post-card">
                     <div class="post-img-wrap">
@@ -185,7 +248,7 @@
                     <div class="post-content">
                         <span class="post-badge">ផ្លូវដើរ & ថ្មសួន</span>
                         <div class="post-title">គម្រោងក្រាលផ្លូវដើរថ្មធម្មជាតិ និងស្មៅ</div>
-                        <div class="post-desc">ការរៀបចំផ្លូវដើរដោយថ្មធម្មជាតិប្រណិត ជាមួយទេសភាពបៃតងជុំវិញយ៉ាងស្រស់ស្អាត។</div>
+                        <div class="post-desc">ការរៀបចំផ្លូវដើរដោយថ្មធម្មជាតិប្រណិត ជាមួយទេសភាពបៃតងជុំវិញ។</div>
                         <div class="post-footer">
                             <span class="post-date">០៣ កញ្ញា ២០២૬</span>
                             <button class="detail-btn">មើលលម្អិត</button>
@@ -200,23 +263,9 @@
                     <div class="post-content">
                         <span class="post-badge">ទឹកធ្លាក់ធម្មជាតិ</span>
                         <div class="post-title">សាងសង់ទឹកធ្លាក់ក្នុងសួនវីឡា</div>
-                        <div class="post-desc">បង្កើតសម្លេងទឹកហូរស្រទន់ និងបរិយាកាសធម្មជាតិដ៏ស្រស់ស្រាយក្នុងគេហដ្ឋាន។</div>
+                        <div class="post-desc">បង្កើតសម្លេងទឹកហូរស្រទន់ និងបរិយាកាសធម្មជាតិដ៏ស្រស់ស្រាយ។</div>
                         <div class="post-footer">
-                            <span class="post-date">០១ កញ្ញា ២០២૬</span>
-                            <button class="detail-btn">មើលលម្អិត</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post-card">
-                    <div class="post-img-wrap">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Landscape">
-                    </div>
-                    <div class="post-content">
-                        <span class="post-badge">សួនច្បារវីឡាទោល</span>
-                        <div class="post-desc">រៀបចំសួនច្បារជុំវិញផ្ទះ និងប្រព័ន្ធស្រោចទឹកស្វ័យប្រវត្តិទំនើប។</div>
-                        <div class="post-footer">
-                            <span class="post-date">២៨ សីហា ២០២૬</span>
+                            <span class="post-date">០១ កញ្ញា ២០២៦</span>
                             <button class="detail-btn">មើលលម្អិត</button>
                         </div>
                     </div>
@@ -230,8 +279,8 @@
             <div class="section-title">🛠️ សេវាកម្មជំនាញរបស់យើង</div>
             <div class="posts-grid">
                 <div class="post-card" style="padding: 24px;">
-                    <h3 class="post-title" style="color: var(--accent-gold); margin-bottom: 10px;">១. រៀបចំសួនច្បារ (Landscaping)</h3>
-                    <p class="post-desc">រចនាប្លង់ ដាំស្មៅ និងរៀបចំដើមឈើលម្អរប្រណិត។</p>
+                    <h3 class="post-title" style="color: var(--accent-gold); margin-bottom: 10px;">១. រៀបចំសួនច្បារ & លក់ផ្កា</h3>
+                    <p class="post-desc">រចនាប្លង់ ដាំស្មៅ ផ្គត់ផ្គង់ និងលក់ផ្កា-ដើមឈើលម្អគ្រប់ប្រភេទ។</p>
                 </div>
                 <div class="post-card" style="padding: 24px;">
                     <h3 class="post-title" style="color: var(--accent-gold); margin-bottom: 10px;">២. សាងសង់ទឹកធ្លាក់ (Waterfalls)</h3>
@@ -239,14 +288,14 @@
                 </div>
                 <div class="post-card" style="padding: 24px;">
                     <h3 class="post-title" style="color: var(--accent-gold); margin-bottom: 10px;">៣. ក្រាលផ្លូវដើរ (Walkways)</h3>
-                    <p class="post-desc">ក្រាលថ្មធម្មជាតិ និងថ្មភ្នំសម្រាប់ផ្លូវដើរក្នុងសួនច្បារ។</p>
+                    <p class="post-desc">ក្រាលថ្មធម្មជាតិ និងថ្មភ្នំសម្រាប់ផ្លូវដើរក្នុងសួនច្បារយ៉ាងស្អាត។</p>
                 </div>
             </div>
         </div>
     </div>
 
     <footer class="site-footer">
-        <p>&copy; 2026 NatureCraft Landscaping & Design. All Rights Reserved.</p>
+        <p>&copy; 2026 NatureCraft Landscaping & Flower Design. All Rights Reserved.</p>
     </footer>
 
     <script>
@@ -260,6 +309,7 @@
                 target.classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            closeMenu();
         }
     </script>
 </body>
