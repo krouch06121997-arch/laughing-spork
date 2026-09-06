@@ -18,6 +18,44 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kantumruy Pro', sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
 
+        /* Intro Zoom Animation Wrapper */
+        .intro-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: zoomOutIntro 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            animation-delay: 0.5s;
+        }
+
+        .intro-screen {
+            width: 80vw;
+            height: 80vh;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80') center/cover;
+            animation: expandScreen 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes expandScreen {
+            0% { width: 60vw; height: 50vh; border-radius: 24px; filter: blur(4px); }
+            100% { width: 100vw; height: 100vh; border-radius: 0px; filter: blur(0px); }
+        }
+
+        @keyframes zoomOutIntro {
+            0% { opacity: 1; visibility: visible; }
+            99% { opacity: 0; visibility: visible; }
+            100% { opacity: 0; visibility: hidden; display: none; }
+        }
+
         /* Navigation */
         nav {
             display: flex;
@@ -197,6 +235,11 @@
     </style>
 </head>
 <body>
+
+    <!-- Intro Opening Animation Screen -->
+    <div class="intro-wrapper">
+        <div class="intro-screen"></div>
+    </div>
 
     <!-- Navigation -->
     <nav>
