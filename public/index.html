@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ModernLedger - Smart Accounting Dashboard</title>
+    <title>ModernLedger - Smart Financial Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -17,9 +17,9 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #1e293b;
-            --radius-md: 14px;
-            --shadow-glow: 0 10px 30px rgba(0,0,0,0.5);
-            --transition: all 0.3s ease;
+            --radius-md: 16px;
+            --shadow-glow: 0 20px 40px rgba(0,0,0,0.6);
+            --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kantumruy Pro', sans-serif; }
@@ -27,14 +27,15 @@
         body { 
             background-color: var(--bg-dark); 
             color: var(--text-main); 
-            line-height: 1.5; 
+            line-height: 1.6; 
             display: flex; 
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Sidebar Navigation */
         aside {
-            width: 260px;
+            width: 280px;
             background-color: var(--bg-card);
             border-right: 1px solid var(--border-color);
             display: flex;
@@ -47,13 +48,14 @@
 
         .sidebar-brand {
             padding: 24px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            letter-spacing: 0.5px;
         }
         .sidebar-brand span { color: var(--accent-blue); }
 
@@ -62,11 +64,11 @@
         .sidebar-menu a {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 14px;
+            padding: 14px 18px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 14px;
             font-weight: 500;
             transition: var(--transition);
@@ -74,13 +76,14 @@
         .sidebar-menu a:hover, .sidebar-menu a.active {
             background: var(--bg-input);
             color: var(--text-main);
+            transform: translateX(4px);
         }
 
         /* Main Content Area */
         main {
-            margin-left: 260px;
+            margin-left: 280px;
             flex: 1;
-            padding: 30px;
+            padding: 40px;
             background-color: var(--bg-dark);
         }
 
@@ -88,39 +91,42 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
-        .header-title h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-        .header-title p { font-size: 13px; color: var(--text-muted); }
+        .header-title h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+        .header-title p { font-size: 14px; color: var(--text-muted); }
 
         .user-profile {
             display: flex;
             align-items: center;
             gap: 12px;
             background: var(--bg-card);
-            padding: 6px 14px;
+            padding: 8px 18px;
             border-radius: 30px;
             border: 1px solid var(--border-color);
-            font-size: 13px;
+            font-size: 14px;
+            box-shadow: var(--shadow-glow);
         }
 
         /* Metrics Grid */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-bottom: 35px;
         }
 
         .metric-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 20px;
+            padding: 24px;
             box-shadow: var(--shadow-glow);
+            transition: var(--transition);
         }
-        .metric-title { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-        .metric-value { font-size: 24px; font-weight: 700; }
+        .metric-card:hover { border-color: var(--accent-blue); transform: translateY(-4px); }
+        .metric-title { font-size: 14px; color: var(--text-muted); margin-bottom: 10px; font-weight: 500; }
+        .metric-value { font-size: 28px; font-weight: 700; }
         .metric-value.income { color: var(--accent-green); }
         .metric-value.expense { color: var(--accent-red); }
         .metric-value.balance { color: var(--accent-blue); }
@@ -131,71 +137,73 @@
             grid-template-columns: 2fr 1fr;
             gap: 25px;
         }
-        @media(max-width: 1024px) { .dashboard-grid { grid-template-columns: 1fr; } }
+        @media(max-width: 1100px) { .dashboard-grid { grid-template-columns: 1fr; } }
 
         .card-box {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
-            padding: 24px;
+            padding: 28px;
             box-shadow: var(--shadow-glow);
             margin-bottom: 25px;
         }
-        .card-box h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+        .card-box h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
         /* Form Controls */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
         .form-control {
             width: 100%;
             background: var(--bg-input);
             border: 1px solid var(--border-color);
-            padding: 10px 14px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border-radius: 10px;
             color: var(--text-main);
-            font-size: 13px;
+            font-size: 14px;
+            transition: var(--transition);
         }
-        .form-control:focus { outline: none; border-color: var(--accent-blue); }
+        .form-control:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
         
         .btn-primary {
             background: var(--accent-blue);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
             transition: var(--transition);
         }
-        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3); }
 
         /* Table */
+        .table-responsive { width: 100%; overflow-x: auto; }
         .data-table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 13px;
+            font-size: 14px;
         }
         .data-table th, .data-table td {
-            padding: 12px 14px;
+            padding: 14px 16px;
             border-bottom: 1px solid var(--border-color);
         }
-        .data-table th { color: var(--text-muted); font-weight: 600; font-size: 12px; }
+        .data-table th { color: var(--text-muted); font-weight: 600; font-size: 13px; }
         .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 12px;
             font-weight: 600;
         }
-        .badge.paid { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-        .badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); }
+        .badge.income { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
+        .badge.expense { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
 
         @media(max-width: 768px) {
-            aside { width: 70px; }
+            aside { width: 75px; }
             aside .sidebar-brand span, aside .sidebar-menu span { display: none; }
-            main { margin-left: 70px; padding: 15px; }
+            main { margin-left: 75px; padding: 20px; }
         }
     </style>
 </head>
@@ -215,7 +223,7 @@
             </ul>
         </div>
         <div style="padding: 20px;">
-            <a href="#" style="color: var(--accent-red); text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 10px;">🚪 <span>ចាកចេញ</span></a>
+            <a href="#" style="color: var(--accent-red); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 12px;">🚪 <span>ចាកចេញ</span></a>
         </div>
     </aside>
 
@@ -223,7 +231,7 @@
         <div class="header-top">
             <div class="header-title">
                 <h1>ប្រព័ន្ធគ្រប់គ្រងគណនេយ្យហិរញ្ញវត្ថុ</h1>
-                <p>គ្រប់គ្រងចំណូល ចំណាយ និងវិក្កយបត្រអតិថិជនយ៉ាងងាយស្រួល</p>
+                <p>គ្រប់គ្រងចំណូល ចំណាយ និងវិក្កយបត្រអតិថិជនយ៉ាងងាយស្រួលនិងទំនើប</p>
             </div>
             <div class="user-profile">
                 👤 <span>គណនេយ្យករ (Admin)</span>
@@ -249,30 +257,32 @@
             <div>
                 <div class="card-box">
                     <h3>📋 ប្រតិបត្តិការចុងក្រោយ (Recent Transactions)</h3>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>កាលបរិច្ឆេទ</th>
-                                <th>ពិពណ៌នា</th>
-                                <th>ប្រភេទ</th>
-                                <th>ចំនួនទឹកប្រាក់</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transaction-table-body">
-                            <tr>
-                                <td>05 កញ្ញា 2026</td>
-                                <td>លក់សេវាកម្មប្រឹក្សា</td>
-                                <td><span class="badge paid">ចំណូល</span></td>
-                                <td style="color: var(--accent-green);">+$450.00</td>
-                            </tr>
-                            <tr>
-                                <td>04 កញ្ញា 2026</td>
-                                <td>ទិញសម្ភារៈការិយាល័យ</td>
-                                <td><span class="badge pending" style="background:rgba(239,68,68,0.15); color:var(--accent-red);">ចំណាយ</span></td>
-                                <td style="color: var(--accent-red);">-$120.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>កាលបរិច្ឆេទ</th>
+                                    <th>ពិពណ៌នា</th>
+                                    <th>ប្រភេទ</th>
+                                    <th>ចំនួនទឹកប្រាក់</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-table-body">
+                                <tr>
+                                    <td>06 កញ្ញា 2026</td>
+                                    <td>ទូទាត់ប្រាក់ពីអតិថិជន</td>
+                                    <td><span class="badge income">ចំណូល</span></td>
+                                    <td style="color: var(--accent-green); font-weight: 600;">+$450.00</td>
+                                </tr>
+                                <tr>
+                                    <td>05 កញ្ញា 2026</td>
+                                    <td>ទិញសម្ភារៈការិយាល័យ</td>
+                                    <td><span class="badge expense">ចំណាយ</span></td>
+                                    <td style="color: var(--accent-red); font-weight: 600;">-$120.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -314,18 +324,17 @@
             const tableBody = document.getElementById('transaction-table-body');
             const row = document.createElement('tr');
             
-            const today = '05 កញ្ញា 2026';
-            const badgeClass = type === 'income' ? 'paid' : 'pending';
+            const today = '06 កញ្ញា 2026';
+            const badgeClass = type === 'income' ? 'income' : 'expense';
             const badgeText = type === 'income' ? 'ចំណូល' : 'ចំណាយ';
-            const badgeStyle = type === 'expense' ? 'background:rgba(239,68,68,0.15); color:var(--accent-red);' : '';
             const amountColor = type === 'income' ? 'var(--accent-green)' : 'var(--accent-red)';
             const amountSign = type === 'income' ? '+$' : '-$';
 
             row.innerHTML = `
                 <td>${today}</td>
                 <td>${desc}</td>
-                <td><span class="badge ${badgeClass}" style="${badgeStyle}">${badgeText}</span></td>
-                <td style="color: ${amountColor};">${amountSign}${amount.toFixed(2)}</td>
+                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                <td style="color: ${amountColor}; font-weight: 600;">${amountSign}${amount.toFixed(2)}</td>
             `;
 
             tableBody.prepend(row);
