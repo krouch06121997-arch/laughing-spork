@@ -45,7 +45,7 @@
         }
         .btn-sign:hover { transform: scale(1.05); }
 
-        /* Hero Section with Video Background & Smooth Fade Transition */
+        /* Hero Section with Video Background */
         .hero {
             position: relative;
             height: 95vh;
@@ -54,7 +54,6 @@
             justify-content: flex-end;
             padding: 80px 60px;
             overflow: hidden;
-            background-color: #000;
         }
         .hero-video {
             position: absolute;
@@ -64,11 +63,6 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 1;
-            transition: opacity 0.8s ease-in-out; /* បន្ថែម Transition ឱ្យវា Fade ស្រទន់ពេល Loop */
-        }
-        .hero-video.fade-out {
-            opacity: 0;
         }
         .hero-overlay {
             position: absolute;
@@ -238,11 +232,10 @@
         <button class="btn-sign">Sign In</button>
     </nav>
 
-    <!-- Hero Section with Video & Smooth Transition Script -->
+    <!-- Hero Section with Video -->
     <section class="hero">
-        <!-- មិនបាច់ដាក់ loop ក្នុង html ទេ ទុកអោយ JS ជាអ្នកគ្រប់គ្រងការ loop ឱ្យមាន Transition ស្មូត -->
-        <video autoplay muted playsinline id="heroVideo" class="hero-video">
-            <source src="/hero-video.mp4" type="video/mp4">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="/hero-video1.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
 
@@ -366,27 +359,6 @@
             <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Legal Disclaimer</a></li>
         </ul>
     </footer>
-
-    <!-- JavaScript សម្រាប់ធ្វើឱ្យវីដេអូ Fade ចូលគ្នាល្អពេលជិតចប់ (Smooth Loop) -->
-    <script>
-        const video = document.getElementById('heroVideo');
-        
-        video.addEventListener('timeupdate', function() {
-            // នៅពេលវីដេអូសល់ចន្លោះ 0.8 វិនាទីទៀតនឹងចប់ វាចាប់ផ្តើម Fade ឱ្យស្រអាប់បន្តិច
-            if (video.duration - video.currentTime <= 0.8) {
-                video.classList.add('fade-out');
-            }
-        });
-
-        video.addEventListener('ended', function() {
-            // ពេលវីដេអូចប់ វាលោតមកក្បាលដើមវិញ រួច Fade ឱ្យភ្លឺច្បាស់ធម្មតាវិញ
-            video.currentTime = 0;
-            video.play();
-            setTimeout(() => {
-                video.classList.remove('fade-out');
-            }, 100);
-        });
-    </script>
 
 </body>
 </html>
