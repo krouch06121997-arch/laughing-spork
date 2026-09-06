@@ -3,293 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ModernLedger - Financial Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>StayGo - Find Your Perfect Stay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0b0f17;
             --bg-card: #141b2d;
-            --bg-input: #1e293b;
-            --accent-green: #10b981;
-            --accent-red: #ef4444;
-            --accent-blue: #3b82f6;
-            --accent-gold: #f59e0b;
-            --text-main: #f8fafc;
+            --accent-orange: #f97316;
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
             --border-color: #1e293b;
-            --radius-lg: 20px;
-            --radius-md: 12px;
-            --shadow-glow: 0 20px 40px rgba(0,0,0,0.4);
-            --transition: all 0.3s ease;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kantumruy Pro', sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
+        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
 
-        /* Sidebar */
-        aside {
-            width: 280px;
-            background-color: var(--bg-card);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: fixed;
-            height: 100vh;
-            z-index: 100;
-        }
-        .brand {
-            padding: 28px;
-            font-size: 20px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .brand span { color: var(--accent-blue); }
-
-        .menu { list-style: none; padding: 20px 15px; }
-        .menu li { margin-bottom: 8px; }
-        .menu a {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 18px;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        .menu a:hover, .menu a.active { background: var(--bg-input); color: var(--text-main); }
-
-        /* Main Wrapper */
-        main {
-            margin-left: 280px;
-            flex: 1;
-            padding: 40px;
-        }
-
-        /* Hero Banner Section (Inspired by Video UI) */
-        .hero-banner {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(20, 27, 45, 0.8)), url('https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80') center/cover;
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            margin-bottom: 35px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-glow);
+        /* Navigation */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .hero-text h1 { font-size: 28px; font-weight: 700; margin-bottom: 10px; }
-        .hero-text p { font-size: 14px; color: var(--text-muted); max-width: 500px; }
-
-        /* Metrics Cards */
-        .metrics-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 35px;
-        }
-        .metric-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            box-shadow: var(--shadow-glow);
-        }
-        .metric-title { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-        .metric-value { font-size: 26px; font-weight: 700; }
-        .metric-value.income { color: var(--accent-green); }
-        .metric-value.expense { color: var(--accent-red); }
-        .metric-value.balance { color: var(--accent-blue); }
-
-        /* Content Grid */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 25px;
-        }
-        @media(max-width: 1024px) { .content-grid { grid-template-columns: 1fr; } }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            box-shadow: var(--shadow-glow);
-        }
-        .card h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
-
-        /* Forms & Inputs */
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .form-control {
+            padding: 30px 60px;
+            position: absolute;
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            color: var(--text-main);
-            font-size: 14px;
+            z-index: 10;
         }
-        .form-control:focus { outline: none; border-color: var(--accent-blue); }
-
-        .btn {
-            background: var(--accent-blue);
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
+        .nav-links { display: flex; gap: 35px; list-style: none; font-size: 14px; font-weight: 500; }
+        .nav-links a { color: var(--text-main); text-decoration: none; opacity: 0.8; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; }
+        .btn-sign {
+            background: var(--accent-orange);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
+            padding: 10px 24px;
+            border-radius: 30px;
             font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            width: 100%;
-            transition: var(--transition);
+            transition: 0.3s;
         }
-        .btn:hover { opacity: 0.9; }
+        .btn-sign:hover { transform: scale(1.05); }
 
-        /* Table */
-        .table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        .table th, .table td { padding: 14px 16px; border-bottom: 1px solid var(--border-color); }
-        .table th { color: var(--text-muted); font-weight: 600; font-size: 12px; }
-        .badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .badge.income { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); }
-        .badge.expense { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        /* Hero Section */
+        .hero {
+            height: 95vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 80px 60px;
+        }
+        .hero-content h1 { font-size: 52px; font-weight: 700; margin-bottom: 25px; max-width: 650px; }
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 8px 8px 24px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            width: 420px;
+        }
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 14px;
+            flex: 1;
+        }
+        .search-bar input::placeholder { color: #cbd5e1; }
+        .search-bar button {
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 80px 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .story-left h4 { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-bottom: 10px; text-transform: uppercase; }
+        .story-left p { font-size: 13px; color: var(--text-muted); }
+        .story-right { display: flex; flex-direction: column; gap: 20px; }
+        .story-right h2 { font-size: 32px; font-weight: 700; line-height: 1.3; }
+        .btn-learn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-orange);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            width: fit-content;
+        }
+
+        /* General Section */
+        .section { padding: 80px 60px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .section-title { font-size: 32px; font-weight: 700; }
+        
+        /* Grid Layouts */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .destination-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: 0.3s;
+        }
+        .destination-card:hover { transform: translateY(-5px); border-color: var(--accent-orange); }
+        .destination-img { height: 200px; width: 100%; object-fit: cover; }
+        .destination-info { padding: 18px; }
+        .destination-info h3 { font-size: 16px; margin-bottom: 6px; font-weight: 600; }
+        .destination-info p { color: var(--text-muted); font-size: 13px; }
+
+        /* Partner Logos Section */
+        .partners-section {
+            background: #ffffff;
+            color: #0b0f17;
+            padding: 80px 60px;
+            text-align: center;
+        }
+        .partners-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .partners-section p { color: #64748b; font-size: 14px; margin-bottom: 40px; }
+        .logos-grid { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 30px; opacity: 0.7; }
+        .logos-grid span { font-weight: 700; font-size: 20px; letter-spacing: 1px; }
+
+        /* Testimonial Section */
+        .testimonial-section {
+            background: #ffffff;
+            color: #0b0f17;
+            padding: 80px 60px;
+        }
+        .testimonial-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .testimonial-box h2 { font-size: 36px; font-weight: 700; line-height: 1.2; }
+        .testimonial-box p { color: #475569; font-size: 14px; margin-top: 15px; }
+
+        /* FAQ Section */
+        .faq-section { padding: 80px 60px; }
+        .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: flex-start; }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background: #06090e;
+            padding: 80px 60px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        footer h2 { font-size: 50px; font-weight: 800; }
+        .footer-links { display: flex; gap: 25px; list-style: none; color: var(--text-muted); font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <aside>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">StayGo</div>
+        <ul class="nav-links">
+            <li><a href="#">Explore Hotels</a></li>
+            <li><a href="#">Deals & Offers</a></li>
+            <li><a href="#">Destinations</a></li>
+        </ul>
+        <button class="btn-sign">Sign In</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Stay at the Best Price</h1>
+            <div class="search-bar">
+                <input type="text" placeholder="Search hotel...">
+                <button>Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="story-left">
+            <h4>Our Story</h4>
+            <p style="margin-top: 15px;">Trusted over 10 million travelers worldwide, we're proud to deliver top-rated stays with an average rating of 4.8/5. Your comfort and satisfaction are always our top priority.</p>
+        </div>
+        <div class="story-right">
+            <h2>From city escapes to beachside retreats, we connect you with hotels that fit your lifestyle wherever the journey takes you.</h2>
+            <a href="#" class="btn-learn">Learn More →</a>
+        </div>
+    </section>
+
+    <!-- Discover Section -->
+    <section class="section">
+        <div class="section-header">
+            <h2 class="section-title">Discover Your Ideal Destination</h2>
+        </div>
+        <div class="destinations-grid">
+            <div class="destination-card">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
+                <div class="destination-info">
+                    <h3>City Center Apartments</h3>
+                    <p>New York, USA • $150,000</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
+                <div class="destination-info">
+                    <h3>Tropical Paradise Resort</h3>
+                    <p>Maui, Hawaii • $110,000</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
+                <div class="destination-info">
+                    <h3>Pinecone Lodge</h3>
+                    <p>Lake Tahoe, California • $85,000</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
+                <div class="destination-info">
+                    <h3>Lakeside Villa</h3>
+                    <p>Lake Como, Italy • $220,000</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section class="partners-section">
+        <h2>Trusted Stays, Seamless Booking Explore Now!</h2>
+        <p>Discover top hotels near you with just a tap — effortless booking, ultimate comfort.</p>
+        <div class="logos-grid">
+            <span>BVLGARI</span>
+            <span>Hilton</span>
+            <span>ROSEWOOD</span>
+            <span>Jumeirah</span>
+            <span>KIMPTON</span>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section">
+        <div class="testimonial-box">
+            <div>
+                <p style="text-transform: uppercase; font-weight: 600; color: #f97316; font-size: 12px; margin-bottom: 8px;">Testimonial</p>
+                <h2>Exactly What We Needed — Smooth & Stress-Free!</h2>
+                <p>The booking process was incredibly smooth, and the hotel was exactly as shown. Clean, comfortable, and trusted right where we needed. This platform made our vacation stress-free.</p>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 20px;">
+                    <div style="font-weight: 700; font-size: 14px;">Sarah Ahmed</div>
+                    <div style="color: #64748b; font-size: 13px;">★ 5.0 out of 5</div>
+                </div>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" style="width: 100%; border-radius: 16px; height: 250px; object-fit: cover;" alt="Pool">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-grid">
+            <div>
+                <h4 style="color: var(--accent-orange); font-weight: 600; font-size: 13px; margin-bottom: 8px;">FAQS</h4>
+                <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 15px;">Got Questions?<br>We’re Here to Help.</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Find quick answers to common questions about booking, cancellations, payments, and more — so you can travel with confidence.</p>
+            </div>
+            <div>
+                <div class="faq-item"><span>How do I find the best deals on StayGo?</span> <span>▲</span></div>
+                <div class="faq-item"><span>Is it safe to book through StayGo?</span> <span>▼</span></div>
+                <div class="faq-item"><span>Can I cancel or change my reservation?</span> <span>▼</span></div>
+                <div class="faq-item"><span>Do I need an account to book?</span> <span>▼</span></div>
+                <div class="faq-item"><span>Are taxes and fees included in the prices?</span> <span>▼</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
         <div>
-            <div class="brand">💼 <span>ModernLedger</span></div>
-            <ul class="menu">
-                <li><a href="#" class="active">📊 <span>ទិដ្ឋភាពទូទៅ (Dashboard)</span></a></li>
-                <li><a href="#">📥 <span>ចំណូល (Income)</span></a></li>
-                <li><a href="#">📤 <span>ចំណាយ (Expense)</span></a></li>
-                <li><a href="#">📄 <span>វិក្កយបត្រ (Invoices)</span></a></li>
-            </ul>
+            <h4 style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Discover Places You’ll Never Want to Leave</h4>
+            <h2>StayGo</h2>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 15px;">©2026 StayGo. All Rights Reserved.</p>
         </div>
-        <div style="padding: 24px;">
-            <a href="#" style="color: var(--accent-red); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 10px;">🚪 <span>ចាកចេញ</span></a>
-        </div>
-    </aside>
+        <ul class="footer-links">
+            <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a></li>
+            <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Terms of Use</a></li>
+            <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Legal Disclaimer</a></li>
+        </ul>
+    </footer>
 
-    <!-- Main Section -->
-    <main>
-        <!-- Hero Header Card -->
-        <div class="hero-banner">
-            <div class="hero-text">
-                <h1>គ្រប់គ្រងហិរញ្ញវត្ថុអាជីវកម្មរបស់អ្នកយ៉ាងងាយស្រួល</h1>
-                <p>ប្រព័ន្ធគណនេយ្យទំនើបដែលជួយតាមដានចំណូល ចំណាយ និងបង្កើតវិក្កយបត្រភ្លាមៗដោយសុវត្ថិភាព។</p>
-            </div>
-        </div>
-
-        <!-- Metrics -->
-        <div class="metrics-container">
-            <div class="metric-card">
-                <div class="metric-title">ចំណូលសរុប (Total Revenue)</div>
-                <div class="metric-value income">$15,840.00</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">ចំណាយសរុប (Total Expenses)</div>
-                <div class="metric-value expense">$4,210.00</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">ប្រាក់ចំណេញសុទ្ធ (Net Profit)</div>
-                <div class="metric-value balance">$11,630.00</div>
-            </div>
-        </div>
-
-        <!-- Content Grid -->
-        <div class="content-grid">
-            <!-- Transactions Table -->
-            <div class="card">
-                <h3>📋 ប្រតិបត្តិការចុងក្រោយ (Recent Transactions)</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>កាលបរិច្ឆេទ</th>
-                            <th>ពិពណ៌នា</th>
-                            <th>ប្រភេទ</th>
-                            <th>ទឹកប្រាក់</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tx-body">
-                        <tr>
-                            <td>06 កញ្ញា 2026</td>
-                            <td>ទូទាត់ប្រាក់ពីអតិថិជន A</td>
-                            <td><span class="badge income">ចំណូល</span></td>
-                            <td style="color: var(--accent-green); font-weight: 600;">+$650.00</td>
-                        </tr>
-                        <tr>
-                            <td>05 កញ្ញា 2026</td>
-                            <td>ទិញសម្ភារៈការិយាល័យ</td>
-                            <td><span class="badge expense">ចំណាយ</span></td>
-                            <td style="color: var(--accent-red); font-weight: 600;">-$150.00</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Form Card -->
-            <div class="card">
-                <h3>➕ បញ្ចូលទិន្នន័យថ្មី</h3>
-                <div class="form-group">
-                    <label>ពិពណ៌នា (Description)</label>
-                    <input type="text" id="desc" class="form-control" placeholder="ឧ. លក់ទំនិញ...">
-                </div>
-                <div class="form-group">
-                    <label>ប្រភេទ (Type)</label>
-                    <select id="type" class="form-control">
-                        <option value="income">ចំណូល (Income)</option>
-                        <option value="expense">ចំណាយ (Expense)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>ទឹកប្រាក់ ($)</label>
-                    <input type="number" id="amount" class="form-control" placeholder="0.00">
-                </div>
-                <button class="btn" onclick="addTx()">រក្សាទុក</button>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function addTx() {
-            const desc = document.getElementById('desc').value;
-            const type = document.getElementById('type').value;
-            const amount = parseFloat(document.getElementById('amount').value);
-
-            if(!desc || isNaN(amount) || amount <= 0) {
-                alert('សូមបំពេញព័ត៌មានឱ្យបានត្រឹមត្រូវ!');
-                return;
-            }
-
-            const tbody = document.getElementById('tx-body');
-            const row = document.createElement('tr');
-            const badgeClass = type === 'income' ? 'income' : 'expense';
-            const badgeText = type === 'income' ? 'ចំណូល' : 'ចំណាយ';
-            const color = type === 'income' ? 'var(--accent-green)' : 'var(--accent-red)';
-            const sign = type === 'income' ? '+$' : '-$';
-
-            row.innerHTML = `
-                <td>06 កញ្ញា 2026</td>
-                <td>${desc}</td>
-                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                <td style="color: ${color}; font-weight: 600;">${sign}${amount.toFixed(2)}</td>
-            `;
-
-            tbody.prepend(row);
-            document.getElementById('desc').value = '';
-            document.getElementById('amount').value = '';
-            alert('បានបញ្ចូលជោគជ័យ!');
-        }
-    </script>
 </body>
 </html>
 
