@@ -156,6 +156,18 @@
         }
         .destination-card:hover { transform: translateY(-5px); border-color: var(--accent-orange); }
         .destination-img { height: 200px; width: 100%; object-fit: cover; }
+        /* Video Card Styling for City Center Apartments */
+        .destination-video-wrapper {
+            height: 200px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .destination-video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
         .destination-info { padding: 18px; }
         .destination-info h3 { font-size: 16px; margin-bottom: 6px; font-weight: 600; }
         .destination-info p { color: var(--text-muted); font-size: 13px; }
@@ -268,13 +280,19 @@
             <h2 class="section-title">Discover Your Ideal Destination</h2>
         </div>
         <div class="destinations-grid">
+            <!-- Destination 1: Replaced Image with Video (hero-video.mp4) -->
             <div class="destination-card">
-                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
+                <div class="destination-video-wrapper">
+                    <video autoplay muted loop playsinline preload="auto">
+                        <source src="hero-video.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="destination-info">
                     <h3>City Center Apartments</h3>
                     <p>New York, USA • $150,000</p>
                 </div>
             </div>
+            
             <div class="destination-card">
                 <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
                 <div class="destination-info">
