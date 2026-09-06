@@ -18,6 +18,27 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kantumruy Pro', sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
 
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Text Initial Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Navigation */
         nav {
             display: flex;
@@ -27,6 +48,7 @@
             position: absolute;
             width: 100%;
             z-index: 10;
+            animation: fadeInDown 1s ease forwards;
         }
         .logo { font-size: 24px; font-weight: 800; letter-spacing: 0.5px; }
         .nav-links { display: flex; gap: 35px; list-style: none; font-size: 14px; font-weight: 500; }
@@ -77,6 +99,7 @@
         .hero-content {
             position: relative;
             z-index: 3;
+            animation: fadeInUp 1.2s ease forwards;
         }
         .hero-content h1 { font-size: 52px; font-weight: 700; margin-bottom: 25px; max-width: 650px; }
         .search-bar {
@@ -134,7 +157,9 @@
             font-weight: 600;
             font-size: 14px;
             width: fit-content;
+            transition: 0.3s;
         }
+        .btn-learn:hover { transform: translateX(5px); }
 
         /* General Section */
         .section { padding: 80px 60px; }
@@ -152,11 +177,14 @@
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            transition: 0.3s;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .destination-card:hover { transform: translateY(-5px); border-color: var(--accent-orange); }
+        .destination-card:hover { 
+            transform: translateY(-8px); 
+            border-color: var(--accent-orange);
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.15);
+        }
         .destination-img { height: 200px; width: 100%; object-fit: cover; }
-        /* Video Card Styling for City Center Apartments */
         .destination-video-wrapper {
             height: 200px;
             width: 100%;
@@ -182,7 +210,8 @@
         .partners-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
         .partners-section p { color: #64748b; font-size: 14px; margin-bottom: 40px; }
         .logos-grid { display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 30px; opacity: 0.7; }
-        .logos-grid span { font-weight: 700; font-size: 20px; letter-spacing: 1px; }
+        .logos-grid span { font-weight: 700; font-size: 20px; letter-spacing: 1px; transition: 0.3s; }
+        .logos-grid span:hover { opacity: 1; transform: scale(1.05); color: var(--accent-orange); }
 
         /* Testimonial Section */
         .testimonial-section {
@@ -217,7 +246,10 @@
             align-items: center;
             font-size: 15px;
             font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
         }
+        .faq-item:hover { border-color: var(--accent-orange); background: #182238; }
 
         /* Footer */
         footer {
@@ -230,11 +262,11 @@
         }
         footer h2 { font-size: 50px; font-weight: 800; }
         .footer-links { display: flex; gap: 25px; list-style: none; color: var(--text-muted); font-size: 14px; }
+        .footer-links a:hover { color: white; }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
     <nav>
         <div class="logo">StayGo</div>
         <ul class="nav-links">
@@ -245,7 +277,6 @@
         <button class="btn-sign">Sign In</button>
     </nav>
 
-    <!-- Hero Section with Video -->
     <section class="hero">
         <video autoplay muted loop playsinline preload="auto" class="hero-video">
             <source src="hero-video1.mp4" type="video/mp4">
@@ -262,8 +293,7 @@
         </div>
     </section>
 
-    <!-- Story Section -->
-    <section class="story-section">
+    <section class="story-section reveal">
         <div class="story-left">
             <h4>Our Story</h4>
             <p style="margin-top: 15px;">Trusted over 10 million travelers worldwide, we're proud to deliver top-rated stays with an average rating of 4.8/5. Your comfort and satisfaction are always our top priority.</p>
@@ -274,14 +304,12 @@
         </div>
     </section>
 
-    <!-- Discover Section -->
     <section class="section">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2 class="section-title">Discover Your Ideal Destination</h2>
         </div>
         <div class="destinations-grid">
-            <!-- Destination 1: Replaced Image with Video (hero-video.mp4) -->
-            <div class="destination-card">
+            <div class="destination-card reveal">
                 <div class="destination-video-wrapper">
                     <video autoplay muted loop playsinline preload="auto">
                         <source src="hero-video.mp4" type="video/mp4">
@@ -293,21 +321,21 @@
                 </div>
             </div>
             
-            <div class="destination-card">
+            <div class="destination-card reveal" style="transition-delay: 0.1s;">
                 <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
                 <div class="destination-info">
                     <h3>Tropical Paradise Resort</h3>
                     <p>Maui, Hawaii • $110,000</p>
                 </div>
             </div>
-            <div class="destination-card">
+            <div class="destination-card reveal" style="transition-delay: 0.2s;">
                 <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
                 <div class="destination-info">
                     <h3>Pinecone Lodge</h3>
                     <p>Lake Tahoe, California • $85,000</p>
                 </div>
             </div>
-            <div class="destination-card">
+            <div class="destination-card reveal" style="transition-delay: 0.3s;">
                 <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80" class="destination-img" alt="Hotel">
                 <div class="destination-info">
                     <h3>Lakeside Villa</h3>
@@ -317,8 +345,7 @@
         </div>
     </section>
 
-    <!-- Partners Section -->
-    <section class="partners-section">
+    <section class="partners-section reveal">
         <h2>Trusted Stays, Seamless Booking Explore Now!</h2>
         <p>Discover top hotels near you with just a tap — effortless booking, ultimate comfort.</p>
         <div class="logos-grid">
@@ -330,9 +357,8 @@
         </div>
     </section>
 
-    <!-- Testimonial Section -->
     <section class="testimonial-section">
-        <div class="testimonial-box">
+        <div class="testimonial-box reveal">
             <div>
                 <p style="text-transform: uppercase; font-weight: 600; color: #f97316; font-size: 12px; margin-bottom: 8px;">Testimonial</p>
                 <h2>Exactly What We Needed — Smooth & Stress-Free!</h2>
@@ -348,15 +374,14 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
     <section class="faq-section">
         <div class="faq-grid">
-            <div>
+            <div class="reveal">
                 <h4 style="color: var(--accent-orange); font-weight: 600; font-size: 13px; margin-bottom: 8px;">FAQS</h4>
                 <h2 style="font-size: 36px; font-weight: 700; margin-bottom: 15px;">Got Questions?<br>We’re Here to Help.</h2>
                 <p style="color: var(--text-muted); font-size: 14px;">Find quick answers to common questions about booking, cancellations, payments, and more — so you can travel with confidence.</p>
             </div>
-            <div>
+            <div class="reveal">
                 <div class="faq-item"><span>How do I find the best deals on StayGo?</span> <span>▲</span></div>
                 <div class="faq-item"><span>Is it safe to book through StayGo?</span> <span>▼</span></div>
                 <div class="faq-item"><span>Can I cancel or change my reservation?</span> <span>▼</span></div>
@@ -366,8 +391,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
+    <footer class="reveal">
         <div>
             <h4 style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">Discover Places You’ll Never Want to Leave</h4>
             <h2>StayGo</h2>
@@ -379,6 +403,30 @@
             <li><a href="#" style="color: var(--text-muted); text-decoration: none;">Legal Disclaimer</a></li>
         </ul>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Uncomment if you want animation to run only once:
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
 
 </body>
 </html>
