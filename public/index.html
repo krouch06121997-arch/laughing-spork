@@ -101,6 +101,24 @@
             z-index: 3;
             animation: fadeInUp 1.2s ease forwards;
         }
+        
+        /* New Style for "ទេសភាពដ៏ប្រណិតកណ្ដាលទីក្រុង" Badge with Glassmorphism */
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            animation: fadeInUp 0.9s ease forwards;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
         .hero-content h1 { font-size: 52px; font-weight: 700; margin-bottom: 25px; max-width: 650px; }
         .search-bar {
             background: rgba(255, 255, 255, 0.1);
@@ -285,6 +303,7 @@
         <div class="hero-overlay"></div>
 
         <div class="hero-content">
+            <div class="hero-badge">ទេសភាពដ៏ប្រណិតកណ្ដាលទីក្រុង</div>
             <h1>Find Your Perfect Stay at the Best Price</h1>
             <div class="search-bar">
                 <input type="text" placeholder="Search hotel...">
@@ -416,8 +435,6 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Uncomment if you want animation to run only once:
-                        // observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
